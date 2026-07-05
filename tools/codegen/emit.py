@@ -16,7 +16,6 @@ from codegen.constants import (
     BENCH_ALIAS,
     C_FUNC_ALIASES,
     CYDIST,
-    CYDIST_PYTHON_VALIDATE,
     FUSED_CONTINUOUS_VAULT_IDS,
     FUSED_FLOAT_CPP_CLASS,
     INCLUDE,
@@ -343,7 +342,7 @@ def emit_cydist(specs: list[CydistSpec]) -> None:
                 call_args.append(safe)
 
         pyx_funcs.append(f"def {spec.py_func}({', '.join(pyx_sig_params)}):")
-        if spec.vault_id in CYDIST_PYTHON_VALIDATE and spec.params:
+        if spec.params:
             py_checks = infer_cydist_python_checks(spec.vault_id, spec.params)
             if py_checks:
                 needs_pyvalidate = True

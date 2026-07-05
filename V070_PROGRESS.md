@@ -1,4 +1,4 @@
-# v0.7.0 progress (Phase 5) — batch 3 next
+# v0.7.0 progress (Phase 5) — batch 4 next
 
 Goal: **bench-driven Tier B promotion** for selected codegen samplers + **complete cydist Python validation**. See [`plan-v0.7.0.md`](plan-v0.7.0.md).
 
@@ -10,45 +10,33 @@ Goal: **bench-driven Tier B promotion** for selected codegen samplers + **comple
 |--------|------:|
 | Codegen with Tier B batch path | **2 / 171** |
 | Tier B wave 1 shipped | **2 / 5** (bench-gated) |
-| cydist Python validation | **26 / 171** (inherited from v0.6.0) |
+| cydist Python validation | **184 / 184** parameterized |
 | Shim `std::span` | **no** |
-| Batches complete | **3 / 6** |
+| Batches complete | **4 / 6** |
 | `tier_b_candidate` in registry | **20** |
 
 ## Completed batches
 
 ### Batch 0 — tier registry scaffold + baseline
 
-- `Recipe.batch_fast` + `tools/codegen/batch_fast.py` hook registry (emit Tier B dispatch when set)
-- Registry YAML supports optional `batch_fast` field (sync on codegen)
-- `bench/bench_codegen.py`, `make bench-codegen`, `make bench-codegen-baseline`
-- Frozen wave-1 Tier-A CSVs in `results/baseline-v0.6.0/`
+- `Recipe.batch_fast` + `tools/codegen/batch_fast.py` hook registry
+- `bench/bench_codegen.py`, `make bench-codegen`, `results/baseline-v0.6.0/`
 
 ### Batch 1 — codegen bench sweep + tier registry
 
-- Full Tier-A sweep: **171 / 171** parameterized codegen @ 1k / 100k / 10M
-- `bench/rank_codegen_tiers.py` — top 20 `tier_b_candidate` in registry
-- Makefile: `bench-codegen-sweep`, `bench-codegen-sweep-resume`
+- **171 / 171** Tier-A sweep; `rank_codegen_tiers.py`; top 20 `tier_b_candidate`
 
 ### Batch 2 — Tier B wave 1 (bench-gated)
 
-Shipped (≥ **1.5×** @10M vs `baseline-v0.6.0`):
+- Shipped: **gamma** (2.85×), **beta** (1.64×) @10M vs baseline-v0.6.0
+- Skipped: poisson, uniform, students-t (below 1.5× gate or regression)
 
-| vault id | Tier A @10M | Tier B @10M | speedup | hook |
-|----------|----------:|------------:|--------:|------|
-| `gamma` | 48.40 | 16.99 | **2.85×** | Erlang sum (integer shape) |
-| `beta` | 97.26 | 59.44 | **1.64×** | Erlang ratio (integer α, β) |
+### Batch 3 — cydist Python validation (all parameterized)
 
-Skipped (gate not met or regression):
-
-| vault id | reason |
-|----------|--------|
-| `poisson` | 1.14× best (SplitMix); below 1.5× gate |
-| `uniform` | Tier B **slower** (already ~1.2 cycles/sample) |
-| `students-t` | 1.19× with batched normal; below 1.5× gate |
-
-New: `detail/fast/{gamma,beta,poisson,student_t}.hpp`; repro tests for gamma/beta.
+- Removed `CYDIST_PYTHON_VALIDATE` gate — all **184** parameterized `*_sample_batch` emit checks
+- Vault overrides for stable skew `beta`, truncated-normal bounds, variance-gamma, bingham
+- Coverage tests: `test_all_parameterized_cydist_have_python_checks`, `test_cydist_pyx_emits_checks_for_parameterized`
 
 ## Agent instructions
 
-Continue batch 3 (cydist Python validation 171/171). Push to `v0.7.0` only.
+Continue batch 4 (optional `std::span` at cydist shim) or batch 5 (Tier B wave 2). Push to `v0.7.0` only.

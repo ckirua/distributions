@@ -10,7 +10,7 @@ Goal: **debug asserts + optional Python checks** so invalid parameters fail fast
 |--------|------:|
 | Hand-written with ctor validation | **13 / 13** |
 | Codegen with `validate_body` | **171 / 171** (parameterized) |
-| cydist Python `ValueError` | **26 / 26** (hand-written + high-traffic) |
+| cydist Python `ValueError` | **184 / 184** (all parameterized; v0.7.0 batch 3) |
 | Batches complete | **4 / 4** |
 
 ## Optional next (not batched yet)
@@ -46,11 +46,9 @@ Goal: **debug asserts + optional Python checks** so invalid parameters fail fast
 - Codegen `Recipe.validate_body` + emit in ctor
 - `plan-validation.md`, `VALIDATION_PROGRESS.md`, `scripts/agent_validation_checklist.md`
 
-## cydist Python validation (26)
+## cydist Python validation (184)
 
-Hand-written (13): all `MANUAL` vault ids.
-
-High-traffic codegen (13): `poisson`, `gamma`, `beta`, `hypergeometric`, `generalized-hyperbolic`, `students-t`, `chi-squared`, `weibull`, `log-normal`, `pareto`, `uniform`, `cauchy`, `laplace`.
+All parameterized cydist entry points (13 hand-written + 171 codegen) emit `ValueError` checks via `infer_cydist_python_checks()` (Phase 5 batch 3 on `v0.7.0`).
 
 ## Agent instructions
 
