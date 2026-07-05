@@ -189,9 +189,9 @@ cdef extern from "cydist_shim.h":
     void cydist_uniform_distribution_on_a_stiefel_manifold_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_circular_uniform_sample_batch(double mu, double kappa, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_univariate_von_mises_sample_batch(double mu, double kappa, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_wrapped_normal_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_wrapped_cauchy_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_wrapped_exponential_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_wrapped_normal_sample_batch(double mu, double sigma, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_wrapped_cauchy_sample_batch(double c, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_wrapped_exponential_sample_batch(double loc, double rate, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_wrapped_asymmetric_laplace_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_wrapped_levy_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_kent_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
@@ -1305,23 +1305,23 @@ def univariate_von_mises_sample_batch(cnp.float64_t[:] out, double mu, double ka
     with nogil:
         cydist_univariate_von_mises_sample_batch(mu, kappa, seed, ptr, n_samples)
 
-def wrapped_normal_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def wrapped_normal_sample_batch(cnp.float64_t[:] out, double mu, double sigma, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_wrapped_normal_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_wrapped_normal_sample_batch(mu, sigma, seed, ptr, n_samples)
 
-def wrapped_cauchy_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def wrapped_cauchy_sample_batch(cnp.float64_t[:] out, double c, double loc, double scale, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_wrapped_cauchy_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_wrapped_cauchy_sample_batch(c, loc, scale, seed, ptr, n_samples)
 
-def wrapped_exponential_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def wrapped_exponential_sample_batch(cnp.float64_t[:] out, double loc, double rate, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_wrapped_exponential_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_wrapped_exponential_sample_batch(loc, rate, seed, ptr, n_samples)
 
 def wrapped_asymmetric_laplace_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]

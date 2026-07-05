@@ -1,19 +1,19 @@
 #pragma once
 
+#include "distributions/detail/circular.hpp"
 #include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct WrappedNormal {
-    double loc_;
-    double scale_;
-    WrappedNormal(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double mu_;
+    double sigma_;
+    WrappedNormal(double mu, double sigma) : mu_(mu), sigma_(sigma) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::wrap_angle(detail::sample_normal(rng, mu_, sigma_));
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

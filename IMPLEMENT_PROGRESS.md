@@ -2,59 +2,45 @@
 
 Goal: implement all **121** heuristic placeholders as real `family` samplers; all **189** pass `make test-sanity` (or documented xfail).
 
-## Status (updated each batch)
+**Visible progress:** each batch is committed and pushed to [`v0.2.0`](https://github.com/ckirua/distributions/tree/v0.2.0). CI runs on every push (`.github/workflows/ci.yml`).
+
+## Status
 
 | Metric | Count |
 |--------|------:|
 | Total distributions | 189 |
 | `hand-written` | 13 |
-| `family` | 61 |
-| `heuristic` remaining | **114** |
+| `family` | **66** |
+| `heuristic` remaining | **109** |
 | `exact` | 1 |
-| Sanity tests passing | 38 (+ 12 xfail, 2 xpass) |
+| Sanity tests passing | 39 (+ 12 xfail, 2 xpass) |
 
-## Loop
-
-- **Schedule:** `/loop 15m` — continue next category batch automatically
-- **Prompt:** read this file → implement one category → `make codegen && make build && make test && make test-sanity` → update this file
+Last push: batch 2 (wrapped circular, 5 samplers).
 
 ## Completed batches
 
-### Batch 1 — `continuous/semi-infinite-interval` (7 ids)
+### Batch 1 — `continuous/semi-infinite-interval` (7)
 
-Implemented scipy-backed scalar samplers in `tools/codegen/recipes.py` + `SCIPY_SPECS`:
+| vault id | scipy |
+|----------|-------|
+| `rice`, `levy`, `gompertz`, `truncated-normal`, `log-logistic`, `log-laplace`, `generalized-gamma` | yes |
+
+### Batch 2 — `directional/univariate-circular` (5)
 
 | vault id | scipy | notes |
 |----------|-------|-------|
-| `rice` | `rice` | `(b+Z1)²+Z2²` |
-| `levy` | `levy` | `loc + scale/Z²` |
-| `gompertz` | `gompertz` | inverse CDF |
-| `truncated-normal` | `truncnorm` | rejection |
-| `log-logistic` | `fisk` | inverse CDF |
-| `log-laplace` | `loglaplace` | inverse CDF |
-| `generalized-gamma` | `gengamma` | gamma power transform |
+| `wrapped-cauchy` | `wrapcauchy` | scipy ppf port in `detail/circular.hpp` |
+| `wrapped-normal` | — | wrap Gaussian |
+| `wrapped-exponential` | — | wrap Exp |
+| `wrapped-levy` | — | wrap Levy |
+| `wrapped-asymmetric-laplace` | — | wrap Laplace |
 
-## Next batch (priority order)
+## Next batch
 
-1. **`directional/univariate-circular`** (5) — wrapped-normal, wrapped-cauchy, …
-2. **`discrete/infinite-support`** (11) — borel, COM-Poisson, …
-3. **`continuous/bounded-interval`** (8)
-4. **`continuous/semi-infinite-interval`** (25 remaining)
-5. **`continuous/whole-real-line`** (19)
-6. **`multivariate/*`** (25) — may need vector API or scalar projection
-7. **`continuous/variable-support`** (14)
-8. **Other** (directional multivariate, degenerate, mixed)
+**`discrete/infinite-support`** (11): `borel`, `conwaymaxwellpoisson`, `delaporte`, …
 
-## Remaining heuristic by category
+## Agent instructions
 
-Run to refresh:
+Read `scripts/agent_batch_checklist.md`. One category per session; **always push** to `v0.2.0` after tests pass.
 
-```bash
-.venv/bin/python - <<'PY'
-import yaml
-from collections import Counter
-reg = yaml.safe_load(open(".vault/_meta/registry.yaml"))["distributions"]
-for cat, n in sorted(Counter(e["category_path"] for e in reg if e.get("sampler_tier")=="heuristic").items()):
-    print(f"{cat}: {n}")
-PY
-```
+Do **not** rely on bash `/loop` alone — it does not commit, push, or run the agent without an active chat.

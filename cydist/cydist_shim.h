@@ -186,9 +186,9 @@ void cydist_complex_sample_batch(double loc, double scale, uint64_t seed, double
 void cydist_uniform_distribution_on_a_stiefel_manifold_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_circular_uniform_sample_batch(double mu, double kappa, uint64_t seed, double* out, size_t n_samples);
 void cydist_univariate_von_mises_sample_batch(double mu, double kappa, uint64_t seed, double* out, size_t n_samples);
-void cydist_wrapped_normal_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_wrapped_cauchy_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_wrapped_exponential_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
+void cydist_wrapped_normal_sample_batch(double mu, double sigma, uint64_t seed, double* out, size_t n_samples);
+void cydist_wrapped_cauchy_sample_batch(double c, double loc, double scale, uint64_t seed, double* out, size_t n_samples);
+void cydist_wrapped_exponential_sample_batch(double loc, double rate, uint64_t seed, double* out, size_t n_samples);
 void cydist_wrapped_asymmetric_laplace_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_wrapped_levy_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_kent_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);

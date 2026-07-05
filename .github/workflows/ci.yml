@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main, v0.2.0]
+  pull_request:
+    branches: [main, v0.2.0]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install system deps
+        run: sudo apt-get update && sudo apt-get install -y cmake g++
+
+      - name: Create venv and install
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install -U pip
+          .venv/bin/pip install -e ".[dev]"
+
+      - name: Build
+        run: make build
+
+      - name: Smoke tests
+        run: make test
+
+      - name: Sanity tests
+        run: make test-sanity

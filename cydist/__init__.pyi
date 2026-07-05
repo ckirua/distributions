@@ -541,20 +541,20 @@ def circular_uniform_sample_batch(out: np.ndarray, mu: float, kappa: float, seed
 def univariate_von_mises_sample_batch(out: np.ndarray, mu: float, kappa: float, seed: int = 42) -> None:
     """Sample Univariate von Mises into ``out`` (float64). Univariate von Mises distribution: A distribution for angles or directions on the circle."""
 
-def wrapped_normal_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Wrapped normal into ``out`` (float64). Wrapped normal distribution: A distribution for angles or directions on the circle. Tier: heuristic."""
+def wrapped_normal_sample_batch(out: np.ndarray, mu: float, sigma: float, seed: int = 42) -> None:
+    """Sample Wrapped normal into ``out`` (float64). Wrapped normal distribution: A distribution for angles or directions on the circle."""
 
-def wrapped_cauchy_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Wrapped Cauchy into ``out`` (float64). Wrapped Cauchy distribution: A distribution for angles or directions on the circle. Tier: heuristic."""
+def wrapped_cauchy_sample_batch(out: np.ndarray, c: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Wrapped Cauchy into ``out`` (float64). Wrapped Cauchy distribution: A distribution for angles or directions on the circle."""
 
-def wrapped_exponential_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Wrapped exponential into ``out`` (float64). Wrapped exponential distribution: A distribution for angles or directions on the circle. Tier: heuristic."""
+def wrapped_exponential_sample_batch(out: np.ndarray, loc: float, rate: float, seed: int = 42) -> None:
+    """Sample Wrapped exponential into ``out`` (float64). Wrapped exponential distribution: A distribution for angles or directions on the circle."""
 
 def wrapped_asymmetric_laplace_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Wrapped asymmetric Laplace into ``out`` (float64). Wrapped asymmetric Laplace distribution: A distribution for angles or directions on the circle. Tier: heuristic."""
+    """Sample Wrapped asymmetric Laplace into ``out`` (float64). Wrapped asymmetric Laplace distribution: A distribution for angles or directions on the circle."""
 
 def wrapped_levy_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Wrapped Lévy into ``out`` (float64). Wrapped Lévy distribution: A distribution for angles or directions on the circle. Tier: heuristic."""
+    """Sample Wrapped Lévy into ``out`` (float64). Wrapped Lévy distribution: A distribution for angles or directions on the circle."""
 
 def kent_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Kent into ``out`` (float64). Kent distribution: A bivariate distribution on the sphere. Tier: heuristic."""

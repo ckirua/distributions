@@ -1,8 +1,9 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
+#include "distributions/detail/circular.hpp"
 #include "distributions/detail/uniform.hpp"
 #include "distributions/rng.hpp"
+#include <cmath>
 #include <cstddef>
 
 namespace distributions {
@@ -13,7 +14,11 @@ struct WrappedAsymmetricLaplace {
     WrappedAsymmetricLaplace(double loc, double scale) : loc_(loc), scale_(scale) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        const double u = rng.next_double();
+        const double x = u < 0.5
+            ? loc_ + scale_ * std::log(2.0 * u)
+            : loc_ - scale_ * std::log(2.0 * (1.0 - u));
+        return detail::wrap_angle(x);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

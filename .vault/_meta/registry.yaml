@@ -7083,7 +7083,7 @@ distributions:
   tags:
   - distribution/directional
   - support/circular
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: wrapped-cauchy
   name: Wrapped Cauchy
   title: Wrapped Cauchy distribution
@@ -7125,7 +7125,7 @@ distributions:
   tags:
   - distribution/directional
   - support/circular
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: wrapped-exponential
   name: Wrapped exponential
   title: Wrapped exponential distribution
@@ -7162,7 +7162,7 @@ distributions:
   tags:
   - distribution/directional
   - support/circular
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: wrapped-asymmetric-laplace
   name: Wrapped asymmetric Laplace
   title: Wrapped asymmetric Laplace distribution
@@ -7199,7 +7199,7 @@ distributions:
   tags:
   - distribution/directional
   - support/circular
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: wrapped-levy
   name: Wrapped Lévy
   title: Wrapped Lévy distribution
@@ -7236,7 +7236,7 @@ distributions:
   tags:
   - distribution/directional
   - support/circular
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kent
   name: Kent
   title: Kent distribution

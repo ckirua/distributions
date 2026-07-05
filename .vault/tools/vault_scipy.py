@@ -57,7 +57,7 @@ SCIPY_SPECS: dict[str, tuple[str, dict]] = {
     "irwin-hall": ("irwinhall", {"n": 4}),
     "von-mises-fisher": ("vonmises_fisher", {"mu": [1, 0, 0], "kappa": 2}),
     "univariate-von-mises": ("vonmises", {"kappa": 2}),
-    "wrapped-cauchy": ("wrapcauchy", {"c": 0.5}),
+    "wrapped-cauchy": ("wrapcauchy", {"c": 0.5, "loc": 0, "scale": 1}),
     "circular-uniform": ("vonmises", {"kappa": 0}),
     "multinomial": ("multinomial", {"n": 10, "p": [0.4, 0.3, 0.3]}),
     "dirichlet": ("dirichlet", {"alpha": [2, 2, 2]}),

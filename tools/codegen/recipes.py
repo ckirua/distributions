@@ -458,6 +458,62 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        cydist_skip=True))
             continue
 
+        # --- directional / wrapped circular (heuristic batch 2) ---
+        if vid == "wrapped-normal":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/normal.hpp", "distributions/detail/circular.hpp"],
+                       members=[("double", "mu", "0.0"), ("double", "sigma", "0.5")],
+                       sample_body=(
+                           "return detail::wrap_angle(detail::sample_normal(rng, mu_, sigma_));"
+                       ),
+                       bench_ctor_args="0.0, 0.5",
+                       cydist_params=[("double", "mu"), ("double", "sigma"), ("uint64_t", "seed")]))
+            continue
+        if vid == "wrapped-cauchy":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/circular.hpp"],
+                       members=[("double", "c", "0.5"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_wrapcauchy(rng, c_, loc_, scale_);",
+                       bench_ctor_args="0.5, 0.0, 1.0",
+                       cydist_params=[("double", "c"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "wrapped-exponential":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/uniform.hpp", "distributions/detail/circular.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "rate", "1.0")],
+                       sample_body=(
+                           "const double u = rng.next_double();\n"
+                           "        return detail::wrap_angle(loc_ - std::log1p(-u) / rate_);"
+                       ),
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "rate"), ("uint64_t", "seed")]))
+            continue
+        if vid == "wrapped-levy":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/normal.hpp", "distributions/detail/circular.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body=(
+                           "const double z = detail::sample_standard_normal(rng);\n"
+                           "        return detail::wrap_angle(loc_ + scale_ / (z * z));"
+                       ),
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "wrapped-asymmetric-laplace":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/uniform.hpp", "distributions/detail/circular.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body=(
+                           "const double u = rng.next_double();\n"
+                           "        const double x = u < 0.5\n"
+                           "            ? loc_ + scale_ * std::log(2.0 * u)\n"
+                           "            : loc_ - scale_ * std::log(2.0 * (1.0 - u));\n"
+                           "        return detail::wrap_angle(x);"
+                       ),
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+
         # --- semi-infinite (heuristic batch 1: scipy-backed scalar samplers) ---
         if vid == "rice":
             add(Recipe(vid, cls, cat, False,

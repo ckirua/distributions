@@ -1300,13 +1300,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "wrapped-normal") {
-        const distributions::WrappedNormal d(0.0, 1.0);
+        const distributions::WrappedNormal d(0.0, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "wrapped-cauchy") {
-        const distributions::WrappedCauchy d(0.0, 1.0);
+        const distributions::WrappedCauchy d(0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
