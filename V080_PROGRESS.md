@@ -1,4 +1,4 @@
-# v0.8.0 progress (Phase 6) — batch 1 next
+# v0.8.0 progress (Phase 6) — batch 2 next
 
 Goal: **Tier B wave 3** (composition/transform) + **table sampler CDF polish** → merge as **`v1.0.0`**. See [`plan-v0.8.0.md`](plan-v0.8.0.md).
 
@@ -10,9 +10,15 @@ Goal: **Tier B wave 3** (composition/transform) + **table sampler CDF polish** �
 |--------|------:|
 | Codegen Tier B (from v0.7.0) | **6 / 171** |
 | Wave 3 shipped | **0** |
-| Table sampler binary search / alias | **no** |
-| Batches complete | **1 / 4** |
+| Table sampler binary search / alias | **yes** (batch 1) |
+| Batches complete | **2 / 4** |
 | Release tag | **—** |
+
+## v0.7.0 carry-over (on `main`)
+
+- Tier B: gamma, beta, continuous-bernoulli, discrete-weibull, erlang, log-normal
+- cydist validation 184/184, shim `std::span`
+- Codegen `template<typename Sample>` + default aliases on 171 structs
 
 ## Completed batches
 
@@ -21,15 +27,18 @@ Goal: **Tier B wave 3** (composition/transform) + **table sampler CDF polish** �
 - Branch `v0.8.0` pushed; PR #3 merged to `main`
 - `bench_codegen --wave3` → `results/baseline-v0.8.0-wave3/` (11 candidates @10M)
 
+### Batch 1 — table sampler binary search / alias ✅
+
+- `continuous-bernoulli`: binary search on 512-point CDF → **2.66×** vs v0.7.0 Tier B
+- `discrete-weibull`: Vose alias on 101-point PMF → **3.94×** vs v0.7.0 Tier B
+- Baseline: `results/baseline-v0.8.0-batch1/`
+
 ## Next batches
-
-### Batch 1 — table sampler binary search
-
-- continuous-bernoulli, discrete-weibull fast paths
 
 ### Batch 2 — Tier B wave 3 (bench-gated)
 
-- Composition/transform families (see plan queue)
+- Composition/transform families (see plan queue vs `codegen-tier-a`)
+- Target: ship 3–5 ids ≥1.5× @10M
 
 ### Batch 3 — integration sign-off
 
