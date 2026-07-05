@@ -8,19 +8,19 @@ Goal: **single-thread** counter-RNG fast paths for the **13 hand-written** core 
 
 | Metric | Count |
 |--------|------:|
-| Hand-written with Tier B fast path | **0 / 13** |
-| Hand-written with counter-RNG inner loop | **0 / 13** (primitives ready) |
-| `bench-core` geomean speedup @ 10M (1 core) | **1.0×** (baseline recorded) |
+| Hand-written with Tier B fast path | **3 / 13** |
+| Hand-written with counter-RNG inner loop | **0 / 13** (trivial discrete use SplitMix64) |
+| `bench-core` geomean speedup @ 10M (1 core) | **~1.5×** on batch-2 subset |
 | Parallel enabled (`batch_parallel.hpp`) | **no** |
 | Family with parallel wrapper | **0 / 175** (optional batch 8) |
 | Dead ISPC stub removed | **no** (gated OFF by default) |
-| Required batches complete | **2 / 8** (0–1 done; 9 pending) |
+| Required batches complete | **3 / 8** (0–2 done; 9 pending) |
 
-Last push: batches 0–1 (baseline + counter RNG).
+Last push: batch 2 (trivial discrete Tier-B fast paths).
 
 ## Next batch
 
-**Batch 2** — Trivial discrete fast paths: `bernoulli`, `discrete-uniform`, `geometric`.
+**Batch 3** — Transform continuous: `exponential`, `normal-gaussian`.
 
 ## Batch 6 decision gate
 
@@ -39,13 +39,19 @@ After batch 6, record geomean speedup @10M on 1 core. **Skip batches 7–8** unl
 - `detail/counter_rng.hpp` (Philox4x32-10), `detail/fast/uniform.hpp`
 - `tests/cpp/counter_rng_test.cpp` (ctest)
 
+### Batch 2 — Trivial discrete (3)
+
+- `detail/fast/splitmix_stream.hpp` + fast bernoulli / discrete-uniform / geometric
+- Tier B activates when `n >= kFastThreshold` (4096)
+- Speedups @10M vs baseline (cycles/sample): bernoulli **1.8×**, discrete-uniform **1.8×**, geometric **1.1×**
+
 ## Hand-written tracker (13)
 
-| vault id | Tier B fast | counter/SIMD | batch |
-|----------|:-----------:|:------------:|------:|
-| `bernoulli` | — | — | 2 |
-| `discrete-uniform` | — | — | 2 |
-| `geometric` | — | — | 2 |
+| vault id | Tier B fast | engine | batch |
+|----------|:-----------:|--------|------:|
+| `bernoulli` | yes | SplitMix64 | 2 |
+| `discrete-uniform` | yes | SplitMix64 | 2 |
+| `geometric` | yes | SplitMix64 | 2 |
 | `exponential` | — | — | 3 |
 | `normal-gaussian` | — | — | 3 |
 | `binomial` | — | — | 4 |
@@ -57,15 +63,13 @@ After batch 6, record geomean speedup @10M on 1 core. **Skip batches 7–8** unl
 | `zipfmandelbrot` | — | — | 5 |
 | `skellam` | — | — | 5 |
 
-## Baseline @ 10M (Tier A, cycles/sample)
+## Baseline @ 10M → batch 2 (cycles/sample)
 
-| bench id | per_sample |
-|----------|----------:|
-| bernoulli | 1.21 |
-| discrete-uniform | 1.57 |
-| exponential | 20.97 |
-| normal | 39.35 |
-| binomial | 44.44 |
+| bench id | baseline | batch 2 | speedup |
+|----------|----------:|--------:|--------:|
+| bernoulli | 1.21 | 0.67 | 1.8× |
+| discrete-uniform | 1.57 | 0.87 | 1.8× |
+| geometric | 21.23 | 18.52 | 1.1× |
 
 Full CSVs: `results/baseline-v0.2.0/*.csv`
 
