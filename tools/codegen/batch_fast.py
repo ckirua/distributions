@@ -39,6 +39,39 @@ BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
             "out, n, alpha_, beta_, detail::batch_seed_from(rng));"
         ),
     ),
+    "beta_prime": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/beta_prime.hpp",
+            "distributions/detail/fast/common.hpp",
+        ),
+        call=(
+            "detail::fast::beta_prime_sample_batch("
+            "out, n, alpha_, beta_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "chi": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/chi_squared.hpp",
+            "distributions/detail/fast/common.hpp",
+        ),
+        call=(
+            "detail::fast::chi_sample_batch("
+            "out, n, df_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "chi_squared": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/chi_squared.hpp",
+            "distributions/detail/fast/common.hpp",
+        ),
+        call=(
+            "detail::fast::chi_squared_sample_batch("
+            "out, n, df_, detail::batch_seed_from(rng));"
+        ),
+    ),
     "continuous_bernoulli": BatchFastHook(
         includes=(
             "distributions/detail/counter_rng.hpp",
@@ -59,6 +92,17 @@ BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
         call=(
             "detail::fast::discrete_weibull_sample_batch("
             "out, n, c_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "davis": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/chi_squared.hpp",
+            "distributions/detail/fast/common.hpp",
+        ),
+        call=(
+            "detail::fast::chi_squared_sample_batch("
+            "out, n, nu_, detail::batch_seed_from(rng));"
         ),
     ),
     "erlang": BatchFastHook(
@@ -94,6 +138,39 @@ BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
             "out, n, shape_, scale_, detail::batch_seed_from(rng));"
         ),
     ),
+    "half_normal": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/half_normal.hpp",
+        ),
+        call=(
+            "detail::fast::half_normal_sample_batch("
+            "out, n, loc_, scale_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "inverse_chi_squared": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/chi_squared.hpp",
+            "distributions/detail/fast/common.hpp",
+        ),
+        call=(
+            "detail::fast::inverse_chi_squared_sample_batch("
+            "out, n, df_, scale_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "inverse_gamma": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/inverse_gamma.hpp",
+        ),
+        call=(
+            "detail::fast::inverse_gamma_sample_batch("
+            "out, n, shape_, scale_, detail::batch_seed_from(rng));"
+        ),
+    ),
     "log_normal": BatchFastHook(
         includes=(
             "distributions/detail/counter_rng.hpp",
@@ -116,6 +193,17 @@ BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
             "out, n, mu_, sigma_, detail::batch_seed_from(rng));"
         ),
     ),
+    "pareto": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/pareto.hpp",
+        ),
+        call=(
+            "detail::fast::pareto_sample_batch("
+            "out, n, alpha_, scale_, detail::batch_seed_from(rng));"
+        ),
+    ),
     "poisson": BatchFastHook(
         includes=(
             "distributions/detail/counter_rng.hpp",
@@ -125,6 +213,17 @@ BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
         call=(
             "detail::fast::poisson_sample_batch("
             "out, n, mu_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "rayleigh": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/rayleigh.hpp",
+        ),
+        call=(
+            "detail::fast::rayleigh_sample_batch("
+            "out, n, scale_, detail::batch_seed_from(rng));"
         ),
     ),
     "student_t": BatchFastHook(
@@ -147,6 +246,17 @@ BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
         call=(
             "detail::fast::bounded_uniform_sample_batch("
             "out, n, lo_, hi_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "weibull": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/weibull.hpp",
+        ),
+        call=(
+            "detail::fast::weibull_sample_batch("
+            "out, n, shape_, scale_, detail::batch_seed_from(rng));"
         ),
     ),
 }

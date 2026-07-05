@@ -1,44 +1,44 @@
-# v0.8.0 progress (Phase 6) — batch 2 next
+# v0.8.0 progress (Phase 6) — batch 3 next
 
 Goal: **Tier B wave 3** (composition/transform) + **table sampler CDF polish** → merge as **`v1.0.0`**. See [`plan-v0.8.0.md`](plan-v0.8.0.md).
 
-**Branch:** `v0.8.0` (from merged `main`, PR #3 merged).
+**Branch:** `v0.8.0`
 
 ## Status
 
 | Metric | Count |
 |--------|------:|
-| Codegen Tier B (from v0.7.0) | **6 / 171** |
-| Wave 3 shipped | **0** |
+| Codegen Tier B | **9 / 171** |
+| Wave 3 shipped | **3** (half-normal, inverse-gamma, beta-prime) |
 | Table sampler binary search / alias | **yes** (batch 1) |
-| Batches complete | **2 / 4** |
+| Batches complete | **3 / 4** |
 | Release tag | **—** |
-
-## v0.7.0 carry-over (on `main`)
-
-- Tier B: gamma, beta, continuous-bernoulli, discrete-weibull, erlang, log-normal
-- cydist validation 184/184, shim `std::span`
-- Codegen `template<typename Sample>` + default aliases on 171 structs
 
 ## Completed batches
 
 ### Batch 0 — wave 3 scaffold + baseline ✅
 
-- Branch `v0.8.0` pushed; PR #3 merged to `main`
-- `bench_codegen --wave3` → `results/baseline-v0.8.0-wave3/` (11 candidates @10M)
+- `bench_codegen --wave3` → `results/baseline-v0.8.0-wave3/` (Tier-A @10M)
 
 ### Batch 1 — table sampler binary search / alias ✅
 
-- `continuous-bernoulli`: binary search on 512-point CDF → **2.66×** vs v0.7.0 Tier B
-- `discrete-weibull`: Vose alias on 101-point PMF → **3.94×** vs v0.7.0 Tier B
-- Baseline: `results/baseline-v0.8.0-batch1/`
+- continuous-bernoulli **2.66×**, discrete-weibull **3.94×** vs v0.7.0 Tier B
+
+### Batch 2 — Tier B wave 3 ✅
+
+Shipped (≥1.5× vs Tier-A @10M):
+
+| dist | Tier-A | Tier-B | speedup |
+|------|-------:|-------:|--------:|
+| half-normal | 37.25 | 23.76 | **1.57×** |
+| inverse-gamma | 46.60 | 25.84 | **1.81×** |
+| beta-prime | 97.40 | 58.75 | **1.66×** |
+
+Skipped: weibull (1.09×), rayleigh (1.26×), pareto (regression), chi-squared/davis/scaled-inverse-chi-squared (df=3 gamma), student-t (1.19×).
+
+Details: `results/baseline-v0.8.0-wave3-shipped/README.md`
 
 ## Next batches
-
-### Batch 2 — Tier B wave 3 (bench-gated)
-
-- Composition/transform families (see plan queue vs `codegen-tier-a`)
-- Target: ship 3–5 ids ≥1.5× @10M
 
 ### Batch 3 — integration sign-off
 

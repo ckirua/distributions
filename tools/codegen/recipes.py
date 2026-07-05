@@ -449,7 +449,8 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        members=[("double", "shape", "3.0"), ("double", "scale", "1.0")],
                        sample_body="return scale_ / detail::sample_gamma(rng, shape_, 1.0);",
                        bench_ctor_args="3.0, 1.0",
-                       cydist_params=[("double", "shape"), ("double", "scale"), ("uint64_t", "seed")]))
+                       cydist_params=[("double", "shape"), ("double", "scale"), ("uint64_t", "seed")],
+                       batch_fast="inverse_gamma"))
             continue
         if vid == "inverse-gaussian":
             add(Recipe(vid, "InverseGaussian", cat, False,
@@ -465,7 +466,8 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
                        sample_body="return loc_ + scale_ * std::abs(detail::sample_standard_normal(rng));",
                        bench_ctor_args="0.0, 1.0",
-                       cydist_skip=True))
+                       cydist_skip=True,
+                       batch_fast="half_normal"))
             continue
         if vid == "folded-normal":
             add(Recipe(vid, cls, cat, False,
@@ -498,7 +500,8 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                            "        return x / y;"
                        ),
                        bench_ctor_args="2.0, 5.0",
-                       cydist_skip=True))
+                       cydist_skip=True,
+                       batch_fast="beta_prime"))
             continue
         if vid == "lomax" or vid == "burr" or vid == "dagum":
             add(Recipe(vid, cls, cat, False,
