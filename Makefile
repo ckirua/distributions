@@ -8,7 +8,7 @@ CMAKE    := cmake -S . -B $(BUILD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPIL
 BUILD_SIMD := build-simd
 CMAKE_SIMD := cmake -S . -B $(BUILD_SIMD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14 -DDISTRIBUTIONS_ENABLE_SIMD=ON
 
-.PHONY: help clean codegen configure configure-simd build build-simd test test-sanity test-all bench bench-core bench-core-simd bench-core-baseline bench-core-quick bench-all vault install
+.PHONY: help clean codegen configure configure-simd build build-simd test test-simd test-sanity test-all bench bench-core bench-core-simd bench-core-baseline bench-core-quick bench-all vault install
 
 help:
 	@echo "Targets: clean codegen configure build test bench vault install"
@@ -16,6 +16,7 @@ help:
 	@echo "  make build     — configure (if needed) and compile C++ benchmarks"
 	@echo "  make build-simd — same with -DDISTRIBUTIONS_ENABLE_SIMD=ON (AVX2 Tier C)"
 	@echo "  make test      — ctest + fast pytest smoke (excludes sanity)"
+	@echo "  make test-simd — ctest on build-simd (Tier B vs C repro, when AVX2)"
 	@echo "  make test-sanity — statistical checks vs scipy (~48 cases, slow)"
 	@echo "  make test-all  — smoke + sanity"
 	@echo "  make bench     — benchmark 13 hand-written ids (alias for bench-core)"
@@ -50,6 +51,10 @@ build-simd: configure-simd
 test: build install
 	ctest --test-dir $(BUILD) --output-on-failure
 	$(PYTHON) -m pytest tests/ -q --tb=line
+
+test-simd: build-simd install
+	ctest --test-dir $(BUILD_SIMD) --output-on-failure
+	$(PYTHON) -m pytest tests/test_reproducibility_simd.py -q --tb=line
 
 test-sanity: install
 	$(PYTHON) -m pytest tests/ -m sanity -q --tb=line -o addopts=

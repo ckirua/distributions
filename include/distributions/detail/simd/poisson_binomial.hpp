@@ -18,9 +18,12 @@ namespace distributions::detail::simd {
 inline int poisson_binomial_sum_avx2(
     SplitMix64Stream& rng, const double* probs, std::size_t k) {
     if (k == 4) {
-        const __m256d p = _mm256_loadu_pd(probs);
-        const __m256d scale = _mm256_set1_pd(static_cast<double>(1ULL << 53));
-        const __m256i thresh = _mm256_castpd_si256(_mm256_mul_pd(p, scale));
+        alignas(32) std::int64_t thresh_arr[4];
+        for (std::size_t j = 0; j < 4; ++j) {
+            thresh_arr[j] = static_cast<std::int64_t>(static_cast<std::uint64_t>(
+                probs[j] * static_cast<double>(1ULL << 53)));
+        }
+        const __m256i thresh = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(thresh_arr));
         const __m256i raw = _mm256_set_epi64x(
             static_cast<std::int64_t>(rng.next_u64()),
             static_cast<std::int64_t>(rng.next_u64()),
