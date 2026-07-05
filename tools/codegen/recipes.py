@@ -1314,6 +1314,72 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        cydist_params=[("uint64_t", "seed")]))
             continue
 
+        # --- multivariate continuous (heuristic batch 9) ---
+        if vid == "dirichlet":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate.hpp"],
+                       members=[("double", "a0", "2.0"), ("double", "a1", "3.0"), ("double", "a2", "5.0")],
+                       sample_body="return detail::sample_dirichlet_first(rng, a0_, a1_, a2_);",
+                       bench_ctor_args="2.0, 3.0, 5.0",
+                       cydist_params=[("double", "a0"), ("double", "a1"), ("double", "a2"), ("uint64_t", "seed")]))
+            continue
+        if vid == "generalized-dirichlet":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate.hpp"],
+                       members=[("double", "a1", "2.0"), ("double", "b1", "3.0"), ("double", "a2", "2.0"), ("double", "b2", "3.0")],
+                       sample_body="return detail::sample_generalized_dirichlet_first(rng, a1_, b1_, a2_, b2_);",
+                       bench_ctor_args="2.0, 3.0, 2.0, 3.0",
+                       cydist_params=[("double", "a1"), ("double", "b1"), ("double", "a2"), ("double", "b2"), ("uint64_t", "seed")]))
+            continue
+        if vid == "multivariate-normal":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate.hpp"],
+                       members=[("double", "rho", "0.2")],
+                       sample_body="return detail::sample_multivariate_normal_first(rng, rho_);",
+                       bench_ctor_args="0.2",
+                       cydist_params=[("double", "rho"), ("uint64_t", "seed")]))
+            continue
+        if vid == "multivariate-t":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate.hpp"],
+                       members=[("double", "df", "5.0")],
+                       sample_body="return detail::sample_multivariate_t_first(rng, df_);",
+                       bench_ctor_args="5.0",
+                       cydist_params=[("double", "df"), ("uint64_t", "seed")]))
+            continue
+        if vid == "multivariate-laplace":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate.hpp"],
+                       members=[("double", "scale", "1.0")],
+                       sample_body="return detail::sample_multivariate_laplace_first(rng, scale_);",
+                       bench_ctor_args="1.0",
+                       cydist_params=[("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "multivariate-stable":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate.hpp"],
+                       members=[("double", "alpha", "1.5"), ("double", "beta", "0.0")],
+                       sample_body="return detail::sample_multivariate_stable_first(rng, alpha_, beta_);",
+                       bench_ctor_args="1.5, 0.0",
+                       cydist_params=[("double", "alpha"), ("double", "beta"), ("uint64_t", "seed")]))
+            continue
+        if vid == "normal-gamma":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate.hpp"],
+                       members=[("double", "shape", "2.0"), ("double", "rate", "1.0")],
+                       sample_body="return detail::sample_normal_gamma_mean(rng, shape_, rate_);",
+                       bench_ctor_args="2.0, 1.0",
+                       cydist_params=[("double", "shape"), ("double", "rate"), ("uint64_t", "seed")]))
+            continue
+        if vid == "normal-inverse-gamma-distribution":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate.hpp"],
+                       members=[("double", "shape", "3.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_normal_invgamma_mean(rng, shape_, scale_);",
+                       bench_ctor_args="3.0, 1.0",
+                       cydist_params=[("double", "shape"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+
         # --- directional ---
         if vid == "univariate-von-mises" or vid == "circular-uniform":
             kappa = "0.0" if vid == "circular-uniform" else "2.0"

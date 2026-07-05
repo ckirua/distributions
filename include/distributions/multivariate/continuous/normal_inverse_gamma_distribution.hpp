@@ -1,19 +1,18 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/multivariate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct NormalInverseGammaDistribution {
-    double loc_;
+    double shape_;
     double scale_;
-    NormalInverseGammaDistribution(double loc, double scale) : loc_(loc), scale_(scale) {}
+    NormalInverseGammaDistribution(double shape, double scale) : shape_(shape), scale_(scale) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_normal_invgamma_mean(rng, shape_, scale_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

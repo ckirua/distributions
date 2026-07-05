@@ -10,12 +10,12 @@ Goal: implement all **121** heuristic placeholders as real `family` samplers; al
 |--------|------:|
 | Total distributions | 189 |
 | `hand-written` | 13 |
-| `family` | **155** |
-| `heuristic` remaining | **20** |
+| `family` | **163** |
+| `heuristic` remaining | **12** |
 | `exact` | 1 |
-| Sanity tests passing | 67 (+ 12 xfail, 2 xpass) |
+| Sanity tests passing | 70 (+ 12 xfail, 2 xpass) |
 
-Last push: batch 8 (matrix-valued, 13 samplers).
+Last push: batch 9 (multivariate continuous, 8 samplers).
 
 ## Completed batches
 
@@ -97,9 +97,20 @@ New helper: `include/distributions/detail/matrix.hpp` (2×2 Bartlett; scalar sum
 | `matrix-normal` | element (0,0) | yes |
 | `inverse-wishart`, `matrix-t`, `matrix-gamma`, `inverse-matrix-gamma-distribution`, `matrix-beta`, `matrix-f`, `lkj`, `normal-wishart`, `normal-inverse`, `complex`, `uniform-distribution-on-a-stiefel-manifold` | matrix / approximate | skip |
 
+### Batch 9 — `multivariate/continuous` (8)
+
+New helper: `include/distributions/detail/multivariate.hpp`
+
+| vault id | algorithm | scipy sanity |
+|----------|-----------|--------------|
+| `dirichlet` | gamma-ratio first component | yes |
+| `multivariate-normal` | first component | yes |
+| `multivariate-t` | first component (= Student t) | yes |
+| `generalized-dirichlet`, `multivariate-laplace`, `multivariate-stable`, `normal-gamma`, `normal-inverse-gamma-distribution` | approximate / compound | skip |
+
 ## Next batch
 
-**`multivariate/continuous`** (8 heuristic): `dirichlet`, `multivariate-normal`, …
+**`multivariate/discrete`** (4 heuristic) + remaining categories — **12** heuristic left total.
 
 ## Agent instructions
 

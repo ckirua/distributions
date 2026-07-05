@@ -102,6 +102,11 @@ SKIP_VAULT_IDS: frozenset[str] = frozenset(
         "complex",
         "uniform-distribution-on-a-stiefel-manifold",
         "matrix-t",
+        "generalized-dirichlet",
+        "multivariate-laplace",
+        "multivariate-stable",
+        "normal-gamma",
+        "normal-inverse-gamma-distribution",
     }
 )
 
@@ -178,11 +183,41 @@ def _sample_matrix_t_elem(kwargs: dict[str, Any], n: int, rng: np.random.Generat
     return np.asarray(mats[:, 0, 0], dtype=np.float64)
 
 
+def _sample_dirichlet_first(kwargs: dict[str, Any], n: int, rng: np.random.Generator) -> np.ndarray:
+    from scipy import stats
+
+    alpha = [float(kwargs["a0"]), float(kwargs["a1"]), float(kwargs["a2"])]
+    s = stats.dirichlet(alpha).rvs(size=n, random_state=rng)
+    return np.asarray(s[:, 0], dtype=np.float64)
+
+
+def _sample_multivariate_normal_first(kwargs: dict[str, Any], n: int, rng: np.random.Generator) -> np.ndarray:
+    from scipy import stats
+
+    rho = float(kwargs["rho"])
+    cov = [[1.0, rho], [rho, 1.0]]
+    s = stats.multivariate_normal([0.0, 0.0], cov).rvs(size=n, random_state=rng)
+    return np.asarray(s[:, 0], dtype=np.float64)
+
+
+def _sample_multivariate_t_first(kwargs: dict[str, Any], n: int, rng: np.random.Generator) -> np.ndarray:
+    from scipy import stats
+
+    df = float(kwargs["df"])
+    rho = 0.2
+    cov = [[1.0, rho], [rho, 1.0]]
+    s = stats.multivariate_t([0.0, 0.0], cov, df=df).rvs(size=n, random_state=rng)
+    return np.asarray(s[:, 0], dtype=np.float64)
+
+
 CUSTOM_SCIPY_SAMPLERS: dict[str, Callable[[dict[str, Any], int, np.random.Generator], np.ndarray]] = {
     "categorical": _sample_categorical,
     "wishart": _sample_wishart_trace,
     "matrix-normal": _sample_matrix_normal_elem,
     "matrix-t": _sample_matrix_t_elem,
+    "dirichlet": _sample_dirichlet_first,
+    "multivariate-normal": _sample_multivariate_normal_first,
+    "multivariate-t": _sample_multivariate_t_first,
 }
 
 

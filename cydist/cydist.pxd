@@ -162,14 +162,14 @@ cdef extern from "cydist_shim.h":
     void cydist_multinomial_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_dirichlet_multinomial_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_negative_multinomial_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_dirichlet_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_generalized_dirichlet_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_multivariate_laplace_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_multivariate_normal_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_multivariate_stable_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_multivariate_t_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_normal_gamma_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_normal_inverse_gamma_distribution_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_dirichlet_sample_batch(double a0, double a1, double a2, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_generalized_dirichlet_sample_batch(double a1, double b1, double a2, double b2, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_multivariate_laplace_sample_batch(double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_multivariate_normal_sample_batch(double rho, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_multivariate_stable_sample_batch(double alpha, double beta, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_multivariate_t_sample_batch(double df, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_normal_gamma_sample_batch(double shape, double rate, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_normal_inverse_gamma_distribution_sample_batch(double shape, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_lkj_sample_batch(double eta, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_matrix_beta_sample_batch(double a, double b, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_matrix_f_sample_batch(double df1, double df2, double v00, double v11, uint64_t seed, double* out, size_t n_samples) nogil

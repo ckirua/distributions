@@ -472,29 +472,29 @@ def dirichlet_multinomial_sample_batch(out: np.ndarray, loc: float, scale: float
 def negative_multinomial_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Negative multinomial into ``out`` (float64). Negative multinomial distribution: A joint distribution over several discrete random variables. Tier: heuristic."""
 
-def dirichlet_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Dirichlet into ``out`` (float64). Dirichlet distribution: A joint distribution over several continuous random variables. Tier: heuristic."""
+def dirichlet_sample_batch(out: np.ndarray, a0: float, a1: float, a2: float, seed: int = 42) -> None:
+    """Sample Dirichlet into ``out`` (float64). Dirichlet distribution: A joint distribution over several continuous random variables."""
 
-def generalized_dirichlet_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Generalized Dirichlet into ``out`` (float64). Generalized Dirichlet distribution: A joint distribution over several continuous random variables. Tier: heuristic."""
+def generalized_dirichlet_sample_batch(out: np.ndarray, a1: float, b1: float, a2: float, b2: float, seed: int = 42) -> None:
+    """Sample Generalized Dirichlet into ``out`` (float64). Generalized Dirichlet distribution: A joint distribution over several continuous random variables."""
 
-def multivariate_laplace_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Multivariate Laplace into ``out`` (float64). Multivariate Laplace distribution: A joint distribution over several continuous random variables. Tier: heuristic."""
+def multivariate_laplace_sample_batch(out: np.ndarray, scale: float, seed: int = 42) -> None:
+    """Sample Multivariate Laplace into ``out`` (float64). Multivariate Laplace distribution: A joint distribution over several continuous random variables."""
 
-def multivariate_normal_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Multivariate normal into ``out`` (float64). Multivariate normal distribution: A joint distribution over several continuous random variables. Tier: heuristic."""
+def multivariate_normal_sample_batch(out: np.ndarray, rho: float, seed: int = 42) -> None:
+    """Sample Multivariate normal into ``out`` (float64). Multivariate normal distribution: A joint distribution over several continuous random variables."""
 
-def multivariate_stable_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Multivariate stable into ``out`` (float64). Multivariate stable distribution: A joint distribution over several continuous random variables. Tier: heuristic."""
+def multivariate_stable_sample_batch(out: np.ndarray, alpha: float, beta: float, seed: int = 42) -> None:
+    """Sample Multivariate stable into ``out`` (float64). Multivariate stable distribution: A joint distribution over several continuous random variables."""
 
-def multivariate_t_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Multivariate _t_ into ``out`` (float64). Multivariate _t_ distribution: A joint distribution over several continuous random variables. Tier: heuristic."""
+def multivariate_t_sample_batch(out: np.ndarray, df: float, seed: int = 42) -> None:
+    """Sample Multivariate _t_ into ``out`` (float64). Multivariate _t_ distribution: A joint distribution over several continuous random variables."""
 
-def normal_gamma_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Normal-gamma into ``out`` (float64). Normal-gamma distribution: A joint distribution over several continuous random variables. Tier: heuristic."""
+def normal_gamma_sample_batch(out: np.ndarray, shape: float, rate: float, seed: int = 42) -> None:
+    """Sample Normal-gamma into ``out`` (float64). Normal-gamma distribution: A joint distribution over several continuous random variables."""
 
-def normal_inverse_gamma_distribution_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Inverse gamma into ``out`` (float64). Inverse gamma distribution: A joint distribution over several continuous random variables. Tier: heuristic."""
+def normal_inverse_gamma_distribution_sample_batch(out: np.ndarray, shape: float, scale: float, seed: int = 42) -> None:
+    """Sample Inverse gamma into ``out`` (float64). Inverse gamma distribution: A joint distribution over several continuous random variables."""
 
 def lkj_sample_batch(out: np.ndarray, eta: float, seed: int = 42) -> None:
     """Sample LKJ into ``out`` (float64). LKJ distribution: A distribution over random matrices (covariance-like objects)."""

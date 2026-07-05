@@ -6190,7 +6190,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-dirichlet
   name: Generalized Dirichlet
   title: Generalized Dirichlet distribution
@@ -6227,7 +6227,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: multivariate-laplace
   name: Multivariate Laplace
   title: Multivariate Laplace distribution
@@ -6264,7 +6264,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: multivariate-normal
   name: Multivariate normal
   title: Multivariate normal distribution
@@ -6301,7 +6301,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: multivariate-stable
   name: Multivariate stable
   title: Multivariate stable distribution
@@ -6338,7 +6338,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: multivariate-t
   name: Multivariate _t_
   title: Multivariate _t_ distribution
@@ -6375,7 +6375,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: normal-gamma
   name: Normal-gamma
   title: Normal-gamma distribution
@@ -6412,7 +6412,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: normal-inverse-gamma-distribution
   name: Inverse gamma
   title: Inverse gamma distribution
@@ -6449,7 +6449,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: lkj
   name: LKJ
   title: LKJ distribution

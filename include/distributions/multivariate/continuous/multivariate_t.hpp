@@ -1,19 +1,17 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/multivariate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct MultivariateT {
-    double loc_;
-    double scale_;
-    MultivariateT(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double df_;
+    MultivariateT(double df) : df_(df) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_multivariate_t_first(rng, df_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

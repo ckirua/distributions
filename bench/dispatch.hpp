@@ -1162,49 +1162,49 @@ inline void sample_cpp(
         return;
     }
     if (dist == "dirichlet") {
-        const distributions::Dirichlet d(0.0, 1.0);
+        const distributions::Dirichlet d(2.0, 3.0, 5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-dirichlet") {
-        const distributions::GeneralizedDirichlet d(0.0, 1.0);
+        const distributions::GeneralizedDirichlet d(2.0, 3.0, 2.0, 3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "multivariate-laplace") {
-        const distributions::MultivariateLaplace d(0.0, 1.0);
+        const distributions::MultivariateLaplace d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "multivariate-normal") {
-        const distributions::MultivariateNormal d(0.0, 1.0);
+        const distributions::MultivariateNormal d(0.2);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "multivariate-stable") {
-        const distributions::MultivariateStable d(0.0, 1.0);
+        const distributions::MultivariateStable d(1.5, 0.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "multivariate-t") {
-        const distributions::MultivariateT d(0.0, 1.0);
+        const distributions::MultivariateT d(5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "normal-gamma") {
-        const distributions::NormalGamma d(0.0, 1.0);
+        const distributions::NormalGamma d(2.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "normal-inverse-gamma-distribution") {
-        const distributions::NormalInverseGammaDistribution d(0.0, 1.0);
+        const distributions::NormalInverseGammaDistribution d(3.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
