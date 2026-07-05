@@ -1,19 +1,19 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/matrix.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Complex {
-    double loc_;
-    double scale_;
-    Complex(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double df_;
+    double v00_;
+    double v11_;
+    Complex(double df, double v00, double v11) : df_(df), v00_(v00), v11_(v11) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_complex_wishart_trace(rng, df_, v00_, v11_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

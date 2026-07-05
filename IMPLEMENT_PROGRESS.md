@@ -10,12 +10,12 @@ Goal: implement all **121** heuristic placeholders as real `family` samplers; al
 |--------|------:|
 | Total distributions | 189 |
 | `hand-written` | 13 |
-| `family` | **142** |
-| `heuristic` remaining | **33** |
+| `family` | **155** |
+| `heuristic` remaining | **20** |
 | `exact` | 1 |
-| Sanity tests passing | 65 (+ 12 xfail, 2 xpass) |
+| Sanity tests passing | 67 (+ 12 xfail, 2 xpass) |
 
-Last push: batch 7 (variable support, 13 samplers).
+Last push: batch 8 (matrix-valued, 13 samplers).
 
 ## Completed batches
 
@@ -87,9 +87,19 @@ New helper: `include/distributions/detail/variable_support.hpp`
 | `tukey-lambda` | Tukey λ (boxcox ppf) | yes |
 | `generalized-chi-squared`, `marchenkopastur`, `kaniadakis-*`, `q-exponential`, `q-gaussian`, `q-weibull` | specialized / κ- or q-deformed | skip |
 
+### Batch 8 — `multivariate/matrix-valued` (13)
+
+New helper: `include/distributions/detail/matrix.hpp` (2×2 Bartlett; scalar summaries: trace / element)
+
+| vault id | algorithm | scipy sanity |
+|----------|-----------|--------------|
+| `wishart` | Bartlett trace | yes |
+| `matrix-normal` | element (0,0) | yes |
+| `inverse-wishart`, `matrix-t`, `matrix-gamma`, `inverse-matrix-gamma-distribution`, `matrix-beta`, `matrix-f`, `lkj`, `normal-wishart`, `normal-inverse`, `complex`, `uniform-distribution-on-a-stiefel-manifold` | matrix / approximate | skip |
+
 ## Next batch
 
-**`discrete/finite-support`** (largest remaining category) — check registry for exact count.
+**`multivariate/continuous`** (8 heuristic): `dirichlet`, `multivariate-normal`, …
 
 ## Agent instructions
 

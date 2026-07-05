@@ -91,6 +91,17 @@ SKIP_VAULT_IDS: frozenset[str] = frozenset(
         "q-exponential",
         "q-gaussian",
         "q-weibull",
+        "inverse-wishart",
+        "matrix-gamma",
+        "inverse-matrix-gamma-distribution",
+        "matrix-beta",
+        "matrix-f",
+        "lkj",
+        "normal-wishart",
+        "normal-inverse",
+        "complex",
+        "uniform-distribution-on-a-stiefel-manifold",
+        "matrix-t",
     }
 )
 
@@ -131,8 +142,47 @@ def _sample_categorical(kwargs: dict[str, Any], n: int, rng: np.random.Generator
     return rng.choice(len(probs), size=n, p=probs).astype(np.int32)
 
 
+def _scale_matrix(kwargs: dict[str, Any]) -> list[list[float]]:
+    return [
+        [float(kwargs["v00"]), float(kwargs["v01"])],
+        [float(kwargs["v01"]), float(kwargs["v11"])],
+    ]
+
+
+def _sample_wishart_trace(kwargs: dict[str, Any], n: int, rng: np.random.Generator) -> np.ndarray:
+    from scipy import stats
+
+    rv = stats.wishart(df=float(kwargs["df"]), scale=_scale_matrix(kwargs))
+    mats = rv.rvs(size=n, random_state=rng)
+    return np.asarray([float(m.trace()) for m in mats], dtype=np.float64)
+
+
+def _sample_matrix_normal_elem(kwargs: dict[str, Any], n: int, rng: np.random.Generator) -> np.ndarray:
+    from scipy import stats
+
+    row_var = float(kwargs["row_var"])
+    col_var = float(kwargs["col_var"])
+    rv = stats.matrix_normal(mean=[[0.0]], rowcov=[[row_var]], colcov=[[col_var]])
+    mats = rv.rvs(size=n, random_state=rng)
+    return np.asarray(mats[:, 0, 0], dtype=np.float64)
+
+
+def _sample_matrix_t_elem(kwargs: dict[str, Any], n: int, rng: np.random.Generator) -> np.ndarray:
+    from scipy import stats
+
+    row_var = float(kwargs["row_var"])
+    col_var = float(kwargs["col_var"])
+    df = float(kwargs["df"])
+    rv = stats.matrix_t(df=df, mean=[[0.0]], row_spread=[[row_var]], col_spread=[[col_var]])
+    mats = rv.rvs(size=n, random_state=rng)
+    return np.asarray(mats[:, 0, 0], dtype=np.float64)
+
+
 CUSTOM_SCIPY_SAMPLERS: dict[str, Callable[[dict[str, Any], int, np.random.Generator], np.ndarray]] = {
     "categorical": _sample_categorical,
+    "wishart": _sample_wishart_trace,
+    "matrix-normal": _sample_matrix_normal_elem,
+    "matrix-t": _sample_matrix_t_elem,
 }
 
 

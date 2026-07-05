@@ -496,44 +496,44 @@ def normal_gamma_sample_batch(out: np.ndarray, loc: float, scale: float, seed: i
 def normal_inverse_gamma_distribution_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Inverse gamma into ``out`` (float64). Inverse gamma distribution: A joint distribution over several continuous random variables. Tier: heuristic."""
 
-def lkj_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample LKJ into ``out`` (float64). LKJ distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def lkj_sample_batch(out: np.ndarray, eta: float, seed: int = 42) -> None:
+    """Sample LKJ into ``out`` (float64). LKJ distribution: A distribution over random matrices (covariance-like objects)."""
 
-def matrix_beta_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Matrix beta into ``out`` (float64). Matrix beta distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def matrix_beta_sample_batch(out: np.ndarray, a: float, b: float, seed: int = 42) -> None:
+    """Sample Matrix beta into ``out`` (float64). Matrix beta distribution: A distribution over random matrices (covariance-like objects)."""
 
-def matrix_f_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Matrix _F_ into ``out`` (float64). Matrix _F_ distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def matrix_f_sample_batch(out: np.ndarray, df1: float, df2: float, v00: float, v11: float, seed: int = 42) -> None:
+    """Sample Matrix _F_ into ``out`` (float64). Matrix _F_ distribution: A distribution over random matrices (covariance-like objects)."""
 
-def matrix_normal_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Matrix normal into ``out`` (float64). Matrix normal distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def matrix_normal_sample_batch(out: np.ndarray, row_var: float, col_var: float, seed: int = 42) -> None:
+    """Sample Matrix normal into ``out`` (float64). Matrix normal distribution: A distribution over random matrices (covariance-like objects)."""
 
-def matrix_t_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Matrix _t_ into ``out`` (float64). Matrix _t_ distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def matrix_t_sample_batch(out: np.ndarray, df: float, row_var: float, col_var: float, seed: int = 42) -> None:
+    """Sample Matrix _t_ into ``out`` (float64). Matrix _t_ distribution: A distribution over random matrices (covariance-like objects)."""
 
-def matrix_gamma_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Matrix gamma into ``out`` (float64). Matrix gamma distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def matrix_gamma_sample_batch(out: np.ndarray, shape: float, v00: float, v11: float, seed: int = 42) -> None:
+    """Sample Matrix gamma into ``out`` (float64). Matrix gamma distribution: A distribution over random matrices (covariance-like objects)."""
 
-def inverse_matrix_gamma_distribution_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Inverse gamma into ``out`` (float64). Inverse gamma distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def inverse_matrix_gamma_distribution_sample_batch(out: np.ndarray, shape: float, v00: float, v11: float, seed: int = 42) -> None:
+    """Sample Inverse gamma into ``out`` (float64). Inverse gamma distribution: A distribution over random matrices (covariance-like objects)."""
 
-def wishart_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Wishart into ``out`` (float64). Wishart distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def wishart_sample_batch(out: np.ndarray, df: float, v00: float, v01: float, v11: float, seed: int = 42) -> None:
+    """Sample Wishart into ``out`` (float64). Wishart distribution: A distribution over random matrices (covariance-like objects)."""
 
-def normal_wishart_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Normal-Wishart into ``out`` (float64). Normal-Wishart distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def normal_wishart_sample_batch(out: np.ndarray, df: float, kappa: float, v00: float, v11: float, seed: int = 42) -> None:
+    """Sample Normal-Wishart into ``out`` (float64). Normal-Wishart distribution: A distribution over random matrices (covariance-like objects)."""
 
-def inverse_wishart_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Inverse-Wishart into ``out`` (float64). Inverse-Wishart distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def inverse_wishart_sample_batch(out: np.ndarray, df: float, v00: float, v01: float, v11: float, seed: int = 42) -> None:
+    """Sample Inverse-Wishart into ``out`` (float64). Inverse-Wishart distribution: A distribution over random matrices (covariance-like objects)."""
 
-def normal_inverse_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Normal-inverse into ``out`` (float64). Normal-inverse distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def normal_inverse_sample_batch(out: np.ndarray, df: float, kappa: float, v00: float, v11: float, seed: int = 42) -> None:
+    """Sample Normal-inverse into ``out`` (float64). Normal-inverse distribution: A distribution over random matrices (covariance-like objects)."""
 
-def complex_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Complex into ``out`` (float64). Complex distribution: A distribution over random matrices (covariance-like objects). Tier: heuristic."""
+def complex_sample_batch(out: np.ndarray, df: float, v00: float, v11: float, seed: int = 42) -> None:
+    """Sample Complex into ``out`` (float64). Complex distribution: A distribution over random matrices (covariance-like objects)."""
 
-def uniform_distribution_on_a_stiefel_manifold_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Uniform distribution on a Stiefel manifold into ``out`` (float64). Uniform distribution on a Stiefel manifold distribution: A distribution over random matrices (cov... Tier: heuristic."""
+def uniform_distribution_on_a_stiefel_manifold_sample_batch(out: np.ndarray, seed: int = 42) -> None:
+    """Sample Uniform distribution on a Stiefel manifold into ``out`` (float64). Uniform distribution on a Stiefel manifold distribution: A distribution over random matrices (cov..."""
 
 def circular_uniform_sample_batch(out: np.ndarray, mu: float, kappa: float, seed: int = 42) -> None:
     """Sample Circular uniform into ``out`` (float64). Circular uniform distribution: A distribution for angles or directions on the circle."""

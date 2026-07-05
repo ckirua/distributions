@@ -1210,79 +1210,79 @@ inline void sample_cpp(
         return;
     }
     if (dist == "lkj") {
-        const distributions::Lkj d(0.0, 1.0);
+        const distributions::Lkj d(2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "matrix-beta") {
-        const distributions::MatrixBeta d(0.0, 1.0);
+        const distributions::MatrixBeta d(2.0, 3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "matrix-f") {
-        const distributions::MatrixF d(0.0, 1.0);
+        const distributions::MatrixF d(5.0, 8.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "matrix-normal") {
-        const distributions::MatrixNormal d(0.0, 1.0);
+        const distributions::MatrixNormal d(1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "matrix-t") {
-        const distributions::MatrixT d(0.0, 1.0);
+        const distributions::MatrixT d(5.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "matrix-gamma") {
-        const distributions::MatrixGamma d(0.0, 1.0);
+        const distributions::MatrixGamma d(3.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "inverse-matrix-gamma-distribution") {
-        const distributions::InverseMatrixGammaDistribution d(0.0, 1.0);
+        const distributions::InverseMatrixGammaDistribution d(3.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "wishart") {
-        const distributions::Wishart d(0.0, 1.0);
+        const distributions::Wishart d(5.0, 1.0, 0.2, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "normal-wishart") {
-        const distributions::NormalWishart d(0.0, 1.0);
+        const distributions::NormalWishart d(5.0, 1.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "inverse-wishart") {
-        const distributions::InverseWishart d(0.0, 1.0);
+        const distributions::InverseWishart d(6.0, 1.0, 0.2, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "normal-inverse") {
-        const distributions::NormalInverse d(0.0, 1.0);
+        const distributions::NormalInverse d(6.0, 1.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "complex") {
-        const distributions::Complex d(0.0, 1.0);
+        const distributions::Complex d(5.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "uniform-distribution-on-a-stiefel-manifold") {
-        const distributions::UniformDistributionOnAStiefelManifold d(0.0, 1.0);
+        const distributions::UniformDistributionOnAStiefelManifold d;
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;

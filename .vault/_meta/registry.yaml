@@ -6485,7 +6485,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: matrix-beta
   name: Matrix beta
   title: Matrix beta distribution
@@ -6522,7 +6522,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: matrix-f
   name: Matrix _F_
   title: Matrix _F_ distribution
@@ -6559,7 +6559,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: matrix-normal
   name: Matrix normal
   title: Matrix normal distribution
@@ -6603,7 +6603,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: matrix-t
   name: Matrix _t_
   title: Matrix _t_ distribution
@@ -6649,7 +6649,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: matrix-gamma
   name: Matrix gamma
   title: Matrix gamma distribution
@@ -6686,7 +6686,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: inverse-matrix-gamma-distribution
   name: Inverse gamma
   title: Inverse gamma distribution
@@ -6723,7 +6723,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: wishart
   name: Wishart
   title: Wishart distribution
@@ -6766,7 +6766,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: normal-wishart
   name: Normal-Wishart
   title: Normal-Wishart distribution
@@ -6803,7 +6803,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: inverse-wishart
   name: Inverse-Wishart
   title: Inverse-Wishart distribution
@@ -6846,7 +6846,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: normal-inverse
   name: Normal-inverse
   title: Normal-inverse distribution
@@ -6883,7 +6883,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: complex
   name: Complex
   title: Complex distribution
@@ -6920,7 +6920,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: uniform-distribution-on-a-stiefel-manifold
   name: Uniform distribution on a Stiefel manifold
   title: Uniform distribution on a Stiefel manifold distribution
@@ -6962,7 +6962,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: circular-uniform
   name: Circular uniform
   title: Circular uniform distribution

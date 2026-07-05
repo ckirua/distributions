@@ -64,7 +64,7 @@ SCIPY_SPECS: dict[str, tuple[str, dict]] = {
     "wishart": ("wishart", {"df": 5, "scale": [[1, 0.2], [0.2, 1]]}),
     "inverse-wishart": ("invwishart", {"df": 5, "scale": [[1, 0.2], [0.2, 1]]}),
     "matrix-normal": ("matrix_normal", {"mean": [[0, 0]], "rowcov": [[1]], "colcov": [[1]]}),
-    "matrix-t": ("matrix_t", {"df": 5, "loc": [[0, 0]], "shape": [[1, 0.2], [0.2, 1]]}),
+    "matrix-t": ("matrix_t", {"df": 5}),
     "rice": ("rice", {"b": 0.5, "scale": 1.0}),
     "levy": ("levy", {"loc": 0, "scale": 1.0}),
     "gompertz": ("gompertz", {"c": 1, "scale": 1.0}),

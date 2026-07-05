@@ -1209,6 +1209,111 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        cydist_params=[("double", "lam"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
             continue
 
+        # --- matrix-valued (heuristic batch 8) ---
+        if vid == "wishart":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "df", "5.0"), ("double", "v00", "1.0"), ("double", "v01", "0.2"), ("double", "v11", "1.0")],
+                       sample_body="return detail::sample_wishart_trace(rng, df_, v00_, v01_, v11_);",
+                       bench_ctor_args="5.0, 1.0, 0.2, 1.0",
+                       cydist_params=[("double", "df"), ("double", "v00"), ("double", "v01"), ("double", "v11"), ("uint64_t", "seed")]))
+            continue
+        if vid == "inverse-wishart":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "df", "6.0"), ("double", "v00", "1.0"), ("double", "v01", "0.2"), ("double", "v11", "1.0")],
+                       sample_body="return detail::sample_invwishart_trace(rng, df_, v00_, v01_, v11_);",
+                       bench_ctor_args="6.0, 1.0, 0.2, 1.0",
+                       cydist_params=[("double", "df"), ("double", "v00"), ("double", "v01"), ("double", "v11"), ("uint64_t", "seed")]))
+            continue
+        if vid == "matrix-normal":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "row_var", "1.0"), ("double", "col_var", "1.0")],
+                       sample_body="return detail::sample_matrix_normal_elem(rng, row_var_, col_var_);",
+                       bench_ctor_args="1.0, 1.0",
+                       cydist_params=[("double", "row_var"), ("double", "col_var"), ("uint64_t", "seed")]))
+            continue
+        if vid == "matrix-t":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "df", "5.0"), ("double", "row_var", "1.0"), ("double", "col_var", "1.0")],
+                       sample_body="return detail::sample_matrix_t_elem(rng, df_, row_var_, col_var_);",
+                       bench_ctor_args="5.0, 1.0, 1.0",
+                       cydist_params=[("double", "df"), ("double", "row_var"), ("double", "col_var"), ("uint64_t", "seed")]))
+            continue
+        if vid == "matrix-gamma":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "shape", "3.0"), ("double", "v00", "1.0"), ("double", "v11", "1.0")],
+                       sample_body="return detail::sample_matrix_gamma_trace(rng, shape_, v00_, v11_);",
+                       bench_ctor_args="3.0, 1.0, 1.0",
+                       cydist_params=[("double", "shape"), ("double", "v00"), ("double", "v11"), ("uint64_t", "seed")]))
+            continue
+        if vid == "inverse-matrix-gamma-distribution":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "shape", "3.0"), ("double", "v00", "1.0"), ("double", "v11", "1.0")],
+                       sample_body="return detail::sample_inv_matrix_gamma_trace(rng, shape_, v00_, v11_);",
+                       bench_ctor_args="3.0, 1.0, 1.0",
+                       cydist_params=[("double", "shape"), ("double", "v00"), ("double", "v11"), ("uint64_t", "seed")]))
+            continue
+        if vid == "matrix-beta":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "a", "2.0"), ("double", "b", "3.0")],
+                       sample_body="return detail::sample_matrix_beta_trace(rng, a_, b_);",
+                       bench_ctor_args="2.0, 3.0",
+                       cydist_params=[("double", "a"), ("double", "b"), ("uint64_t", "seed")]))
+            continue
+        if vid == "matrix-f":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "df1", "5.0"), ("double", "df2", "8.0"), ("double", "v00", "1.0"), ("double", "v11", "1.0")],
+                       sample_body="return detail::sample_matrix_f_trace(rng, df1_, df2_, v00_, v11_);",
+                       bench_ctor_args="5.0, 8.0, 1.0, 1.0",
+                       cydist_params=[("double", "df1"), ("double", "df2"), ("double", "v00"), ("double", "v11"), ("uint64_t", "seed")]))
+            continue
+        if vid == "lkj":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "eta", "2.0")],
+                       sample_body="return detail::sample_lkj_rho(rng, eta_);",
+                       bench_ctor_args="2.0",
+                       cydist_params=[("double", "eta"), ("uint64_t", "seed")]))
+            continue
+        if vid == "normal-wishart":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "df", "5.0"), ("double", "kappa", "1.0"), ("double", "v00", "1.0"), ("double", "v11", "1.0")],
+                       sample_body="return detail::sample_normal_wishart_mean(rng, df_, kappa_, v00_, v11_);",
+                       bench_ctor_args="5.0, 1.0, 1.0, 1.0",
+                       cydist_params=[("double", "df"), ("double", "kappa"), ("double", "v00"), ("double", "v11"), ("uint64_t", "seed")]))
+            continue
+        if vid == "normal-inverse":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "df", "6.0"), ("double", "kappa", "1.0"), ("double", "v00", "1.0"), ("double", "v11", "1.0")],
+                       sample_body="return detail::sample_normal_inverse_mean(rng, df_, kappa_, v00_, v11_);",
+                       bench_ctor_args="6.0, 1.0, 1.0, 1.0",
+                       cydist_params=[("double", "df"), ("double", "kappa"), ("double", "v00"), ("double", "v11"), ("uint64_t", "seed")]))
+            continue
+        if vid == "complex":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       members=[("double", "df", "5.0"), ("double", "v00", "1.0"), ("double", "v11", "1.0")],
+                       sample_body="return detail::sample_complex_wishart_trace(rng, df_, v00_, v11_);",
+                       bench_ctor_args="5.0, 1.0, 1.0",
+                       cydist_params=[("double", "df"), ("double", "v00"), ("double", "v11"), ("uint64_t", "seed")]))
+            continue
+        if vid == "uniform-distribution-on-a-stiefel-manifold":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/matrix.hpp"],
+                       sample_body="return detail::sample_stiefel_element(rng);",
+                       bench_ctor_args="",
+                       cydist_params=[("uint64_t", "seed")]))
+            continue
+
         # --- directional ---
         if vid == "univariate-von-mises" or vid == "circular-uniform":
             kappa = "0.0" if vid == "circular-uniform" else "2.0"

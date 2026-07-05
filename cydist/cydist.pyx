@@ -174,19 +174,19 @@ cdef extern from "cydist_shim.h":
     void cydist_multivariate_t_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_normal_gamma_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_normal_inverse_gamma_distribution_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_lkj_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_matrix_beta_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_matrix_f_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_matrix_normal_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_matrix_t_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_matrix_gamma_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_inverse_matrix_gamma_distribution_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_wishart_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_normal_wishart_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_inverse_wishart_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_normal_inverse_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_complex_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_uniform_distribution_on_a_stiefel_manifold_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_lkj_sample_batch(double eta, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_matrix_beta_sample_batch(double a, double b, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_matrix_f_sample_batch(double df1, double df2, double v00, double v11, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_matrix_normal_sample_batch(double row_var, double col_var, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_matrix_t_sample_batch(double df, double row_var, double col_var, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_matrix_gamma_sample_batch(double shape, double v00, double v11, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_inverse_matrix_gamma_distribution_sample_batch(double shape, double v00, double v11, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_wishart_sample_batch(double df, double v00, double v01, double v11, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_normal_wishart_sample_batch(double df, double kappa, double v00, double v11, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_inverse_wishart_sample_batch(double df, double v00, double v01, double v11, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_normal_inverse_sample_batch(double df, double kappa, double v00, double v11, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_complex_sample_batch(double df, double v00, double v11, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_uniform_distribution_on_a_stiefel_manifold_sample_batch(uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_circular_uniform_sample_batch(double mu, double kappa, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_univariate_von_mises_sample_batch(double mu, double kappa, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_wrapped_normal_sample_batch(double mu, double sigma, uint64_t seed, double* out, size_t n_samples) nogil
@@ -1212,83 +1212,83 @@ def normal_inverse_gamma_distribution_sample_batch(cnp.float64_t[:] out, double 
 
 # --- multivariate / matrix-valued ---
 
-def lkj_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def lkj_sample_batch(cnp.float64_t[:] out, double eta, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_lkj_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_lkj_sample_batch(eta, seed, ptr, n_samples)
 
-def matrix_beta_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def matrix_beta_sample_batch(cnp.float64_t[:] out, double a, double b, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_matrix_beta_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_matrix_beta_sample_batch(a, b, seed, ptr, n_samples)
 
-def matrix_f_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def matrix_f_sample_batch(cnp.float64_t[:] out, double df1, double df2, double v00, double v11, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_matrix_f_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_matrix_f_sample_batch(df1, df2, v00, v11, seed, ptr, n_samples)
 
-def matrix_normal_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def matrix_normal_sample_batch(cnp.float64_t[:] out, double row_var, double col_var, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_matrix_normal_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_matrix_normal_sample_batch(row_var, col_var, seed, ptr, n_samples)
 
-def matrix_t_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def matrix_t_sample_batch(cnp.float64_t[:] out, double df, double row_var, double col_var, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_matrix_t_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_matrix_t_sample_batch(df, row_var, col_var, seed, ptr, n_samples)
 
-def matrix_gamma_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def matrix_gamma_sample_batch(cnp.float64_t[:] out, double shape, double v00, double v11, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_matrix_gamma_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_matrix_gamma_sample_batch(shape, v00, v11, seed, ptr, n_samples)
 
-def inverse_matrix_gamma_distribution_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def inverse_matrix_gamma_distribution_sample_batch(cnp.float64_t[:] out, double shape, double v00, double v11, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_inverse_matrix_gamma_distribution_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_inverse_matrix_gamma_distribution_sample_batch(shape, v00, v11, seed, ptr, n_samples)
 
-def wishart_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def wishart_sample_batch(cnp.float64_t[:] out, double df, double v00, double v01, double v11, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_wishart_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_wishart_sample_batch(df, v00, v01, v11, seed, ptr, n_samples)
 
-def normal_wishart_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def normal_wishart_sample_batch(cnp.float64_t[:] out, double df, double kappa, double v00, double v11, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_normal_wishart_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_normal_wishart_sample_batch(df, kappa, v00, v11, seed, ptr, n_samples)
 
-def inverse_wishart_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def inverse_wishart_sample_batch(cnp.float64_t[:] out, double df, double v00, double v01, double v11, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_inverse_wishart_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_inverse_wishart_sample_batch(df, v00, v01, v11, seed, ptr, n_samples)
 
-def normal_inverse_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def normal_inverse_sample_batch(cnp.float64_t[:] out, double df, double kappa, double v00, double v11, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_normal_inverse_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_normal_inverse_sample_batch(df, kappa, v00, v11, seed, ptr, n_samples)
 
-def complex_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def complex_sample_batch(cnp.float64_t[:] out, double df, double v00, double v11, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_complex_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_complex_sample_batch(df, v00, v11, seed, ptr, n_samples)
 
-def uniform_distribution_on_a_stiefel_manifold_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def uniform_distribution_on_a_stiefel_manifold_sample_batch(cnp.float64_t[:] out, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_uniform_distribution_on_a_stiefel_manifold_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_uniform_distribution_on_a_stiefel_manifold_sample_batch(seed, ptr, n_samples)
 
 
 # --- directional / univariate-circular ---
