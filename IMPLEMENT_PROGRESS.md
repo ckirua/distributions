@@ -10,12 +10,12 @@ Goal: implement all **121** heuristic placeholders as real `family` samplers; al
 |--------|------:|
 | Total distributions | 189 |
 | `hand-written` | 13 |
-| `family` | **129** |
-| `heuristic` remaining | **46** |
+| `family` | **142** |
+| `heuristic` remaining | **33** |
 | `exact` | 1 |
-| Sanity tests passing | 62 (+ 12 xfail, 2 xpass) |
+| Sanity tests passing | 65 (+ 12 xfail, 2 xpass) |
 
-Last push: batch 6 (whole real line, 19 samplers).
+Last push: batch 7 (variable support, 13 samplers).
 
 ## Completed batches
 
@@ -76,9 +76,20 @@ New helper: `include/distributions/detail/real_line.hpp`
 | `variance-gamma` | NIG composition | yes |
 | `fishers-z`, `gaussian-q`, `generalized-hyperbolic`, `geometric-stable`, `hyperbolic-secant`, `kaniadakis-gaussian`, `slash`, `tracywidom`, `voigt` | specialized / approximate | skip |
 
+### Batch 7 — `continuous/variable-support` (13)
+
+New helper: `include/distributions/detail/variable_support.hpp`
+
+| vault id | algorithm | scipy sanity |
+|----------|-----------|--------------|
+| `generalized-extreme-value` | GEV (ppf) | yes |
+| `generalized-pareto` | GPD (boxcox ppf) | yes |
+| `tukey-lambda` | Tukey λ (boxcox ppf) | yes |
+| `generalized-chi-squared`, `marchenkopastur`, `kaniadakis-*`, `q-exponential`, `q-gaussian`, `q-weibull` | specialized / κ- or q-deformed | skip |
+
 ## Next batch
 
-**`continuous/variable-support`** (19 heuristic): `kaniadakis-exponential`, `kaniadakis-gamma`, …
+**`discrete/finite-support`** (largest remaining category) — check registry for exact count.
 
 ## Agent instructions
 

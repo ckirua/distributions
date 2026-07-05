@@ -1,19 +1,19 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/variable_support.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct KaniadakisLogistic {
+    double kappa_;
     double loc_;
     double scale_;
-    KaniadakisLogistic(double loc, double scale) : loc_(loc), scale_(scale) {}
+    KaniadakisLogistic(double kappa, double loc, double scale) : kappa_(kappa), loc_(loc), scale_(scale) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_kaniadakis_logistic(rng, kappa_, loc_, scale_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

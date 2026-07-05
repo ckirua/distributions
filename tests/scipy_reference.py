@@ -81,6 +81,16 @@ SKIP_VAULT_IDS: frozenset[str] = frozenset(
         "slash",
         "tracywidom",
         "voigt",
+        "generalized-chi-squared",
+        "marchenkopastur",
+        "kaniadakis-exponential",
+        "kaniadakis-gamma",
+        "kaniadakis-weibull",
+        "kaniadakis-logistic",
+        "kaniadakis-erlang",
+        "q-exponential",
+        "q-gaussian",
+        "q-weibull",
     }
 )
 

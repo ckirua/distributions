@@ -143,20 +143,20 @@ cdef extern from "cydist_shim.h":
     void cydist_tracywidom_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_variance_gamma_sample_batch(double a, double b, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_voigt_sample_batch(double sigma, double gamma_width, double loc, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_generalized_chi_squared_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_generalized_extreme_value_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_generalized_pareto_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_marchenkopastur_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_kaniadakis_exponential_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_kaniadakis_gamma_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_kaniadakis_weibull_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_kaniadakis_logistic_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_kaniadakis_erlang_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_q_exponential_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_q_gaussian_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_q_weibull_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_generalized_chi_squared_sample_batch(double df1, double w1, double df2, double w2, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_generalized_extreme_value_sample_batch(double c, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_generalized_pareto_sample_batch(double c, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_marchenkopastur_sample_batch(double gamma_ratio, double sigma, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_kaniadakis_exponential_sample_batch(double kappa, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_kaniadakis_gamma_sample_batch(double kappa, double shape, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_kaniadakis_weibull_sample_batch(double kappa, double shape, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_kaniadakis_logistic_sample_batch(double kappa, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_kaniadakis_erlang_sample_batch(double kappa, double shape, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_q_exponential_sample_batch(double q, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_q_gaussian_sample_batch(double q, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_q_weibull_sample_batch(double q, double shape, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_shifted_log_logistic_sample_batch(double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_tukey_lambda_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_tukey_lambda_sample_batch(double lam, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_rectified_gaussian_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_ewens_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_multinomial_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil

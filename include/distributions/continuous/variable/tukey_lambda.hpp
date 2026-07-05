@@ -1,19 +1,19 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/variable_support.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct TukeyLambda {
+    double lam_;
     double loc_;
     double scale_;
-    TukeyLambda(double loc, double scale) : loc_(loc), scale_(scale) {}
+    TukeyLambda(double lam, double loc, double scale) : lam_(lam), loc_(loc), scale_(scale) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_tukey_lambda(rng, lam_, loc_, scale_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

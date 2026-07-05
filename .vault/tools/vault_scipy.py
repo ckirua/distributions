@@ -96,6 +96,9 @@ SCIPY_SPECS: dict[str, tuple[str, dict]] = {
     "stable": ("levy_stable", {"alpha": 1.5, "beta": 0, "loc": 0, "scale": 1.0}),
     "holtsmark": ("levy_stable", {"alpha": 1.5, "beta": 0, "loc": 0, "scale": 1.0}),
     "variance-gamma": ("norminvgauss", {"a": 1.0, "b": 0.0, "loc": 0, "scale": 1.0}),
+    "generalized-extreme-value": ("genextreme", {"c": 0.1, "loc": 0, "scale": 1.0}),
+    "generalized-pareto": ("genpareto", {"c": 0.1, "loc": 0, "scale": 1.0}),
+    "tukey-lambda": ("tukeylambda", {"lam": 0.14}),
 }
 
 CONTENT_ALIASES: dict[str, str] = {

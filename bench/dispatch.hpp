@@ -1048,73 +1048,73 @@ inline void sample_cpp(
         return;
     }
     if (dist == "generalized-chi-squared") {
-        const distributions::GeneralizedChiSquared d(0.0, 1.0);
+        const distributions::GeneralizedChiSquared d(3.0, 1.0, 2.0, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-extreme-value") {
-        const distributions::GeneralizedExtremeValue d(0.0, 1.0);
+        const distributions::GeneralizedExtremeValue d(0.1, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-pareto") {
-        const distributions::GeneralizedPareto d(0.0, 1.0);
+        const distributions::GeneralizedPareto d(0.1, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "marchenkopastur") {
-        const distributions::Marchenkopastur d(0.0, 1.0);
+        const distributions::Marchenkopastur d(1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-exponential") {
-        const distributions::KaniadakisExponential d(0.0, 1.0);
+        const distributions::KaniadakisExponential d(0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-gamma") {
-        const distributions::KaniadakisGamma d(0.0, 1.0);
+        const distributions::KaniadakisGamma d(0.5, 2.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-weibull") {
-        const distributions::KaniadakisWeibull d(0.0, 1.0);
+        const distributions::KaniadakisWeibull d(0.5, 1.5, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-logistic") {
-        const distributions::KaniadakisLogistic d(0.0, 1.0);
+        const distributions::KaniadakisLogistic d(0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-erlang") {
-        const distributions::KaniadakisErlang d(0.0, 1.0);
+        const distributions::KaniadakisErlang d(0.5, 3.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "q-exponential") {
-        const distributions::QExponential d(0.0, 1.0);
+        const distributions::QExponential d(0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "q-gaussian") {
-        const distributions::QGaussian d(0.0, 1.0);
+        const distributions::QGaussian d(1.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "q-weibull") {
-        const distributions::QWeibull d(0.0, 1.0);
+        const distributions::QWeibull d(0.5, 1.5, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1126,7 +1126,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "tukey-lambda") {
-        const distributions::TukeyLambda d(0.0, 1.0);
+        const distributions::TukeyLambda d(0.14, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;

@@ -1103,6 +1103,112 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        cydist_params=[("double", "sigma"), ("double", "gamma_width"), ("double", "loc"), ("uint64_t", "seed")]))
             continue
 
+        # --- variable support (heuristic batch 7) ---
+        if vid == "generalized-chi-squared":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "df1", "3.0"), ("double", "w1", "1.0"), ("double", "df2", "2.0"), ("double", "w2", "0.5")],
+                       sample_body="return detail::sample_generalized_chi_squared(rng, df1_, w1_, df2_, w2_);",
+                       bench_ctor_args="3.0, 1.0, 2.0, 0.5",
+                       cydist_params=[("double", "df1"), ("double", "w1"), ("double", "df2"), ("double", "w2"), ("uint64_t", "seed")]))
+            continue
+        if vid == "generalized-extreme-value":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "c", "0.1"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_genextreme(rng, c_, loc_, scale_);",
+                       bench_ctor_args="0.1, 0.0, 1.0",
+                       cydist_params=[("double", "c"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "generalized-pareto":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "c", "0.1"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_genpareto(rng, c_, loc_, scale_);",
+                       bench_ctor_args="0.1, 0.0, 1.0",
+                       cydist_params=[("double", "c"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "marchenkopastur":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "gamma_ratio", "1.0"), ("double", "sigma", "1.0")],
+                       sample_body="return detail::sample_marchenko_pastur(rng, gamma_ratio_, sigma_);",
+                       bench_ctor_args="1.0, 1.0",
+                       cydist_params=[("double", "gamma_ratio"), ("double", "sigma"), ("uint64_t", "seed")]))
+            continue
+        if vid == "kaniadakis-exponential":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "kappa", "0.5"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_kaniadakis_exponential(rng, kappa_, loc_, scale_);",
+                       bench_ctor_args="0.5, 0.0, 1.0",
+                       cydist_params=[("double", "kappa"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "kaniadakis-gamma":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "kappa", "0.5"), ("double", "shape", "2.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_kaniadakis_gamma(rng, kappa_, shape_, scale_);",
+                       bench_ctor_args="0.5, 2.0, 1.0",
+                       cydist_params=[("double", "kappa"), ("double", "shape"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "kaniadakis-weibull":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "kappa", "0.5"), ("double", "shape", "1.5"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_kaniadakis_weibull(rng, kappa_, shape_, scale_);",
+                       bench_ctor_args="0.5, 1.5, 1.0",
+                       cydist_params=[("double", "kappa"), ("double", "shape"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "kaniadakis-logistic":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "kappa", "0.5"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_kaniadakis_logistic(rng, kappa_, loc_, scale_);",
+                       bench_ctor_args="0.5, 0.0, 1.0",
+                       cydist_params=[("double", "kappa"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "kaniadakis-erlang":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "kappa", "0.5"), ("double", "shape", "3.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_kaniadakis_erlang(rng, kappa_, shape_, scale_);",
+                       bench_ctor_args="0.5, 3.0, 1.0",
+                       cydist_params=[("double", "kappa"), ("double", "shape"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "q-exponential":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "q", "0.5"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_q_exponential(rng, q_, loc_, scale_);",
+                       bench_ctor_args="0.5, 0.0, 1.0",
+                       cydist_params=[("double", "q"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "q-gaussian":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "q", "1.5"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_q_gaussian(rng, q_, loc_, scale_);",
+                       bench_ctor_args="1.5, 0.0, 1.0",
+                       cydist_params=[("double", "q"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "q-weibull":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "q", "0.5"), ("double", "shape", "1.5"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_q_weibull(rng, q_, shape_, scale_);",
+                       bench_ctor_args="0.5, 1.5, 1.0",
+                       cydist_params=[("double", "q"), ("double", "shape"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "tukey-lambda":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/variable_support.hpp"],
+                       members=[("double", "lam", "0.14"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_tukey_lambda(rng, lam_, loc_, scale_);",
+                       bench_ctor_args="0.14, 0.0, 1.0",
+                       cydist_params=[("double", "lam"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+
         # --- directional ---
         if vid == "univariate-von-mises" or vid == "circular-uniform":
             kappa = "0.0" if vid == "circular-uniform" else "2.0"

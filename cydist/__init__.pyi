@@ -415,47 +415,47 @@ def variance_gamma_sample_batch(out: np.ndarray, a: float, b: float, loc: float,
 def voigt_sample_batch(out: np.ndarray, sigma: float, gamma_width: float, loc: float, seed: int = 42) -> None:
     """Sample Voigt into ``out`` (float64). Voigt distribution: A continuous random variable with support on the entire real line."""
 
-def generalized_chi_squared_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Generalized chi-squared into ``out`` (float64). Generalized chi-squared distribution: A continuous distribution whose support type changes with p... Tier: heuristic."""
+def generalized_chi_squared_sample_batch(out: np.ndarray, df1: float, w1: float, df2: float, w2: float, seed: int = 42) -> None:
+    """Sample Generalized chi-squared into ``out`` (float64). Generalized chi-squared distribution: A continuous distribution whose support type changes with p..."""
 
-def generalized_extreme_value_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Generalized extreme value into ``out`` (float64). Generalized extreme value distribution: A continuous distribution whose support type changes with... Tier: heuristic."""
+def generalized_extreme_value_sample_batch(out: np.ndarray, c: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Generalized extreme value into ``out`` (float64). Generalized extreme value distribution: A continuous distribution whose support type changes with..."""
 
-def generalized_pareto_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Generalized Pareto into ``out`` (float64). Generalized Pareto distribution: A continuous distribution whose support type changes with parame... Tier: heuristic."""
+def generalized_pareto_sample_batch(out: np.ndarray, c: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Generalized Pareto into ``out`` (float64). Generalized Pareto distribution: A continuous distribution whose support type changes with parame..."""
 
-def marchenkopastur_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Marchenko–Pastur into ``out`` (float64). Marchenko–Pastur distribution: A continuous distribution whose support type changes with parameters. Tier: heuristic."""
+def marchenkopastur_sample_batch(out: np.ndarray, gamma_ratio: float, sigma: float, seed: int = 42) -> None:
+    """Sample Marchenko–Pastur into ``out`` (float64). Marchenko–Pastur distribution: A continuous distribution whose support type changes with parameters."""
 
-def kaniadakis_exponential_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Kaniadakis _κ_\-exponential into ``out`` (float64). Kaniadakis _κ_\-exponential distribution: A continuous distribution whose support type changes wi... Tier: heuristic."""
+def kaniadakis_exponential_sample_batch(out: np.ndarray, kappa: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Kaniadakis _κ_\-exponential into ``out`` (float64). Kaniadakis _κ_\-exponential distribution: A continuous distribution whose support type changes wi..."""
 
-def kaniadakis_gamma_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Kaniadakis _κ_\-Gamma into ``out`` (float64). Kaniadakis _κ_\-Gamma distribution: A continuous distribution whose support type changes with par... Tier: heuristic."""
+def kaniadakis_gamma_sample_batch(out: np.ndarray, kappa: float, shape: float, scale: float, seed: int = 42) -> None:
+    """Sample Kaniadakis _κ_\-Gamma into ``out`` (float64). Kaniadakis _κ_\-Gamma distribution: A continuous distribution whose support type changes with par..."""
 
-def kaniadakis_weibull_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Kaniadakis _κ_\-Weibull into ``out`` (float64). Kaniadakis _κ_\-Weibull distribution: A continuous distribution whose support type changes with p... Tier: heuristic."""
+def kaniadakis_weibull_sample_batch(out: np.ndarray, kappa: float, shape: float, scale: float, seed: int = 42) -> None:
+    """Sample Kaniadakis _κ_\-Weibull into ``out`` (float64). Kaniadakis _κ_\-Weibull distribution: A continuous distribution whose support type changes with p..."""
 
-def kaniadakis_logistic_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Kaniadakis _κ_\-Logistic into ``out`` (float64). Kaniadakis _κ_\-Logistic distribution: A continuous distribution whose support type changes with... Tier: heuristic."""
+def kaniadakis_logistic_sample_batch(out: np.ndarray, kappa: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Kaniadakis _κ_\-Logistic into ``out`` (float64). Kaniadakis _κ_\-Logistic distribution: A continuous distribution whose support type changes with..."""
 
-def kaniadakis_erlang_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Kaniadakis _κ_\-Erlang into ``out`` (float64). Kaniadakis _κ_\-Erlang distribution: A continuous distribution whose support type changes with pa... Tier: heuristic."""
+def kaniadakis_erlang_sample_batch(out: np.ndarray, kappa: float, shape: float, scale: float, seed: int = 42) -> None:
+    """Sample Kaniadakis _κ_\-Erlang into ``out`` (float64). Kaniadakis _κ_\-Erlang distribution: A continuous distribution whose support type changes with pa..."""
 
-def q_exponential_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample _q_\-exponential into ``out`` (float64). _q_\-exponential distribution: A continuous distribution whose support type changes with parameters. Tier: heuristic."""
+def q_exponential_sample_batch(out: np.ndarray, q: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample _q_\-exponential into ``out`` (float64). _q_\-exponential distribution: A continuous distribution whose support type changes with parameters."""
 
-def q_gaussian_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample _q_\-Gaussian into ``out`` (float64). _q_\-Gaussian distribution: A continuous distribution whose support type changes with parameters. Tier: heuristic."""
+def q_gaussian_sample_batch(out: np.ndarray, q: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample _q_\-Gaussian into ``out`` (float64). _q_\-Gaussian distribution: A continuous distribution whose support type changes with parameters."""
 
-def q_weibull_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample _q_\-Weibull into ``out`` (float64). _q_\-Weibull distribution: A continuous distribution whose support type changes with parameters. Tier: heuristic."""
+def q_weibull_sample_batch(out: np.ndarray, q: float, shape: float, scale: float, seed: int = 42) -> None:
+    """Sample _q_\-Weibull into ``out`` (float64). _q_\-Weibull distribution: A continuous distribution whose support type changes with parameters."""
 
 def shifted_log_logistic_sample_batch(out: np.ndarray, scale: float, seed: int = 42) -> None:
     """Sample Shifted log-logistic into ``out`` (float64). Shifted log-logistic distribution: A continuous distribution whose support type changes with para..."""
 
-def tukey_lambda_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Tukey lambda into ``out`` (float64). Tukey lambda distribution: A continuous distribution whose support type changes with parameters. Tier: heuristic."""
+def tukey_lambda_sample_batch(out: np.ndarray, lam: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Tukey lambda into ``out`` (float64). Tukey lambda distribution: A continuous distribution whose support type changes with parameters."""
 
 def rectified_gaussian_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Rectified Gaussian into ``out`` (float64). Rectified Gaussian distribution: A distribution mixing continuous and discrete components. Tier: heuristic."""

@@ -5479,7 +5479,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-extreme-value
   name: Generalized extreme value
   title: Generalized extreme value distribution
@@ -5516,7 +5516,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-pareto
   name: Generalized Pareto
   title: Generalized Pareto distribution
@@ -5553,7 +5553,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: marchenkopastur
   name: Marchenko–Pastur
   title: Marchenko–Pastur distribution
@@ -5590,7 +5590,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-exponential
   name: Kaniadakis _κ_\-exponential
   title: Kaniadakis _κ_\-exponential distribution
@@ -5627,7 +5627,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-gamma
   name: Kaniadakis _κ_\-Gamma
   title: Kaniadakis _κ_\-Gamma distribution
@@ -5664,7 +5664,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-weibull
   name: Kaniadakis _κ_\-Weibull
   title: Kaniadakis _κ_\-Weibull distribution
@@ -5701,7 +5701,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-logistic
   name: Kaniadakis _κ_\-Logistic
   title: Kaniadakis _κ_\-Logistic distribution
@@ -5738,7 +5738,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-erlang
   name: Kaniadakis _κ_\-Erlang
   title: Kaniadakis _κ_\-Erlang distribution
@@ -5775,7 +5775,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: q-exponential
   name: _q_\-exponential
   title: _q_\-exponential distribution
@@ -5812,7 +5812,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: q-gaussian
   name: _q_\-Gaussian
   title: _q_\-Gaussian distribution
@@ -5849,7 +5849,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: q-weibull
   name: _q_\-Weibull
   title: _q_\-Weibull distribution
@@ -5886,7 +5886,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: shifted-log-logistic
   name: Shifted log-logistic
   title: Shifted log-logistic distribution
@@ -5960,7 +5960,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: rectified-gaussian
   name: Rectified Gaussian
   title: Rectified Gaussian distribution
