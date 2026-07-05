@@ -1,19 +1,19 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/bounded.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct GeneralizedBeta {
-    double loc_;
-    double scale_;
-    GeneralizedBeta(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double alpha_;
+    double beta_;
+    double lambda_;
+    GeneralizedBeta(double alpha, double beta, double lambda) : alpha_(alpha), beta_(beta), lambda_(lambda) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_generalized_beta(rng, alpha_, beta_, lambda_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

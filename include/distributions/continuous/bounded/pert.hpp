@@ -1,19 +1,19 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/bounded.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Pert {
-    double loc_;
-    double scale_;
-    Pert(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double lo_;
+    double mode_;
+    double hi_;
+    Pert(double lo, double mode, double hi) : lo_(lo), mode_(mode), hi_(hi) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_pert(rng, lo_, mode_, hi_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

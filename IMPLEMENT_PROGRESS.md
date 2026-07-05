@@ -10,49 +10,43 @@ Goal: implement all **121** heuristic placeholders as real `family` samplers; al
 |--------|------:|
 | Total distributions | 189 |
 | `hand-written` | 13 |
-| `family` | **77** |
-| `heuristic` remaining | **98** |
+| `family` | **85** |
+| `heuristic` remaining | **90** |
 | `exact` | 1 |
-| Sanity tests passing | 43 (+ 12 xfail, 2 xpass) |
+| Sanity tests passing | 47 (+ 12 xfail, 2 xpass) |
 
-Last push: batch 3 (discrete infinite, 11 samplers).
+Last push: batch 4 (bounded continuous, 8 samplers).
 
 ## Completed batches
 
 ### Batch 1 — `continuous/semi-infinite-interval` (7)
 
-| vault id | scipy |
-|----------|-------|
-| `rice`, `levy`, `gompertz`, `truncated-normal`, `log-logistic`, `log-laplace`, `generalized-gamma` | yes |
+`rice`, `levy`, `gompertz`, `truncated-normal`, `log-logistic`, `log-laplace`, `generalized-gamma`
 
 ### Batch 2 — `directional/univariate-circular` (5)
 
-| vault id | scipy | notes |
-|----------|-------|-------|
-| `wrapped-cauchy` | `wrapcauchy` | scipy ppf port in `detail/circular.hpp` |
-| `wrapped-normal`, `wrapped-exponential`, `wrapped-levy`, `wrapped-asymmetric-laplace` | — | wrap base sampler |
+`wrapped-cauchy`, `wrapped-normal`, `wrapped-exponential`, `wrapped-levy`, `wrapped-asymmetric-laplace`
 
 ### Batch 3 — `discrete/infinite-support` (11)
 
-| vault id | algorithm |
-|----------|-----------|
-| `floryschulz` | P(1)=p; else 2+NB(2,p) |
-| `gausskuzmin` | inverse CDF (continued-fraction pmf) |
-| `borel` | inverse CDF |
-| `beta-negative-binomial` | Beta × NB compound |
-| `mixed-poisson` | Gamma × Poisson |
-| `delaporte` | Poisson + NB |
-| `conwaymaxwellpoisson` | COM-Poisson (ν=1 → Poisson) |
-| `discrete-phase-type` | sum of two geometric phases |
-| `extended-negative-binomial` | gamma–Poisson NB |
-| `panjer` | Poisson (a,b,0) member |
-| `parabolic-fractal` | inverse CDF n^{-b} exp(-c log² n) |
+`floryschulz`, `gausskuzmin`, `borel`, `beta-negative-binomial`, `mixed-poisson`, `delaporte`, `conwaymaxwellpoisson`, `discrete-phase-type`, `extended-negative-binomial`, `panjer`, `parabolic-fractal`
 
-Sanity vs scipy: `panjer`, `conwaymaxwellpoisson`, `extended-negative-binomial`, `mixed-poisson`.
+### Batch 4 — `continuous/bounded-interval` (8)
+
+| vault id | algorithm | scipy sanity |
+|----------|-----------|--------------|
+| `argus` | Devroye rejection (scipy port) | yes |
+| `balding-nichols` | Beta((1-F)/2F, …) | skip |
+| `generalized-beta` | Beta or Libby–Novick rejection | yes (λ=0) |
+| `beta-rectangular` | Beta(α,β) | yes |
+| `continuous-bernoulli` | grid inverse CDF | skip |
+| `continuous-binomial` | mean of n uniforms | skip |
+| `noncentral-beta` | ncx2 / chi² ratio | skip |
+| `pert` | scaled Beta(a,b) | yes |
 
 ## Next batch
 
-**`continuous/bounded-interval`** (8): `argus`, `beta-rectangular`, `kumaraswamy`, …
+**`continuous/semi-infinite-interval`** (25 remaining): `benini`, `gompertz` done, `frechet`, `generalized-gamma` done, …
 
 ## Agent instructions
 

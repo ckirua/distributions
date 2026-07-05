@@ -424,13 +424,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "argus") {
-        const distributions::Argus d(0.0, 1.0);
+        const distributions::Argus d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "baldingnichols") {
-        const distributions::Baldingnichols d(0.0, 1.0);
+        const distributions::Baldingnichols d(0.1);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -448,25 +448,25 @@ inline void sample_cpp(
         return;
     }
     if (dist == "generalized-beta") {
-        const distributions::GeneralizedBeta d(0.0, 1.0);
+        const distributions::GeneralizedBeta d(2.0, 5.0, 0.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "beta-rectangular") {
-        const distributions::BetaRectangular d(0.0, 1.0);
+        const distributions::BetaRectangular d(2.0, 5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "continuous-bernoulli") {
-        const distributions::ContinuousBernoulli d(0.0, 1.0);
+        const distributions::ContinuousBernoulli d(0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "continuous-binomial") {
-        const distributions::ContinuousBinomial d(0.0, 1.0);
+        const distributions::ContinuousBinomial d(10);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -490,13 +490,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "noncentral-beta") {
-        const distributions::NoncentralBeta d(0.0, 1.0);
+        const distributions::NoncentralBeta d(2.0, 5.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "pert") {
-        const distributions::Pert d(0.0, 1.0);
+        const distributions::Pert d(0.0, 0.5, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;

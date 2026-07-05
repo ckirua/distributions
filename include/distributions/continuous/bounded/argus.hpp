@@ -1,19 +1,17 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/bounded.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Argus {
-    double loc_;
-    double scale_;
-    Argus(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double chi_;
+    Argus(double chi) : chi_(chi) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_argus(rng, chi_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

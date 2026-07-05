@@ -1400,7 +1400,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: baldingnichols
   name: Balding–Nichols
   title: Balding–Nichols distribution
@@ -1437,7 +1437,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: bates
   name: Bates
   title: Bates distribution
@@ -1561,7 +1561,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: beta-rectangular
   name: Beta rectangular
   title: Beta rectangular distribution
@@ -1602,7 +1602,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: continuous-bernoulli
   name: Continuous Bernoulli
   title: Continuous Bernoulli distribution
@@ -1639,7 +1639,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: continuous-binomial
   name: Continuous binomial
   title: Continuous binomial distribution
@@ -1676,7 +1676,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: irwinhall
   name: Irwin–Hall
   title: Irwin–Hall distribution
@@ -1831,7 +1831,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: pert
   name: PERT
   title: PERT distribution
@@ -1867,7 +1867,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: raised-cosine
   name: Raised cosine
   title: Raised cosine distribution

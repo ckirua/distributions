@@ -1,19 +1,17 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/bounded.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct ContinuousBinomial {
-    double loc_;
-    double scale_;
-    ContinuousBinomial(double loc, double scale) : loc_(loc), scale_(scale) {}
+    int n_;
+    ContinuousBinomial(int n) : n_(n) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_continuous_binomial(rng, n_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

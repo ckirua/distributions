@@ -76,6 +76,10 @@ SCIPY_SPECS: dict[str, tuple[str, dict]] = {
     "conwaymaxwellpoisson": ("poisson", {"mu": 4}),
     "extended-negative-binomial": ("nbinom", {"n": 5, "p": 0.4}),
     "mixed-poisson": ("nbinom", {"n": 2, "p": 0.5}),
+    "argus": ("argus", {"chi": 1.0}),
+    "beta-rectangular": ("beta", {"a": 2, "b": 5}),
+    "generalized-beta": ("beta", {"a": 2, "b": 5}),
+    "pert": ("beta", {"a": 3, "b": 3}),
 }
 
 CONTENT_ALIASES: dict[str, str] = {

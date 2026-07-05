@@ -188,6 +188,72 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        cydist_params=[("double", "b"), ("double", "c"), ("uint64_t", "seed")]))
             continue
 
+        # --- continuous / bounded (heuristic batch 4) ---
+        if vid == "argus":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/bounded.hpp"],
+                       members=[("double", "chi", "1.0")],
+                       sample_body="return detail::sample_argus(rng, chi_);",
+                       bench_ctor_args="1.0",
+                       cydist_params=[("double", "chi"), ("uint64_t", "seed")]))
+            continue
+        if vid == "baldingnichols":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/bounded.hpp"],
+                       members=[("double", "f", "0.1")],
+                       sample_body="return detail::sample_balding_nichols(rng, f_);",
+                       bench_ctor_args="0.1",
+                       cydist_params=[("double", "f"), ("uint64_t", "seed")]))
+            continue
+        if vid == "generalized-beta":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/bounded.hpp"],
+                       members=[("double", "alpha", "2.0"), ("double", "beta", "5.0"), ("double", "lambda", "0.0")],
+                       sample_body="return detail::sample_generalized_beta(rng, alpha_, beta_, lambda_);",
+                       bench_ctor_args="2.0, 5.0, 0.0",
+                       cydist_params=[("double", "alpha"), ("double", "beta"), ("double", "lambda"), ("uint64_t", "seed")]))
+            continue
+        if vid == "beta-rectangular":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/gamma.hpp"],
+                       members=[("double", "alpha", "2.0"), ("double", "beta", "5.0")],
+                       sample_body="return detail::sample_beta(rng, alpha_, beta_);",
+                       bench_ctor_args="2.0, 5.0",
+                       cydist_params=[("double", "alpha"), ("double", "beta"), ("uint64_t", "seed")]))
+            continue
+        if vid == "continuous-bernoulli":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/bounded.hpp"],
+                       members=[("double", "lambda", "0.5")],
+                       sample_body="return detail::sample_continuous_bernoulli(rng, lambda_);",
+                       bench_ctor_args="0.5",
+                       cydist_params=[("double", "lambda"), ("uint64_t", "seed")]))
+            continue
+        if vid == "continuous-binomial":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/bounded.hpp"],
+                       members=[("int", "n", "10")],
+                       sample_body="return detail::sample_continuous_binomial(rng, n_);",
+                       bench_ctor_args="10",
+                       cydist_params=[("int", "n"), ("uint64_t", "seed")]))
+            continue
+        if vid == "noncentral-beta":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/bounded.hpp"],
+                       members=[("double", "alpha", "2.0"), ("double", "beta", "5.0"), ("double", "lam", "1.0")],
+                       sample_body="return detail::sample_noncentral_beta(rng, alpha_, beta_, lam_);",
+                       bench_ctor_args="2.0, 5.0, 1.0",
+                       cydist_params=[("double", "alpha"), ("double", "beta"), ("double", "lam"), ("uint64_t", "seed")]))
+            continue
+        if vid == "pert":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/bounded.hpp"],
+                       members=[("double", "lo", "0.0"), ("double", "mode", "0.5"), ("double", "hi", "1.0")],
+                       sample_body="return detail::sample_pert(rng, lo_, mode_, hi_);",
+                       bench_ctor_args="0.0, 0.5, 1.0",
+                       cydist_params=[("double", "lo"), ("double", "mode"), ("double", "hi"), ("uint64_t", "seed")]))
+            continue
+
         # --- continuous / bounded ---
         if vid == "uniform":
             add(Recipe(vid, cls, cat, False,

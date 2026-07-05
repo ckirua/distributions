@@ -103,11 +103,11 @@ def zeta_sample_batch(out: np.ndarray, N: int, s: float, seed: int = 42) -> None
 def arcsine_sample_batch(out: np.ndarray, seed: int = 42) -> None:
     """Sample Arcsine into ``out`` (float64). Arcsine distribution: A continuous random variable confined to a bounded interval."""
 
-def argus_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample ARGUS into ``out`` (float64). ARGUS distribution: A continuous random variable confined to a bounded interval. Tier: heuristic."""
+def argus_sample_batch(out: np.ndarray, chi: float, seed: int = 42) -> None:
+    """Sample ARGUS into ``out`` (float64). ARGUS distribution: A continuous random variable confined to a bounded interval."""
 
-def baldingnichols_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Balding–Nichols into ``out`` (float64). Balding–Nichols distribution: A continuous random variable confined to a bounded interval. Tier: heuristic."""
+def baldingnichols_sample_batch(out: np.ndarray, f: float, seed: int = 42) -> None:
+    """Sample Balding–Nichols into ``out`` (float64). Balding–Nichols distribution: A continuous random variable confined to a bounded interval."""
 
 def bates_sample_batch(out: np.ndarray, n_: int, lo: float, hi: float, seed: int = 42) -> None:
     """Sample Bates into ``out`` (float64). Bates distribution: A continuous random variable confined to a bounded interval."""
@@ -115,17 +115,17 @@ def bates_sample_batch(out: np.ndarray, n_: int, lo: float, hi: float, seed: int
 def beta_sample_batch(out: np.ndarray, alpha: float, beta: float, seed: int = 42) -> None:
     """Sample Beta into ``out`` (float64). Flexible distribution on the unit interval for proportions, probabilities, and rates bounded betw..."""
 
-def generalized_beta_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Generalized beta into ``out`` (float64). Generalized beta distribution: A continuous random variable confined to a bounded interval. Tier: heuristic."""
+def generalized_beta_sample_batch(out: np.ndarray, alpha: float, beta: float, lambda_: float, seed: int = 42) -> None:
+    """Sample Generalized beta into ``out`` (float64). Generalized beta distribution: A continuous random variable confined to a bounded interval."""
 
-def beta_rectangular_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Beta rectangular into ``out`` (float64). Beta rectangular distribution: A continuous random variable confined to a bounded interval. Tier: heuristic."""
+def beta_rectangular_sample_batch(out: np.ndarray, alpha: float, beta: float, seed: int = 42) -> None:
+    """Sample Beta rectangular into ``out`` (float64). Beta rectangular distribution: A continuous random variable confined to a bounded interval."""
 
-def continuous_bernoulli_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Continuous Bernoulli into ``out`` (float64). Continuous Bernoulli distribution: A continuous random variable confined to a bounded interval. Tier: heuristic."""
+def continuous_bernoulli_sample_batch(out: np.ndarray, lambda_: float, seed: int = 42) -> None:
+    """Sample Continuous Bernoulli into ``out`` (float64). Continuous Bernoulli distribution: A continuous random variable confined to a bounded interval."""
 
-def continuous_binomial_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Continuous binomial into ``out`` (float64). Continuous binomial distribution: A continuous random variable confined to a bounded interval. Tier: heuristic."""
+def continuous_binomial_sample_batch(out: np.ndarray, n_: int, seed: int = 42) -> None:
+    """Sample Continuous binomial into ``out`` (float64). Continuous binomial distribution: A continuous random variable confined to a bounded interval."""
 
 def irwinhall_sample_batch(out: np.ndarray, n_: int, lo: float, hi: float, seed: int = 42) -> None:
     """Sample Irwin–Hall into ``out`` (float64). Irwin–Hall distribution: A continuous random variable confined to a bounded interval."""
@@ -136,11 +136,11 @@ def kumaraswamy_sample_batch(out: np.ndarray, a: float, b: float, seed: int = 42
 def logit_normal_sample_batch(out: np.ndarray, mu: float, sigma: float, seed: int = 42) -> None:
     """Sample Logit-normal into ``out`` (float64). Logit-normal distribution: A continuous random variable confined to a bounded interval."""
 
-def noncentral_beta_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Noncentral beta into ``out`` (float64). Noncentral beta distribution: A continuous random variable confined to a bounded interval. Tier: heuristic."""
+def noncentral_beta_sample_batch(out: np.ndarray, alpha: float, beta: float, lam: float, seed: int = 42) -> None:
+    """Sample Noncentral beta into ``out`` (float64). Noncentral beta distribution: A continuous random variable confined to a bounded interval."""
 
-def pert_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample PERT into ``out`` (float64). PERT distribution: A continuous random variable confined to a bounded interval. Tier: heuristic."""
+def pert_sample_batch(out: np.ndarray, lo: float, mode: float, hi: float, seed: int = 42) -> None:
+    """Sample PERT into ``out`` (float64). PERT distribution: A continuous random variable confined to a bounded interval."""
 
 def raised_cosine_sample_batch(out: np.ndarray, lo: float, hi: float, seed: int = 42) -> None:
     """Sample Raised cosine into ``out`` (float64). Raised cosine distribution: A continuous random variable confined to a bounded interval."""

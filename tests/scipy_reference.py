@@ -49,6 +49,10 @@ SKIP_VAULT_IDS: frozenset[str] = frozenset(
         "discrete-phase-type",
         "parabolic-fractal",
         "beta-negative-binomial",
+        "baldingnichols",
+        "continuous-bernoulli",
+        "continuous-binomial",
+        "noncentral-beta",
     }
 )
 
