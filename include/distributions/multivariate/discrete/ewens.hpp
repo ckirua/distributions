@@ -1,19 +1,22 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/multivariate_discrete.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Ewens {
-    double loc_;
-    double scale_;
-    Ewens(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double theta_;
+    int n_;
+    Ewens(double theta, int n) : theta_(theta), n_(n) {
+        detail::assert_finite(theta_);
+        detail::assert_nonnegative_int(n_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_ewens_first(rng, theta_, n_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

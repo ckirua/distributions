@@ -11,3 +11,10 @@ dependencies = ["numpy"]
 
 [project.optional-dependencies]
 dev = ["scipy", "pytest", "PyYAML"]
+examples = ["matplotlib>=3.8", "pandas>=2.0", "polars>=0.20"]
+
+[tool.pytest.ini_options]
+markers = [
+    "sanity: statistical checks vs scipy (slow)",
+]
+addopts = "-m 'not sanity'"

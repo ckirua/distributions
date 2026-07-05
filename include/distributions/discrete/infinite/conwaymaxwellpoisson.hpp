@@ -1,19 +1,22 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/discrete.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Conwaymaxwellpoisson {
-    double loc_;
-    double scale_;
-    Conwaymaxwellpoisson(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double lambda_;
+    double nu_;
+    Conwaymaxwellpoisson(double lambda, double nu) : lambda_(lambda), nu_(nu) {
+        detail::assert_nonnegative(lambda_);
+        detail::assert_strictly_positive(nu_);
+    }
 
     [[nodiscard]] int sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_comp_poisson(rng, lambda_, nu_);
     }
 
     void sample_batch(int* out, std::size_t n, Pcg32& rng) const {

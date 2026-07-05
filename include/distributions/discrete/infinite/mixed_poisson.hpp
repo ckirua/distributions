@@ -1,19 +1,22 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/discrete.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct MixedPoisson {
-    double loc_;
+    double shape_;
     double scale_;
-    MixedPoisson(double loc, double scale) : loc_(loc), scale_(scale) {}
+    MixedPoisson(double shape, double scale) : shape_(shape), scale_(scale) {
+        detail::assert_strictly_positive(shape_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] int sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_mixed_poisson(rng, shape_, scale_);
     }
 
     void sample_batch(int* out, std::size_t n, Pcg32& rng) const {

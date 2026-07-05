@@ -1,19 +1,20 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/discrete.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Borel {
-    double loc_;
-    double scale_;
-    Borel(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double mu_;
+    Borel(double mu) : mu_(mu) {
+        detail::assert_nonnegative(mu_);
+    }
 
     [[nodiscard]] int sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_borel(rng, mu_);
     }
 
     void sample_batch(int* out, std::size_t n, Pcg32& rng) const {

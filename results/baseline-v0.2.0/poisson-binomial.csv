@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+poisson-binomial,cpp,1000,42,9162,9868,340.871,9.162
+poisson-binomial,cpp,100000,42,878990,1.0472e+06,36744.6,8.7899
+poisson-binomial,cpp,10000000,42,8.20558e+07,8.31503e+07,364328,8.20558

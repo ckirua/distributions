@@ -29,8 +29,8 @@ class Recipe:
     includes: list[str] = field(default_factory=list)
     members: list[tuple[str, str, str]] = field(default_factory=list)  # type, name, default
     sample_body: str = ""
+    validate_body: str = ""  # C++ statements emitted in ctor body (debug asserts)
     bench_ctor_args: str = ""
-    ispc: bool = False
     cydist_params: list[tuple[str, str]] = field(default_factory=list)  # c_type, name
     cydist_skip: bool = False
     sampler_tier: str = "family"  # hand-written | family | heuristic | exact

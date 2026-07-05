@@ -10,222 +10,210 @@
 #include <string>
 #include <vector>
 
-#if defined(DISTRIBUTIONS_HAS_ISPC)
-#include "kernels_ispc.h"
-#endif
-
 namespace bench {
-
-enum class Backend { Cpp, Ispc };
 
 struct DistSpec {
     std::string id;
     bool discrete{true};
-    bool ispc_candidate{true};
 };
 
 inline const std::vector<DistSpec>& all_dists() {
     static const std::vector<DistSpec> k = {
-        {"benford", true, false},
-        {"bernoulli", true, true},
-        {"beta-binomial", true, false},
-        {"binomial", true, true},
-        {"categorical", true, false},
-        {"hypergeometric", true, false},
-        {"negative-hypergeometric", true, false},
-        {"poisson-binomial", true, false},
-        {"rademacher", true, false},
-        {"soliton", true, false},
-        {"discrete-uniform", true, true},
-        {"zipf", true, false},
-        {"zipfmandelbrot", true, true},
-        {"beta-negative-binomial", true, false},
-        {"borel", true, false},
-        {"conwaymaxwellpoisson", true, false},
-        {"discrete-phase-type", true, false},
-        {"delaporte", true, false},
-        {"extended-negative-binomial", true, false},
-        {"floryschulz", true, false},
-        {"gausskuzmin", true, false},
-        {"geometric", true, true},
-        {"logarithmic", true, false},
-        {"mixed-poisson", true, false},
-        {"negative-binomial", true, false},
-        {"panjer", true, false},
-        {"parabolic-fractal", true, false},
-        {"poisson", true, false},
-        {"skellam", true, false},
-        {"yulesimon", true, false},
-        {"zeta", true, false},
-        {"arcsine", false, false},
-        {"argus", false, false},
-        {"baldingnichols", false, false},
-        {"bates", false, false},
-        {"beta", false, false},
-        {"generalized-beta", false, false},
-        {"beta-rectangular", false, false},
-        {"continuous-bernoulli", false, false},
-        {"continuous-binomial", false, false},
-        {"irwinhall", false, false},
-        {"kumaraswamy", false, false},
-        {"logit-normal", false, false},
-        {"noncentral-beta", false, false},
-        {"pert", false, false},
-        {"raised-cosine", false, false},
-        {"reciprocal", false, false},
-        {"triangular", false, false},
-        {"u-quadratic", false, false},
-        {"uniform", false, false},
-        {"wigner-semicircle", false, false},
-        {"benini", false, false},
-        {"benktander-1st-kind", false, false},
-        {"benktander-2nd-kind", false, false},
-        {"beta-prime", false, false},
-        {"burr", false, false},
-        {"chi", false, false},
-        {"chi-squared", false, false},
-        {"noncentral-chi-squared", false, false},
-        {"inverse-chi-squared", false, false},
-        {"scaled-inverse-chi-squared", false, false},
-        {"dagum", false, false},
-        {"davis", false, false},
-        {"erlang", false, false},
-        {"hyper", false, false},
-        {"exponential", false, true},
-        {"hyperexponential", false, false},
-        {"hypoexponential", false, false},
-        {"exponential-logarithmic", false, false},
-        {"f", false, false},
-        {"noncentral-f", false, false},
-        {"folded-normal", false, false},
-        {"frechet", false, false},
-        {"gamma", false, false},
-        {"generalized-gamma", false, false},
-        {"inverse-gamma", false, false},
-        {"gamma-gompertz", false, false},
-        {"gompertz", false, false},
-        {"shifted", false, false},
-        {"half-logistic", false, false},
-        {"half-normal", false, false},
-        {"hotellings-t-squared", false, false},
-        {"hartmanwatson", false, false},
-        {"inverse-gaussian", false, false},
-        {"generalized", false, false},
-        {"kolmogorov", false, false},
-        {"levy", false, false},
-        {"log-cauchy", false, false},
-        {"log-laplace", false, false},
-        {"log-logistic", false, false},
-        {"log-normal", false, false},
-        {"log-t", false, false},
-        {"lomax", false, false},
-        {"matrix-exponential", false, false},
-        {"maxwellboltzmann", false, false},
-        {"maxwelljuttner", false, false},
-        {"mittag-leffler", false, false},
-        {"nakagami", false, false},
-        {"pareto", false, false},
-        {"phase-type", false, false},
-        {"poly-weibull", false, false},
-        {"rayleigh", false, false},
-        {"relativistic-breitwigner", false, false},
-        {"rice", false, false},
-        {"truncated-normal", false, false},
-        {"type-2-gumbel", false, false},
-        {"weibull", false, false},
-        {"discrete-weibull", false, false},
-        {"wilkss-lambda", false, false},
-        {"cauchy", false, false},
-        {"exponential-power", false, false},
-        {"fishers-z", false, false},
-        {"kaniadakis-gaussian", false, false},
-        {"gaussian-q", false, false},
-        {"generalized-hyperbolic", false, false},
-        {"generalized-logistic-logistic-beta", false, false},
-        {"generalized-normal", false, false},
-        {"geometric-stable", false, false},
-        {"gumbel", false, false},
-        {"holtsmark", false, false},
-        {"hyperbolic-secant", false, false},
-        {"johnsons-su", false, false},
-        {"landau", false, false},
-        {"laplace", false, false},
-        {"asymmetric", false, false},
-        {"logistic", false, false},
-        {"noncentral-t", false, false},
-        {"normal", false, false},
-        {"normal-inverse-gaussian", false, false},
-        {"skew-normal", false, false},
-        {"slash", false, false},
-        {"stable", false, false},
-        {"student-t", false, false},
-        {"tracywidom", false, false},
-        {"variance-gamma", false, false},
-        {"voigt", false, false},
-        {"generalized-chi-squared", false, false},
-        {"generalized-extreme-value", false, false},
-        {"generalized-pareto", false, false},
-        {"marchenkopastur", false, false},
-        {"kaniadakis-exponential", false, false},
-        {"kaniadakis-gamma", false, false},
-        {"kaniadakis-weibull", false, false},
-        {"kaniadakis-logistic", false, false},
-        {"kaniadakis-erlang", false, false},
-        {"q-exponential", false, false},
-        {"q-gaussian", false, false},
-        {"q-weibull", false, false},
-        {"shifted-log-logistic", false, false},
-        {"tukey-lambda", false, false},
-        {"rectified-gaussian", false, false},
-        {"ewens", false, false},
-        {"multinomial", false, false},
-        {"dirichlet-multinomial", false, false},
-        {"negative-multinomial", false, false},
-        {"dirichlet", false, false},
-        {"generalized-dirichlet", false, false},
-        {"multivariate-laplace", false, false},
-        {"multivariate-normal", false, false},
-        {"multivariate-stable", false, false},
-        {"multivariate-t", false, false},
-        {"normal-gamma", false, false},
-        {"normal-inverse-gamma-distribution", false, false},
-        {"lkj", false, false},
-        {"matrix-beta", false, false},
-        {"matrix-f", false, false},
-        {"matrix-normal", false, false},
-        {"matrix-t", false, false},
-        {"matrix-gamma", false, false},
-        {"inverse-matrix-gamma-distribution", false, false},
-        {"wishart", false, false},
-        {"normal-wishart", false, false},
-        {"inverse-wishart", false, false},
-        {"normal-inverse", false, false},
-        {"complex", false, false},
-        {"uniform-distribution-on-a-stiefel-manifold", false, false},
-        {"circular-uniform", false, false},
-        {"univariate-von-mises", false, false},
-        {"wrapped-normal", false, false},
-        {"wrapped-cauchy", false, false},
-        {"wrapped-exponential", false, false},
-        {"wrapped-asymmetric-laplace", false, false},
-        {"wrapped-levy", false, false},
-        {"kent", false, false},
-        {"bivariate-von-mises", false, false},
-        {"von-misesfisher", false, false},
-        {"bingham", false, false},
-        {"dirac-delta-function", false, false},
-        {"cantor", false, false},
+        {"benford", true},
+        {"bernoulli", true},
+        {"beta-binomial", true},
+        {"binomial", true},
+        {"categorical", true},
+        {"hypergeometric", true},
+        {"negative-hypergeometric", true},
+        {"poisson-binomial", true},
+        {"rademacher", true},
+        {"soliton", true},
+        {"discrete-uniform", true},
+        {"zipf", true},
+        {"zipfmandelbrot", true},
+        {"beta-negative-binomial", true},
+        {"borel", true},
+        {"conwaymaxwellpoisson", true},
+        {"discrete-phase-type", true},
+        {"delaporte", true},
+        {"extended-negative-binomial", true},
+        {"floryschulz", true},
+        {"gausskuzmin", true},
+        {"geometric", true},
+        {"logarithmic", true},
+        {"mixed-poisson", true},
+        {"negative-binomial", true},
+        {"panjer", true},
+        {"parabolic-fractal", true},
+        {"poisson", true},
+        {"skellam", true},
+        {"yulesimon", true},
+        {"zeta", true},
+        {"arcsine", false},
+        {"argus", false},
+        {"baldingnichols", false},
+        {"bates", false},
+        {"beta", false},
+        {"generalized-beta", false},
+        {"beta-rectangular", false},
+        {"continuous-bernoulli", false},
+        {"continuous-binomial", false},
+        {"irwinhall", false},
+        {"kumaraswamy", false},
+        {"logit-normal", false},
+        {"noncentral-beta", false},
+        {"pert", false},
+        {"raised-cosine", false},
+        {"reciprocal", false},
+        {"triangular", false},
+        {"u-quadratic", false},
+        {"uniform", false},
+        {"wigner-semicircle", false},
+        {"benini", false},
+        {"benktander-1st-kind", false},
+        {"benktander-2nd-kind", false},
+        {"beta-prime", false},
+        {"burr", false},
+        {"chi", false},
+        {"chi-squared", false},
+        {"noncentral-chi-squared", false},
+        {"inverse-chi-squared", false},
+        {"scaled-inverse-chi-squared", false},
+        {"dagum", false},
+        {"davis", false},
+        {"erlang", false},
+        {"hyper", false},
+        {"exponential", false},
+        {"hyperexponential", false},
+        {"hypoexponential", false},
+        {"exponential-logarithmic", false},
+        {"f", false},
+        {"noncentral-f", false},
+        {"folded-normal", false},
+        {"frechet", false},
+        {"gamma", false},
+        {"generalized-gamma", false},
+        {"inverse-gamma", false},
+        {"gamma-gompertz", false},
+        {"gompertz", false},
+        {"shifted", false},
+        {"half-logistic", false},
+        {"half-normal", false},
+        {"hotellings-t-squared", false},
+        {"hartmanwatson", false},
+        {"inverse-gaussian", false},
+        {"generalized", false},
+        {"kolmogorov", false},
+        {"levy", false},
+        {"log-cauchy", false},
+        {"log-laplace", false},
+        {"log-logistic", false},
+        {"log-normal", false},
+        {"log-t", false},
+        {"lomax", false},
+        {"matrix-exponential", false},
+        {"maxwellboltzmann", false},
+        {"maxwelljuttner", false},
+        {"mittag-leffler", false},
+        {"nakagami", false},
+        {"pareto", false},
+        {"phase-type", false},
+        {"poly-weibull", false},
+        {"rayleigh", false},
+        {"relativistic-breitwigner", false},
+        {"rice", false},
+        {"truncated-normal", false},
+        {"type-2-gumbel", false},
+        {"weibull", false},
+        {"discrete-weibull", false},
+        {"wilkss-lambda", false},
+        {"cauchy", false},
+        {"exponential-power", false},
+        {"fishers-z", false},
+        {"kaniadakis-gaussian", false},
+        {"gaussian-q", false},
+        {"generalized-hyperbolic", false},
+        {"generalized-logistic-logistic-beta", false},
+        {"generalized-normal", false},
+        {"geometric-stable", false},
+        {"gumbel", false},
+        {"holtsmark", false},
+        {"hyperbolic-secant", false},
+        {"johnsons-su", false},
+        {"landau", false},
+        {"laplace", false},
+        {"asymmetric", false},
+        {"logistic", false},
+        {"noncentral-t", false},
+        {"normal", false},
+        {"normal-inverse-gaussian", false},
+        {"skew-normal", false},
+        {"slash", false},
+        {"stable", false},
+        {"student-t", false},
+        {"tracywidom", false},
+        {"variance-gamma", false},
+        {"voigt", false},
+        {"generalized-chi-squared", false},
+        {"generalized-extreme-value", false},
+        {"generalized-pareto", false},
+        {"marchenkopastur", false},
+        {"kaniadakis-exponential", false},
+        {"kaniadakis-gamma", false},
+        {"kaniadakis-weibull", false},
+        {"kaniadakis-logistic", false},
+        {"kaniadakis-erlang", false},
+        {"q-exponential", false},
+        {"q-gaussian", false},
+        {"q-weibull", false},
+        {"shifted-log-logistic", false},
+        {"tukey-lambda", false},
+        {"rectified-gaussian", false},
+        {"ewens", false},
+        {"multinomial", false},
+        {"dirichlet-multinomial", false},
+        {"negative-multinomial", false},
+        {"dirichlet", false},
+        {"generalized-dirichlet", false},
+        {"multivariate-laplace", false},
+        {"multivariate-normal", false},
+        {"multivariate-stable", false},
+        {"multivariate-t", false},
+        {"normal-gamma", false},
+        {"normal-inverse-gamma-distribution", false},
+        {"lkj", false},
+        {"matrix-beta", false},
+        {"matrix-f", false},
+        {"matrix-normal", false},
+        {"matrix-t", false},
+        {"matrix-gamma", false},
+        {"inverse-matrix-gamma-distribution", false},
+        {"wishart", false},
+        {"normal-wishart", false},
+        {"inverse-wishart", false},
+        {"normal-inverse", false},
+        {"complex", false},
+        {"uniform-distribution-on-a-stiefel-manifold", false},
+        {"circular-uniform", false},
+        {"univariate-von-mises", false},
+        {"wrapped-normal", false},
+        {"wrapped-cauchy", false},
+        {"wrapped-exponential", false},
+        {"wrapped-asymmetric-laplace", false},
+        {"wrapped-levy", false},
+        {"kent", false},
+        {"bivariate-von-mises", false},
+        {"von-misesfisher", false},
+        {"bingham", false},
+        {"dirac-delta-function", false},
+        {"cantor", false},
     };
     return k;
 }
 
-inline const std::vector<DistSpec>& phase1_dists() {
-    return all_dists();
-}
-
 inline void sample_cpp(
     const std::string& dist,
-    Backend backend,
     std::uint64_t seed,
     std::size_t n,
     std::vector<int>& out_i,
@@ -286,7 +274,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "soliton") {
-        const distributions::Soliton d(0.0, 1.0);
+        const distributions::Soliton d(10);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
@@ -310,49 +298,49 @@ inline void sample_cpp(
         return;
     }
     if (dist == "beta-negative-binomial") {
-        const distributions::BetaNegativeBinomial d(0.0, 1.0);
+        const distributions::BetaNegativeBinomial d(2.0, 5.0, 1.0);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "borel") {
-        const distributions::Borel d(0.0, 1.0);
+        const distributions::Borel d(0.5);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "conwaymaxwellpoisson") {
-        const distributions::Conwaymaxwellpoisson d(0.0, 1.0);
+        const distributions::Conwaymaxwellpoisson d(4.0, 1.0);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "discrete-phase-type") {
-        const distributions::DiscretePhaseType d(0.0, 1.0);
+        const distributions::DiscretePhaseType d(0.6, 0.4);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "delaporte") {
-        const distributions::Delaporte d(0.0, 1.0);
+        const distributions::Delaporte d(1.0, 2.0, 0.5);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "extended-negative-binomial") {
-        const distributions::ExtendedNegativeBinomial d(0.0, 1.0);
+        const distributions::ExtendedNegativeBinomial d(5.0, 0.4);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "floryschulz") {
-        const distributions::Floryschulz d(0.0, 1.0);
+        const distributions::Floryschulz d(0.8);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "gausskuzmin") {
-        const distributions::Gausskuzmin d(0.0, 1.0);
+        const distributions::Gausskuzmin d;
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
@@ -370,7 +358,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "mixed-poisson") {
-        const distributions::MixedPoisson d(0.0, 1.0);
+        const distributions::MixedPoisson d(2.0, 1.0);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
@@ -382,13 +370,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "panjer") {
-        const distributions::Panjer d(0.0, 1.0);
+        const distributions::Panjer d(4.0);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "parabolic-fractal") {
-        const distributions::ParabolicFractal d(0.0, 1.0);
+        const distributions::ParabolicFractal d(2.0, 0.1);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
@@ -424,13 +412,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "argus") {
-        const distributions::Argus d(0.0, 1.0);
+        const distributions::Argus d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "baldingnichols") {
-        const distributions::Baldingnichols d(0.0, 1.0);
+        const distributions::Baldingnichols d(0.1);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -448,25 +436,25 @@ inline void sample_cpp(
         return;
     }
     if (dist == "generalized-beta") {
-        const distributions::GeneralizedBeta d(0.0, 1.0);
+        const distributions::GeneralizedBeta d(2.0, 5.0, 0.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "beta-rectangular") {
-        const distributions::BetaRectangular d(0.0, 1.0);
+        const distributions::BetaRectangular d(2.0, 5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "continuous-bernoulli") {
-        const distributions::ContinuousBernoulli d(0.0, 1.0);
+        const distributions::ContinuousBernoulli d(0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "continuous-binomial") {
-        const distributions::ContinuousBinomial d(0.0, 1.0);
+        const distributions::ContinuousBinomial d(10);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -490,13 +478,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "noncentral-beta") {
-        const distributions::NoncentralBeta d(0.0, 1.0);
+        const distributions::NoncentralBeta d(2.0, 5.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "pert") {
-        const distributions::Pert d(0.0, 1.0);
+        const distributions::Pert d(0.0, 0.5, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -538,19 +526,19 @@ inline void sample_cpp(
         return;
     }
     if (dist == "benini") {
-        const distributions::Benini d(0.0, 1.0);
+        const distributions::Benini d(1.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "benktander-1st-kind") {
-        const distributions::Benktander1stKind d(0.0, 1.0);
+        const distributions::Benktander1stKind d(1.0, 1.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "benktander-2nd-kind") {
-        const distributions::Benktander2ndKind d(0.0, 1.0);
+        const distributions::Benktander2ndKind d(1.0, 2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -604,7 +592,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "davis") {
-        const distributions::Davis d(0.0, 1.0);
+        const distributions::Davis d(3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -616,7 +604,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "hyper") {
-        const distributions::Hyper d(0.0, 1.0);
+        const distributions::Hyper d(1.0, 2.0, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -628,13 +616,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "hyperexponential") {
-        const distributions::Hyperexponential d(0.0, 1.0);
+        const distributions::Hyperexponential d(0.5, 1.0, 0.6);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "hypoexponential") {
-        const distributions::Hypoexponential d(0.0, 1.0);
+        const distributions::Hypoexponential d(2.0, 3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -652,7 +640,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "noncentral-f") {
-        const distributions::NoncentralF d(0.0, 1.0);
+        const distributions::NoncentralF d(5.0, 10.0, 2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -664,7 +652,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "frechet") {
-        const distributions::Frechet d(0.0, 1.0);
+        const distributions::Frechet d(2.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -676,7 +664,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "generalized-gamma") {
-        const distributions::GeneralizedGamma d(0.0, 1.0);
+        const distributions::GeneralizedGamma d(2.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -694,13 +682,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "gompertz") {
-        const distributions::Gompertz d(0.0, 1.0);
+        const distributions::Gompertz d(1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "shifted") {
-        const distributions::Shifted d(0.0, 1.0);
+        const distributions::Shifted d(1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -718,13 +706,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "hotellings-t-squared") {
-        const distributions::HotellingsTSquared d(0.0, 1.0);
+        const distributions::HotellingsTSquared d(5.0, 10.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "hartmanwatson") {
-        const distributions::Hartmanwatson d(0.0, 1.0);
+        const distributions::Hartmanwatson d(3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -736,13 +724,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "generalized") {
-        const distributions::Generalized d(0.0, 1.0);
+        const distributions::Generalized d(2.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kolmogorov") {
-        const distributions::Kolmogorov d(0.0, 1.0);
+        const distributions::Kolmogorov d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -760,13 +748,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "log-laplace") {
-        const distributions::LogLaplace d(0.0, 1.0);
+        const distributions::LogLaplace d(1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "log-logistic") {
-        const distributions::LogLogistic d(0.0, 1.0);
+        const distributions::LogLogistic d(2.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -778,7 +766,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "log-t") {
-        const distributions::LogT d(0.0, 1.0);
+        const distributions::LogT d(5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -790,7 +778,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "matrix-exponential") {
-        const distributions::MatrixExponential d(0.0, 1.0);
+        const distributions::MatrixExponential d(1.0, 2.0, 3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -802,13 +790,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "maxwelljuttner") {
-        const distributions::Maxwelljuttner d(0.0, 1.0);
+        const distributions::Maxwelljuttner d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "mittag-leffler") {
-        const distributions::MittagLeffler d(0.0, 1.0);
+        const distributions::MittagLeffler d(0.8, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -826,13 +814,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "phase-type") {
-        const distributions::PhaseType d(0.0, 1.0);
+        const distributions::PhaseType d(1.0, 2.0, 4.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "poly-weibull") {
-        const distributions::PolyWeibull d(0.0, 1.0);
+        const distributions::PolyWeibull d(1.5, 2.5, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -844,25 +832,25 @@ inline void sample_cpp(
         return;
     }
     if (dist == "relativistic-breitwigner") {
-        const distributions::RelativisticBreitwigner d(0.0, 1.0);
+        const distributions::RelativisticBreitwigner d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "rice") {
-        const distributions::Rice d(0.0, 1.0);
+        const distributions::Rice d(0.5, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "truncated-normal") {
-        const distributions::TruncatedNormal d(0.0, 1.0);
+        const distributions::TruncatedNormal d(-1.0, 2.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "type-2-gumbel") {
-        const distributions::Type2Gumbel d(0.0, 1.0);
+        const distributions::Type2Gumbel d(1.5, 2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -874,13 +862,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "discrete-weibull") {
-        const distributions::DiscreteWeibull d(0.0, 1.0);
+        const distributions::DiscreteWeibull d(1.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "wilkss-lambda") {
-        const distributions::WilkssLambda d(0.0, 1.0);
+        const distributions::WilkssLambda d(3.0, 5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -898,43 +886,43 @@ inline void sample_cpp(
         return;
     }
     if (dist == "fishers-z") {
-        const distributions::FishersZ d(0.0, 1.0);
+        const distributions::FishersZ d(10.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-gaussian") {
-        const distributions::KaniadakisGaussian d(0.0, 1.0);
+        const distributions::KaniadakisGaussian d(0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "gaussian-q") {
-        const distributions::GaussianQ d(0.0, 1.0);
+        const distributions::GaussianQ d(1.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-hyperbolic") {
-        const distributions::GeneralizedHyperbolic d(0.0, 1.0);
+        const distributions::GeneralizedHyperbolic d(0.0, 1.5, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-logistic-logistic-beta") {
-        const distributions::GeneralizedLogisticLogisticBeta d(0.0, 1.0);
+        const distributions::GeneralizedLogisticLogisticBeta d(1.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-normal") {
-        const distributions::GeneralizedNormal d(0.0, 1.0);
+        const distributions::GeneralizedNormal d(1.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "geometric-stable") {
-        const distributions::GeometricStable d(0.0, 1.0);
+        const distributions::GeometricStable d(1.5, 0.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -958,7 +946,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "johnsons-su") {
-        const distributions::JohnsonsSu d(0.0, 1.0);
+        const distributions::JohnsonsSu d(0.5, 1.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -976,7 +964,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "asymmetric") {
-        const distributions::Asymmetric d(0.0, 1.0);
+        const distributions::Asymmetric d(2.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -988,7 +976,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "noncentral-t") {
-        const distributions::NoncentralT d(0.0, 1.0);
+        const distributions::NoncentralT d(5.0, 2.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1000,7 +988,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "normal-inverse-gaussian") {
-        const distributions::NormalInverseGaussian d(0.0, 1.0);
+        const distributions::NormalInverseGaussian d(1.5, 0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1018,7 +1006,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "stable") {
-        const distributions::Stable d(0.0, 1.0);
+        const distributions::Stable d(1.5, 0.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1036,97 +1024,97 @@ inline void sample_cpp(
         return;
     }
     if (dist == "variance-gamma") {
-        const distributions::VarianceGamma d(0.0, 1.0);
+        const distributions::VarianceGamma d(1.0, 0.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "voigt") {
-        const distributions::Voigt d(0.0, 1.0);
+        const distributions::Voigt d(1.0, 1.0, 0.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-chi-squared") {
-        const distributions::GeneralizedChiSquared d(0.0, 1.0);
+        const distributions::GeneralizedChiSquared d(3.0, 1.0, 2.0, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-extreme-value") {
-        const distributions::GeneralizedExtremeValue d(0.0, 1.0);
+        const distributions::GeneralizedExtremeValue d(0.1, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-pareto") {
-        const distributions::GeneralizedPareto d(0.0, 1.0);
+        const distributions::GeneralizedPareto d(0.1, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "marchenkopastur") {
-        const distributions::Marchenkopastur d(0.0, 1.0);
+        const distributions::Marchenkopastur d(1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-exponential") {
-        const distributions::KaniadakisExponential d(0.0, 1.0);
+        const distributions::KaniadakisExponential d(0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-gamma") {
-        const distributions::KaniadakisGamma d(0.0, 1.0);
+        const distributions::KaniadakisGamma d(0.5, 2.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-weibull") {
-        const distributions::KaniadakisWeibull d(0.0, 1.0);
+        const distributions::KaniadakisWeibull d(0.5, 1.5, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-logistic") {
-        const distributions::KaniadakisLogistic d(0.0, 1.0);
+        const distributions::KaniadakisLogistic d(0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-erlang") {
-        const distributions::KaniadakisErlang d(0.0, 1.0);
+        const distributions::KaniadakisErlang d(0.5, 3.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "q-exponential") {
-        const distributions::QExponential d(0.0, 1.0);
+        const distributions::QExponential d(0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "q-gaussian") {
-        const distributions::QGaussian d(0.0, 1.0);
+        const distributions::QGaussian d(1.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "q-weibull") {
-        const distributions::QWeibull d(0.0, 1.0);
+        const distributions::QWeibull d(0.5, 1.5, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "shifted-log-logistic") {
-        const distributions::ShiftedLogLogistic d(0.0, 1.0);
+        const distributions::ShiftedLogLogistic d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "tukey-lambda") {
-        const distributions::TukeyLambda d(0.0, 1.0);
+        const distributions::TukeyLambda d(0.14, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1138,151 +1126,151 @@ inline void sample_cpp(
         return;
     }
     if (dist == "ewens") {
-        const distributions::Ewens d(0.0, 1.0);
+        const distributions::Ewens d(2.0, 10);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "multinomial") {
-        const distributions::Multinomial d(0.0, 1.0);
+        const distributions::Multinomial d(10, 0.4);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "dirichlet-multinomial") {
-        const distributions::DirichletMultinomial d(0.0, 1.0);
+        const distributions::DirichletMultinomial d(10, 2.0, 3.0, 5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "negative-multinomial") {
-        const distributions::NegativeMultinomial d(0.0, 1.0);
+        const distributions::NegativeMultinomial d(2.0, 0.4, 0.3, 0.3);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "dirichlet") {
-        const distributions::Dirichlet d(0.0, 1.0);
+        const distributions::Dirichlet d(2.0, 3.0, 5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-dirichlet") {
-        const distributions::GeneralizedDirichlet d(0.0, 1.0);
+        const distributions::GeneralizedDirichlet d(2.0, 3.0, 2.0, 3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "multivariate-laplace") {
-        const distributions::MultivariateLaplace d(0.0, 1.0);
+        const distributions::MultivariateLaplace d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "multivariate-normal") {
-        const distributions::MultivariateNormal d(0.0, 1.0);
+        const distributions::MultivariateNormal d(0.2);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "multivariate-stable") {
-        const distributions::MultivariateStable d(0.0, 1.0);
+        const distributions::MultivariateStable d(1.5, 0.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "multivariate-t") {
-        const distributions::MultivariateT d(0.0, 1.0);
+        const distributions::MultivariateT d(5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "normal-gamma") {
-        const distributions::NormalGamma d(0.0, 1.0);
+        const distributions::NormalGamma d(2.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "normal-inverse-gamma-distribution") {
-        const distributions::NormalInverseGammaDistribution d(0.0, 1.0);
+        const distributions::NormalInverseGammaDistribution d(3.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "lkj") {
-        const distributions::Lkj d(0.0, 1.0);
+        const distributions::Lkj d(2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "matrix-beta") {
-        const distributions::MatrixBeta d(0.0, 1.0);
+        const distributions::MatrixBeta d(2.0, 3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "matrix-f") {
-        const distributions::MatrixF d(0.0, 1.0);
+        const distributions::MatrixF d(5.0, 8.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "matrix-normal") {
-        const distributions::MatrixNormal d(0.0, 1.0);
+        const distributions::MatrixNormal d(1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "matrix-t") {
-        const distributions::MatrixT d(0.0, 1.0);
+        const distributions::MatrixT d(5.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "matrix-gamma") {
-        const distributions::MatrixGamma d(0.0, 1.0);
+        const distributions::MatrixGamma d(3.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "inverse-matrix-gamma-distribution") {
-        const distributions::InverseMatrixGammaDistribution d(0.0, 1.0);
+        const distributions::InverseMatrixGammaDistribution d(3.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "wishart") {
-        const distributions::Wishart d(0.0, 1.0);
+        const distributions::Wishart d(5.0, 1.0, 0.2, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "normal-wishart") {
-        const distributions::NormalWishart d(0.0, 1.0);
+        const distributions::NormalWishart d(5.0, 1.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "inverse-wishart") {
-        const distributions::InverseWishart d(0.0, 1.0);
+        const distributions::InverseWishart d(6.0, 1.0, 0.2, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "normal-inverse") {
-        const distributions::NormalInverse d(0.0, 1.0);
+        const distributions::NormalInverse d(6.0, 1.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "complex") {
-        const distributions::Complex d(0.0, 1.0);
+        const distributions::Complex d(5.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "uniform-distribution-on-a-stiefel-manifold") {
-        const distributions::UniformDistributionOnAStiefelManifold d(0.0, 1.0);
+        const distributions::UniformDistributionOnAStiefelManifold d;
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1300,13 +1288,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "wrapped-normal") {
-        const distributions::WrappedNormal d(0.0, 1.0);
+        const distributions::WrappedNormal d(0.0, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "wrapped-cauchy") {
-        const distributions::WrappedCauchy d(0.0, 1.0);
+        const distributions::WrappedCauchy d(0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1330,25 +1318,25 @@ inline void sample_cpp(
         return;
     }
     if (dist == "kent") {
-        const distributions::Kent d(0.0, 1.0);
+        const distributions::Kent d(2.0, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "bivariate-von-mises") {
-        const distributions::BivariateVonMises d(0.0, 1.0);
+        const distributions::BivariateVonMises d(2.0, 2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "von-misesfisher") {
-        const distributions::VonMisesfisher d(0.0, 1.0);
+        const distributions::VonMisesfisher d(2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "bingham") {
-        const distributions::Bingham d(0.0, 1.0);
+        const distributions::Bingham d(-1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1366,20 +1354,6 @@ inline void sample_cpp(
         return;
     }
     throw std::runtime_error("unknown dist: " + dist);
-}
-
-inline void sample_ispc(
-    const std::string& dist,
-    std::uint64_t seed,
-    std::size_t n,
-    std::vector<int>& out_i,
-    std::vector<double>& out_d) {
-#if !defined(DISTRIBUTIONS_HAS_ISPC)
-    throw std::runtime_error("ISPC not enabled");
-#else
-    // ISPC kernels remain Phase-1 subset; fall back to C++ for others.
-    sample_cpp(dist, Backend::Cpp, seed, n, out_i, out_d);
-#endif
 }
 
 inline void write_samples_binary(

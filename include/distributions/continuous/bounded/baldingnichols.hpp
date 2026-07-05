@@ -1,19 +1,20 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/bounded.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Baldingnichols {
-    double loc_;
-    double scale_;
-    Baldingnichols(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double f_;
+    Baldingnichols(double f) : f_(f) {
+        detail::assert_strictly_positive(f_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_balding_nichols(rng, f_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

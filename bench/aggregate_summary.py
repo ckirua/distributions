@@ -20,35 +20,25 @@ def main() -> None:
             dist_rows = list(reader)
         if not dist_rows:
             continue
-        cpp_rows = [r for r in dist_rows if r["backend"] == "cpp"]
+        cpp_rows = [r for r in dist_rows if r.get("backend") == "cpp"]
         if not cpp_rows:
             continue
-        # Prefer 10M row; fall back to largest n for --quick sweeps.
         pick = next((r for r in cpp_rows if r["n"] == "10000000"), None)
         if pick is None:
             pick = max(cpp_rows, key=lambda r: int(r["n"]))
         rows.append(
             {
                 "dist": pick["dist"],
-                "winner": pick["winner"],
-                "speedup_ratio": pick["speedup_ratio"],
-                "cpp_median_10m": pick["median"],
+                "per_sample": pick.get("per_sample", ""),
+                "median_cycles": pick.get("median_cycles", pick.get("median", "")),
                 "n": pick["n"],
-                "decision_note": pick["decision_note"],
             }
         )
     out = RESULTS / "summary.csv"
     with out.open("w", newline="") as f:
         w = csv.DictWriter(
             f,
-            fieldnames=[
-                "dist",
-                "winner",
-                "speedup_ratio",
-                "cpp_median_10m",
-                "n",
-                "decision_note",
-            ],
+            fieldnames=["dist", "per_sample", "median_cycles", "n"],
         )
         w.writeheader()
         w.writerows(rows)

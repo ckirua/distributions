@@ -1,19 +1,24 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/validate.hpp"
+#include "distributions/detail/variable_support.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct QWeibull {
-    double loc_;
+    double q_;
+    double shape_;
     double scale_;
-    QWeibull(double loc, double scale) : loc_(loc), scale_(scale) {}
+    QWeibull(double q, double shape, double scale) : q_(q), shape_(shape), scale_(scale) {
+        detail::assert_strictly_positive(q_);
+        detail::assert_strictly_positive(shape_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_q_weibull(rng, q_, shape_, scale_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

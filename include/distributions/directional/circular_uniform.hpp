@@ -2,6 +2,7 @@
 
 #include "distributions/detail/normal.hpp"
 #include "distributions/detail/uniform.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <numbers>
 #include <cmath>
@@ -12,7 +13,10 @@ namespace distributions {
 struct CircularUniform {
     double mu_;
     double kappa_;
-    CircularUniform(double mu, double kappa) : mu_(mu), kappa_(kappa) {}
+    CircularUniform(double mu, double kappa) : mu_(mu), kappa_(kappa) {
+        detail::assert_nonnegative(mu_);
+        detail::assert_nonnegative(kappa_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         if (kappa_ <= 1e-12) { return detail::sample_uniform(rng, -std::numbers::pi, std::numbers::pi); }

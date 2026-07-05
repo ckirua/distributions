@@ -13,7 +13,7 @@ int main() {
 
     double sum = 0.0;
     double sum_sq = 0.0;
-    constexpr int n = 200'000;
+    constexpr int n = 2'000;  // below kFastThreshold — Tier A bit-identical check
     std::vector<int> samples;
     samples.reserve(static_cast<std::size_t>(n));
 

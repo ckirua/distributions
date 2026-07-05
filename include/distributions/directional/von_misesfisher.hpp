@@ -1,19 +1,20 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/special.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct VonMisesfisher {
-    double loc_;
-    double scale_;
-    VonMisesfisher(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double kappa_;
+    VonMisesfisher(double kappa) : kappa_(kappa) {
+        detail::assert_nonnegative(kappa_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_von_mises_fisher_x(rng, kappa_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

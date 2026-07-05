@@ -37,8 +37,21 @@ Source: [`cpp/c_api.c`](cpp/c_api.c)
 NumPy buffers filled in-place via `cydist` (C++ backend, releases the GIL inside each call).
 
 ```bash
+.venv/bin/pip install -e ".[examples]"   # matplotlib, pandas, polars
+make install
 .venv/bin/python examples/python/basic.py
+.venv/bin/python examples/python/matplotlib_demo.py   # → poisson_normal_hist.png
+.venv/bin/python examples/python/pandas_demo.py
+.venv/bin/python examples/python/polars_demo.py
+# or: make examples-python
 ```
+
+| Script | Shows |
+|--------|--------|
+| [`python/basic.py`](python/basic.py) | Minimal NumPy in-place sampling |
+| [`python/matplotlib_demo.py`](python/matplotlib_demo.py) | Histograms of Poisson + Normal samples |
+| [`python/pandas_demo.py`](python/pandas_demo.py) | `pandas.DataFrame` from multiple samplers |
+| [`python/polars_demo.py`](python/polars_demo.py) | `polars.DataFrame` from discrete samplers |
 
 ## Cython
 

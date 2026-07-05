@@ -1,19 +1,24 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/circular.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct WrappedCauchy {
+    double c_;
     double loc_;
     double scale_;
-    WrappedCauchy(double loc, double scale) : loc_(loc), scale_(scale) {}
+    WrappedCauchy(double c, double loc, double scale) : c_(c), loc_(loc), scale_(scale) {
+        detail::assert_strictly_positive(c_);
+        detail::assert_finite(loc_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_wrapcauchy(rng, c_, loc_, scale_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

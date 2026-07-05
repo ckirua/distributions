@@ -1,19 +1,24 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/semi_infinite.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Benini {
-    double loc_;
-    double scale_;
-    Benini(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double alpha_;
+    double beta_;
+    double gamma_;
+    Benini(double alpha, double beta, double gamma) : alpha_(alpha), beta_(beta), gamma_(gamma) {
+        detail::assert_strictly_positive(alpha_);
+        detail::assert_strictly_positive(beta_);
+        detail::assert_strictly_positive(gamma_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_benini(rng, alpha_, beta_, gamma_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

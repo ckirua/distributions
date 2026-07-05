@@ -1,19 +1,25 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
+#include "distributions/detail/circular.hpp"
 #include "distributions/detail/uniform.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
+#include <cmath>
 #include <cstddef>
 
 namespace distributions {
 
 struct WrappedExponential {
     double loc_;
-    double scale_;
-    WrappedExponential(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double rate_;
+    WrappedExponential(double loc, double rate) : loc_(loc), rate_(rate) {
+        detail::assert_finite(loc_);
+        detail::assert_strictly_positive(rate_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        const double u = rng.next_double();
+        return detail::wrap_angle(loc_ - std::log1p(-u) / rate_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

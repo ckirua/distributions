@@ -1,19 +1,24 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/bounded.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct NoncentralBeta {
-    double loc_;
-    double scale_;
-    NoncentralBeta(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double alpha_;
+    double beta_;
+    double lam_;
+    NoncentralBeta(double alpha, double beta, double lam) : alpha_(alpha), beta_(beta), lam_(lam) {
+        detail::assert_strictly_positive(alpha_);
+        detail::assert_strictly_positive(beta_);
+        detail::assert_strictly_positive(lam_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_noncentral_beta(rng, alpha_, beta_, lam_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

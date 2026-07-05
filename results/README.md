@@ -1,26 +1,23 @@
 # Benchmark results
 
-Per-distribution CSVs: `results/{dist}.csv`.
+Per-distribution CSVs: `results/{dist}.csv` (gitignored except `summary.csv` and `baseline-v0.2.0/`).
 
 ```bash
 make build
-python bench/sweep.py              # Phase-1 ISPC candidates (7 ids)
-python bench/sweep.py --all --quick --skip-verify  # all 189 (10k + 100k)
-python bench/sweep.py --all                        # all 189 (full batch sizes)
-python bench/sweep.py --dist poisson # single distribution
+make bench-core            # 13 hand-written ids → results/current/
+make bench-all             # all 189 ids (C++ only)
+python bench/sweep.py --dist poisson
 python bench/aggregate_summary.py  # → results/summary.csv
+python bench/compare_baseline.py --geomean
 ```
 
 ## RNG policy
 
-- Engine: **PCG32** (`include/distributions/rng.hpp`)
-- One `Pcg32` per `sample_batch` call, seeded by caller
-- ISPC batch kernels use **splitmix64 per lane** (statistically equivalent, not bit-identical to serial PCG)
+Hand-written core uses Tier A/B dispatch — see [`include/distributions/README.md`](../include/distributions/README.md) and [`DEVELOPMENT.md`](../DEVELOPMENT.md).
 
-## ISPC backend
+- **Tier A:** serial `Pcg32` for `sample()` and small `sample_batch`
+- **Tier B:** fast paths in `detail/fast/` when `n >= kFastThreshold` (4096)
 
-Only the original Phase-1 subset has ISPC kernels; all other distributions bench C++ only. See `PHASE1_ISPC` in `bench/sweep.py`.
+Legacy Phase-1 ISPC kernels were archived to [`archive/ispc-phase1/`](../archive/ispc-phase1/) in optimize batch 9.
 
-Historical Phase-1 decisions are preserved in committed CSVs where present.
-
-After `make bench-all`, expect **189** per-distribution CSVs plus `summary.csv`.
+After `make bench-all`, expect per-distribution CSVs plus `summary.csv`.

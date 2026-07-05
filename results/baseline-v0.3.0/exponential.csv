@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+exponential,cpp,1000,42,9124,11444,542.891,9.124
+exponential,cpp,100000,42,1.82907e+06,1.90048e+06,24617.1,18.2907
+exponential,cpp,10000000,42,1.77542e+08,1.8153e+08,942042,17.7542

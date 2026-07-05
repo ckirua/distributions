@@ -1,19 +1,20 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/semi_infinite.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct LogT {
-    double loc_;
-    double scale_;
-    LogT(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double df_;
+    LogT(double df) : df_(df) {
+        detail::assert_strictly_positive(df_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_log_t(rng, df_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

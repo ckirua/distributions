@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/normal.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cmath>
 #include <cstddef>
@@ -9,7 +10,9 @@ namespace distributions {
 
 struct MaxwellBoltzmann {
     double a_;
-    MaxwellBoltzmann(double a) : a_(a) {}
+    MaxwellBoltzmann(double a) : a_(a) {
+        detail::assert_strictly_positive(a_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         const double x = detail::sample_standard_normal(rng);

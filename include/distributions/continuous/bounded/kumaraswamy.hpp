@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/uniform.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cmath>
 #include <cstddef>
@@ -10,7 +11,10 @@ namespace distributions {
 struct Kumaraswamy {
     double a_;
     double b_;
-    Kumaraswamy(double a, double b) : a_(a), b_(b) {}
+    Kumaraswamy(double a, double b) : a_(a), b_(b) {
+        detail::assert_strictly_positive(a_);
+        detail::assert_strictly_positive(b_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         const double u = detail::sample_uniform(rng, 0.0, 1.0);

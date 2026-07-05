@@ -1,7 +1,7 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/real_line.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -10,10 +10,13 @@ namespace distributions {
 struct Landau {
     double loc_;
     double scale_;
-    Landau(double loc, double scale) : loc_(loc), scale_(scale) {}
+    Landau(double loc, double scale) : loc_(loc), scale_(scale) {
+        detail::assert_finite(loc_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_landau(rng, loc_, scale_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

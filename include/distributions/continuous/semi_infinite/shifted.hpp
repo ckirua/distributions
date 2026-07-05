@@ -1,7 +1,7 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/semi_infinite.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,11 +9,14 @@ namespace distributions {
 
 struct Shifted {
     double loc_;
-    double scale_;
-    Shifted(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double rate_;
+    Shifted(double loc, double rate) : loc_(loc), rate_(rate) {
+        detail::assert_finite(loc_);
+        detail::assert_strictly_positive(rate_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_shifted_exponential(rng, loc_, rate_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

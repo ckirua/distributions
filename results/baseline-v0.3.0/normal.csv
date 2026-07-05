@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+normal,cpp,1000,42,19954,24582,1599.84,19.954
+normal,cpp,100000,42,2.26695e+06,2.28966e+06,36945.2,22.6695
+normal,cpp,10000000,42,2.29196e+08,2.40682e+08,2.4184e+06,22.9196

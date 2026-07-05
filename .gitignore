@@ -1,5 +1,7 @@
 # CMake / C++
 build/
+build-simd/
+build-simd512/
 build/verify_tmp/
 cmake-build-*/
 *.o
@@ -10,7 +12,7 @@ cmake-build-*/
 *.exe
 compile_commands.json
 
-# ISPC (downloaded locally; see CMakeLists.txt)
+# ISPC (removed — archived under archive/ispc-phase1/)
 .tools/
 
 # Python
@@ -28,14 +30,25 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 
-# Cython / extension build artifacts (keep .pyx / .pxd)
+# Cython / extension build artifacts (keep .pyx / .pxd / generated shim)
 cydist/*.c
 cydist/*.cpp
+!cydist/cydist_shim.cpp
 cydist/_native*.so
 examples/cython/*.c
 examples/cython/*.cpp
 examples/cython/*.so
 examples/cython/build/
+
+# Benchmark outputs (gitignored except README + baseline)
+results/current/*
+!results/current/README.md
+results/*.csv
+!results/summary.csv
+!results/README.md
+!results/baseline-v0.2.0/*.csv
+!results/baseline-v0.3.0/
+!results/baseline-v0.3.0/*.csv
 
 # Cursor — keep project plans, ignore local IDE state
 .cursor/*

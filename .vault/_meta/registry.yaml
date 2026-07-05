@@ -444,7 +444,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/finite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: discrete-uniform
   name: Discrete uniform
   title: Discrete uniform distribution
@@ -640,7 +640,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: borel
   name: Borel
   title: Borel distribution
@@ -676,7 +676,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: conwaymaxwellpoisson
   name: Conway–Maxwell–Poisson
   title: Conway–Maxwell–Poisson distribution
@@ -713,7 +713,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: discrete-phase-type
   name: Discrete phase-type
   title: Discrete phase-type distribution
@@ -750,7 +750,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: delaporte
   name: Delaporte
   title: Delaporte distribution
@@ -787,7 +787,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: extended-negative-binomial
   name: Extended negative binomial
   title: Extended negative binomial distribution
@@ -824,7 +824,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: floryschulz
   name: Flory–Schulz
   title: Flory–Schulz distribution
@@ -867,7 +867,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: gausskuzmin
   name: Gauss–Kuzmin
   title: Gauss–Kuzmin distribution
@@ -904,7 +904,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: geometric
   name: Geometric
   title: Geometric distribution
@@ -1025,7 +1025,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: negative-binomial
   name: Negative binomial
   title: Negative binomial distribution
@@ -1115,7 +1115,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: parabolic-fractal
   name: Parabolic fractal
   title: Parabolic fractal distribution
@@ -1152,7 +1152,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: poisson
   name: Poisson
   title: Poisson distribution
@@ -1400,7 +1400,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: baldingnichols
   name: Balding–Nichols
   title: Balding–Nichols distribution
@@ -1437,7 +1437,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: bates
   name: Bates
   title: Bates distribution
@@ -1561,7 +1561,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: beta-rectangular
   name: Beta rectangular
   title: Beta rectangular distribution
@@ -1602,7 +1602,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: continuous-bernoulli
   name: Continuous Bernoulli
   title: Continuous Bernoulli distribution
@@ -1639,7 +1639,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: continuous-binomial
   name: Continuous binomial
   title: Continuous binomial distribution
@@ -1676,7 +1676,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: irwinhall
   name: Irwin–Hall
   title: Irwin–Hall distribution
@@ -1831,7 +1831,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: pert
   name: PERT
   title: PERT distribution
@@ -1867,7 +1867,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/bounded
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: raised-cosine
   name: Raised cosine
   title: Raised cosine distribution
@@ -2164,7 +2164,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: benktander-1st-kind
   name: Benktander 1st kind
   title: Benktander 1st kind distribution
@@ -2201,7 +2201,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: benktander-2nd-kind
   name: Benktander 2nd kind
   title: Benktander 2nd kind distribution
@@ -2238,7 +2238,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: beta-prime
   name: Beta prime
   title: Beta prime distribution
@@ -2591,7 +2591,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: erlang
   name: Erlang
   title: Erlang distribution
@@ -2673,7 +2673,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: exponential
   name: Exponential
   title: Exponential distribution
@@ -2757,7 +2757,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: hypoexponential
   name: Hypoexponential
   title: Hypoexponential distribution
@@ -2794,7 +2794,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: exponential-logarithmic
   name: Exponential-logarithmic
   title: Exponential-logarithmic distribution
@@ -2912,7 +2912,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: folded-normal
   name: Folded normal
   title: Folded normal distribution
@@ -2997,7 +2997,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: gamma
   name: Gamma
   title: Gamma distribution
@@ -3076,7 +3076,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: inverse-gamma
   name: Inverse gamma
   title: Inverse gamma distribution
@@ -3197,7 +3197,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: shifted
   name: Shifted
   title: Shifted distribution
@@ -3234,7 +3234,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: half-logistic
   name: Half-logistic
   title: Half-logistic distribution
@@ -3357,7 +3357,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: hartmanwatson
   name: Hartman–Watson
   title: Hartman–Watson distribution
@@ -3394,7 +3394,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: inverse-gaussian
   name: Inverse Gaussian
   title: Inverse Gaussian distribution
@@ -3470,7 +3470,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kolmogorov
   name: Kolmogorov
   title: Kolmogorov distribution
@@ -3507,7 +3507,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: levy
   name: Lévy
   title: Lévy distribution
@@ -3543,7 +3543,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: log-cauchy
   name: Log-Cauchy
   title: Log-Cauchy distribution
@@ -3580,7 +3580,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: log-laplace
   name: Log-Laplace
   title: Log-Laplace distribution
@@ -3617,7 +3617,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: log-logistic
   name: Log-logistic
   title: Log-logistic distribution
@@ -3654,7 +3654,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: log-normal
   name: Log-normal
   title: Log-normal distribution
@@ -3733,7 +3733,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: lomax
   name: Lomax
   title: Lomax distribution
@@ -3812,7 +3812,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: maxwellboltzmann
   name: Maxwell–Boltzmann
   title: Maxwell–Boltzmann distribution
@@ -3890,7 +3890,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: mittag-leffler
   name: Mittag-Leffler
   title: Mittag-Leffler distribution
@@ -3927,7 +3927,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: nakagami
   name: Nakagami
   title: Nakagami distribution
@@ -4049,7 +4049,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: poly-weibull
   name: Poly-Weibull
   title: Poly-Weibull distribution
@@ -4086,7 +4086,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: rayleigh
   name: Rayleigh
   title: Rayleigh distribution
@@ -4165,7 +4165,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: rice
   name: Rice
   title: Rice distribution
@@ -4201,7 +4201,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: truncated-normal
   name: Truncated normal
   title: Truncated normal distribution
@@ -4238,7 +4238,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: type-2-gumbel
   name: type-2 Gumbel
   title: type-2 Gumbel distribution
@@ -4275,7 +4275,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: weibull
   name: Weibull
   title: Weibull distribution
@@ -4355,7 +4355,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: wilkss-lambda
   name: Wilks's lambda
   title: Wilks's lambda distribution
@@ -4392,7 +4392,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: cauchy
   name: Cauchy
   title: Cauchy distribution
@@ -4516,7 +4516,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-gaussian
   name: Kaniadakis κ-Gaussian
   title: Kaniadakis κ-Gaussian distribution
@@ -4553,7 +4553,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: gaussian-q
   name: Gaussian _q_
   title: Gaussian _q_ distribution
@@ -4590,7 +4590,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-hyperbolic
   name: Generalized hyperbolic
   title: Generalized hyperbolic distribution
@@ -4627,7 +4627,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-logistic-logistic-beta
   name: Generalized logistic (logistic-beta)
   title: Generalized logistic (logistic-beta) distribution
@@ -4664,7 +4664,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-normal
   name: Generalized normal
   title: Generalized normal distribution
@@ -4701,7 +4701,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: geometric-stable
   name: Geometric stable
   title: Geometric stable distribution
@@ -4742,7 +4742,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: gumbel
   name: Gumbel
   title: Gumbel distribution
@@ -4821,7 +4821,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: hyperbolic-secant
   name: Hyperbolic secant
   title: Hyperbolic secant distribution
@@ -4858,7 +4858,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: johnsons-su
   name: Johnson's _SU_
   title: Johnson's _SU_ distribution
@@ -4895,7 +4895,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: landau
   name: Landau
   title: Landau distribution
@@ -4931,7 +4931,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: laplace
   name: Laplace
   title: Laplace distribution
@@ -5011,7 +5011,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: logistic
   name: Logistic
   title: Logistic distribution
@@ -5091,7 +5091,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: normal-gaussian
   name: Normal (Gaussian)
   title: Normal (Gaussian) distribution
@@ -5181,7 +5181,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: skew-normal
   name: Skew normal
   title: Skew normal distribution
@@ -5254,7 +5254,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: stable
   name: Stable
   title: Stable distribution
@@ -5290,7 +5290,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: students-t
   name: Student's _t_
   title: Student's _t_ distribution
@@ -5369,7 +5369,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: variance-gamma
   name: Variance-gamma
   title: Variance-gamma distribution
@@ -5406,7 +5406,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: voigt
   name: Voigt
   title: Voigt distribution
@@ -5442,7 +5442,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-chi-squared
   name: Generalized chi-squared
   title: Generalized chi-squared distribution
@@ -5479,7 +5479,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-extreme-value
   name: Generalized extreme value
   title: Generalized extreme value distribution
@@ -5516,7 +5516,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-pareto
   name: Generalized Pareto
   title: Generalized Pareto distribution
@@ -5553,7 +5553,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: marchenkopastur
   name: Marchenko–Pastur
   title: Marchenko–Pastur distribution
@@ -5590,7 +5590,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-exponential
   name: Kaniadakis _κ_\-exponential
   title: Kaniadakis _κ_\-exponential distribution
@@ -5627,7 +5627,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-gamma
   name: Kaniadakis _κ_\-Gamma
   title: Kaniadakis _κ_\-Gamma distribution
@@ -5664,7 +5664,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-weibull
   name: Kaniadakis _κ_\-Weibull
   title: Kaniadakis _κ_\-Weibull distribution
@@ -5701,7 +5701,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-logistic
   name: Kaniadakis _κ_\-Logistic
   title: Kaniadakis _κ_\-Logistic distribution
@@ -5738,7 +5738,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-erlang
   name: Kaniadakis _κ_\-Erlang
   title: Kaniadakis _κ_\-Erlang distribution
@@ -5775,7 +5775,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: q-exponential
   name: _q_\-exponential
   title: _q_\-exponential distribution
@@ -5812,7 +5812,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: q-gaussian
   name: _q_\-Gaussian
   title: _q_\-Gaussian distribution
@@ -5849,7 +5849,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: q-weibull
   name: _q_\-Weibull
   title: _q_\-Weibull distribution
@@ -5886,7 +5886,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: shifted-log-logistic
   name: Shifted log-logistic
   title: Shifted log-logistic distribution
@@ -5923,7 +5923,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: tukey-lambda
   name: Tukey lambda
   title: Tukey lambda distribution
@@ -5960,7 +5960,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/variable
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: rectified-gaussian
   name: Rectified Gaussian
   title: Rectified Gaussian distribution
@@ -5997,7 +5997,7 @@ distributions:
   tags:
   - distribution/mixed
   - support/mixed
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: ewens
   name: Ewens
   title: Ewens distribution
@@ -6033,7 +6033,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/discrete
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: multinomial
   name: Multinomial
   title: Multinomial distribution
@@ -6075,7 +6075,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/discrete
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: dirichlet-multinomial
   name: Dirichlet-multinomial
   title: Dirichlet-multinomial distribution
@@ -6116,7 +6116,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/discrete
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: negative-multinomial
   name: Negative multinomial
   title: Negative multinomial distribution
@@ -6153,7 +6153,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/discrete
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: dirichlet
   name: Dirichlet
   title: Dirichlet distribution
@@ -6190,7 +6190,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-dirichlet
   name: Generalized Dirichlet
   title: Generalized Dirichlet distribution
@@ -6227,7 +6227,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: multivariate-laplace
   name: Multivariate Laplace
   title: Multivariate Laplace distribution
@@ -6264,7 +6264,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: multivariate-normal
   name: Multivariate normal
   title: Multivariate normal distribution
@@ -6301,7 +6301,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: multivariate-stable
   name: Multivariate stable
   title: Multivariate stable distribution
@@ -6338,7 +6338,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: multivariate-t
   name: Multivariate _t_
   title: Multivariate _t_ distribution
@@ -6375,7 +6375,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: normal-gamma
   name: Normal-gamma
   title: Normal-gamma distribution
@@ -6412,7 +6412,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: normal-inverse-gamma-distribution
   name: Inverse gamma
   title: Inverse gamma distribution
@@ -6449,7 +6449,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/continuous
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: lkj
   name: LKJ
   title: LKJ distribution
@@ -6485,7 +6485,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: matrix-beta
   name: Matrix beta
   title: Matrix beta distribution
@@ -6522,7 +6522,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: matrix-f
   name: Matrix _F_
   title: Matrix _F_ distribution
@@ -6559,7 +6559,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: matrix-normal
   name: Matrix normal
   title: Matrix normal distribution
@@ -6603,7 +6603,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: matrix-t
   name: Matrix _t_
   title: Matrix _t_ distribution
@@ -6649,7 +6649,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: matrix-gamma
   name: Matrix gamma
   title: Matrix gamma distribution
@@ -6686,7 +6686,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: inverse-matrix-gamma-distribution
   name: Inverse gamma
   title: Inverse gamma distribution
@@ -6723,7 +6723,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: wishart
   name: Wishart
   title: Wishart distribution
@@ -6766,7 +6766,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: normal-wishart
   name: Normal-Wishart
   title: Normal-Wishart distribution
@@ -6803,7 +6803,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: inverse-wishart
   name: Inverse-Wishart
   title: Inverse-Wishart distribution
@@ -6846,7 +6846,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: normal-inverse
   name: Normal-inverse
   title: Normal-inverse distribution
@@ -6883,7 +6883,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: complex
   name: Complex
   title: Complex distribution
@@ -6920,7 +6920,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: uniform-distribution-on-a-stiefel-manifold
   name: Uniform distribution on a Stiefel manifold
   title: Uniform distribution on a Stiefel manifold distribution
@@ -6962,7 +6962,7 @@ distributions:
   tags:
   - distribution/multivariate
   - support/matrix
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: circular-uniform
   name: Circular uniform
   title: Circular uniform distribution
@@ -7083,7 +7083,7 @@ distributions:
   tags:
   - distribution/directional
   - support/circular
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: wrapped-cauchy
   name: Wrapped Cauchy
   title: Wrapped Cauchy distribution
@@ -7125,7 +7125,7 @@ distributions:
   tags:
   - distribution/directional
   - support/circular
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: wrapped-exponential
   name: Wrapped exponential
   title: Wrapped exponential distribution
@@ -7162,7 +7162,7 @@ distributions:
   tags:
   - distribution/directional
   - support/circular
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: wrapped-asymmetric-laplace
   name: Wrapped asymmetric Laplace
   title: Wrapped asymmetric Laplace distribution
@@ -7199,7 +7199,7 @@ distributions:
   tags:
   - distribution/directional
   - support/circular
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: wrapped-levy
   name: Wrapped Lévy
   title: Wrapped Lévy distribution
@@ -7236,7 +7236,7 @@ distributions:
   tags:
   - distribution/directional
   - support/circular
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kent
   name: Kent
   title: Kent distribution
@@ -7271,7 +7271,7 @@ distributions:
   tags:
   - distribution/directional
   - support/spherical
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: bivariate-von-mises
   name: Bivariate von Mises
   title: Bivariate von Mises distribution
@@ -7307,7 +7307,7 @@ distributions:
   tags:
   - distribution/directional
   - support/toroidal
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: von-misesfisher
   name: von Mises–Fisher
   title: von Mises–Fisher distribution
@@ -7349,7 +7349,7 @@ distributions:
   tags:
   - distribution/directional
   - support/multivariate
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: bingham
   name: Bingham
   title: Bingham distribution
@@ -7385,7 +7385,7 @@ distributions:
   tags:
   - distribution/directional
   - support/multivariate
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: dirac-delta-function
   name: Dirac delta function
   title: Dirac delta function
@@ -7458,7 +7458,7 @@ distributions:
   tags:
   - distribution/singular
   - support/singular
-  sampler_tier: heuristic
+  sampler_tier: family
 families:
 - id: circular
   name: Circular

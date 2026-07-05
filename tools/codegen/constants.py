@@ -65,6 +65,14 @@ C_FUNC_ALIASES = {
     "zipfmandelbrot": "cydist_zipf_mandelbrot_sample_batch",
 }
 
+# cydist batch entry points with Cython FusedType (float32 | float64) output.
+FUSED_CONTINUOUS_VAULT_IDS = frozenset({"normal-gaussian", "exponential"})
+
+FUSED_FLOAT_CPP_CLASS = {
+    "normal-gaussian": "NormalDistribution<float>",
+    "exponential": "ExponentialDistribution<float>",
+}
+
 MANUAL_CPP_CLASS = {
     "bernoulli": "Bernoulli",
     "discrete-uniform": "DiscreteUniform",
@@ -80,6 +88,25 @@ MANUAL_CPP_CLASS = {
     "exponential": "Exponential",
     "normal-gaussian": "Normal",
 }
+
+# cydist Python ValueError checks (batch 3): hand-written + common MC / stats ids.
+CYDIST_HIGH_TRAFFIC = frozenset({
+    "poisson",
+    "gamma",
+    "beta",
+    "hypergeometric",
+    "generalized-hyperbolic",
+    "students-t",
+    "chi-squared",
+    "weibull",
+    "log-normal",
+    "pareto",
+    "uniform",
+    "cauchy",
+    "laplace",
+})
+
+CYDIST_PYTHON_VALIDATE = frozenset(MANUAL.keys()) | CYDIST_HIGH_TRAFFIC
 
 # C/Cython/Python keywords that cannot be parameter names as-is.
 RESERVED_NAMES = frozenset({

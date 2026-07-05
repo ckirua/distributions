@@ -1,5 +1,6 @@
 #pragma once
 
+#include "distributions/detail/validate.hpp"
 #include "distributions/discrete/finite/zipf.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
@@ -9,7 +10,10 @@ namespace distributions {
 struct Zeta {
     int N_;
     double s_;
-    Zeta(int N, double s) : N_(N), s_(s) {}
+    Zeta(int N, double s) : N_(N), s_(s) {
+        detail::assert_positive_int(N_);
+        detail::assert_strictly_positive(s_);
+    }
 
     [[nodiscard]] int sample(Pcg32& rng) const {
         return Zipf(N_, s_).sample(rng);

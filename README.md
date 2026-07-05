@@ -6,13 +6,13 @@ Statistical distributions for C++/Python — with an Obsidian learning vault in 
 
 ```
 include/distributions/   C++ samplers (by category — see include/distributions/README.md)
-bench/                   Benchmark harness, sweep, verify
+bench/                   Benchmark harness (run_bench, bench-core, sweep)
 cydist/                  Cython Python bindings
 tools/                   Library codegen (codegen_distributions.py)
 .vault/                  Obsidian learning vault + vault build tools
-tests/                   C++ unit tests
+tests/                   C++ unit tests + pytest
 results/                 Benchmark CSV output
-ispc/                    ISPC kernels (Phase-1 subset)
+archive/                 Retired experiments (e.g. Phase-1 ISPC)
 cmake/                   Toolchain helpers
 ```
 
@@ -37,9 +37,9 @@ All **189** vault distributions have native C++ samplers (HPC-oriented: inverse/
 | `degenerate/` | degenerate / singular |
 | `detail/` | shared fast primitives (gamma, normal, poisson, …) |
 
-13 core samplers are hand-tuned; the rest are generated from [`tools/codegen_distributions.py`](tools/codegen_distributions.py). Optional ISPC kernels cover the original Phase-1 subset.
+13 core samplers are hand-tuned with optional Tier-B fast paths; the rest are generated from [`tools/codegen_distributions.py`](tools/codegen_distributions.py).
 
-See the [Phase 1 plan](.cursor/plans/cydist-phase1.plan.md) for benchmark methodology.
+See [`plan.md`](plan.md) and [`OPTIMIZE_PROGRESS.md`](OPTIMIZE_PROGRESS.md) for the v0.3.0 optimization track.
 
 ### Build (C++)
 
@@ -48,7 +48,7 @@ Requires **GCC 14+** with **C++26** (`-std=c++26`). Ubuntu 24.04 ships `g++-14` 
 ```bash
 make build          # configure + compile
 make test           # ctest
-./build/run_bench poisson cpp 1000000 42
+./build/run_bench poisson 1000000 42
 ```
 
 ### Build (Python / Cython)
@@ -59,12 +59,12 @@ make install                                       # editable cydist (189 sample
 .venv/bin/python -c "from cydist import __all__; print(len(__all__))"
 ```
 
-### Benchmarks (C++ vs ISPC)
+### Benchmarks
 
 ```bash
-make bench                              # Phase-1 ISPC candidates
-python bench/sweep.py --all             # all 189 ids (C++ for most)
-python bench/sweep.py --dist poisson
+make bench-core                         # 13 hand-written ids
+make bench-all                          # all 189 distributions (C++ timings)
+python bench/sweep.py --all --quick     # faster full-registry sweep
 python bench/aggregate_summary.py       # → results/summary.csv
 ```
 

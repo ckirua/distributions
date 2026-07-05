@@ -1,19 +1,20 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/semi_infinite.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Davis {
-    double loc_;
-    double scale_;
-    Davis(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double nu_;
+    Davis(double nu) : nu_(nu) {
+        detail::assert_strictly_positive(nu_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_davis(rng, nu_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

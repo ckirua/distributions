@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+zipf,cpp,1000,42,7016,10196,741.826,7.016
+zipf,cpp,100000,42,1.98462e+06,2.14072e+06,43252.7,19.8462
+zipf,cpp,10000000,42,1.95001e+08,1.97321e+08,710299,19.5001

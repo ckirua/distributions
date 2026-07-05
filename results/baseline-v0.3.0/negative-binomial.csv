@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+negative-binomial,cpp,1000,42,68618,80242,2571.27,68.618
+negative-binomial,cpp,100000,42,1.02351e+07,1.10298e+07,212199,102.351
+negative-binomial,cpp,10000000,42,1.02888e+09,1.03897e+09,4.34098e+06,102.888

@@ -5,15 +5,28 @@ PYTHON   := $(VENV)/python
 PIP      := $(VENV)/pip
 BUILD    := build
 CMAKE    := cmake -S . -B $(BUILD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14
+BUILD_SIMD := build-simd
+CMAKE_SIMD := cmake -S . -B $(BUILD_SIMD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14 -DDISTRIBUTIONS_ENABLE_SIMD=ON
+BUILD_SIMD512 := build-simd512
+CMAKE_SIMD512 := cmake -S . -B $(BUILD_SIMD512) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14 -DDISTRIBUTIONS_ENABLE_SIMD=ON -DDISTRIBUTIONS_ENABLE_AVX512=ON
 
-.PHONY: help clean codegen configure build test bench bench-all vault install
+.PHONY: help clean codegen configure configure-simd configure-simd512 build build-simd build-simd512 test test-simd test-simd512 test-sanity test-all bench bench-core bench-core-simd bench-core-baseline bench-core-quick bench-all vault install
 
 help:
 	@echo "Targets: clean codegen configure build test bench vault install"
 	@echo "  make codegen   — regenerate distribution headers + dispatch + cydist shim"
 	@echo "  make build     — configure (if needed) and compile C++ benchmarks"
-	@echo "  make test      — run ctest"
-	@echo "  make bench     — sweep Phase-1 ISPC candidates"
+	@echo "  make build-simd — same with -DDISTRIBUTIONS_ENABLE_SIMD=ON (AVX2 Tier C)"
+	@echo "  make build-simd512 — AVX2 + AVX-512 Tier C (Intel HPC; optional batch 9)"
+	@echo "  make test      — ctest + fast pytest smoke (excludes sanity)"
+	@echo "  make test-simd — ctest on build-simd (Tier B vs C repro, when AVX2)"
+	@echo "  make test-simd512 — ctest on build-simd512 (AVX-512 config + repro when CPU supports)"
+	@echo "  make test-sanity — statistical checks vs scipy (~48 cases, slow)"
+	@echo "  make test-all  — smoke + sanity"
+	@echo "  make bench     — benchmark 13 hand-written ids (alias for bench-core)"
+	@echo "  make bench-core — benchmark 13 hand-written ids (1k/100k/10M)"
+	@echo "  make bench-core-simd — bench-core using build-simd/ (Tier C when enabled)"
+	@echo "  make bench-core-quick — hand-written ids at 1k/100k only"
 	@echo "  make bench-all — benchmark all 189 distributions (C++ timings)"
 	@echo "  make vault     — rebuild Obsidian vault notes"
 	@echo "  make install   — editable pip install of cydist"
@@ -30,15 +43,54 @@ codegen:
 configure:
 	$(CMAKE)
 
+configure-simd:
+	$(CMAKE_SIMD)
+
 build: configure
 	cmake --build $(BUILD) -j$$(nproc)
+
+build-simd: configure-simd
+	cmake --build $(BUILD_SIMD) -j$$(nproc)
+
+configure-simd512:
+	$(CMAKE_SIMD512)
+
+build-simd512: configure-simd512
+	cmake --build $(BUILD_SIMD512) -j$$(nproc)
 
 test: build install
 	ctest --test-dir $(BUILD) --output-on-failure
 	$(PYTHON) -m pytest tests/ -q --tb=line
 
+test-simd: build-simd install
+	ctest --test-dir $(BUILD_SIMD) --output-on-failure
+	$(PYTHON) -m pytest tests/test_reproducibility_simd.py -q --tb=line
+
+test-simd512: build-simd512 install
+	ctest --test-dir $(BUILD_SIMD512) --output-on-failure
+	$(PYTHON) -m pytest tests/test_reproducibility_simd.py -q --tb=line
+
+test-sanity: install
+	$(PYTHON) -m pytest tests/ -m sanity -q --tb=line -o addopts=
+
+test-all: build install
+	ctest --test-dir $(BUILD) --output-on-failure
+	$(PYTHON) -m pytest tests/ -q --tb=line -o addopts=
+
 bench: build
-	$(PYTHON) bench/sweep.py
+	$(PYTHON) bench/bench_core.py
+
+bench-core: build
+	$(PYTHON) bench/bench_core.py
+
+bench-core-baseline: build
+	$(PYTHON) bench/bench_core.py --out $(CURDIR)/results/baseline-v0.3.0
+
+bench-core-simd: build-simd
+	$(PYTHON) bench/bench_core.py --run-bench $(BUILD_SIMD)/run_bench --out $(CURDIR)/results/current
+
+bench-core-quick: build
+	$(PYTHON) bench/bench_core.py --quick
 
 bench-all: build
 	$(PYTHON) bench/sweep.py --all --skip-verify --quick
@@ -56,6 +108,9 @@ examples-cpp: build
 
 examples-python: install
 	$(PYTHON) examples/python/basic.py
+	$(PYTHON) examples/python/pandas_demo.py
+	$(PYTHON) examples/python/polars_demo.py
+	$(PYTHON) examples/python/matplotlib_demo.py
 
 examples-cython: install
 	cd examples/cython && $(PYTHON) setup_demo.py build_ext --inplace

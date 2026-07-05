@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+geometric,cpp,1000,42,13000,14216,271.677,13
+geometric,cpp,100000,42,2.18074e+06,2.20971e+06,12572.5,21.8074
+geometric,cpp,10000000,42,2.12343e+08,2.20051e+08,1.53659e+06,21.2343

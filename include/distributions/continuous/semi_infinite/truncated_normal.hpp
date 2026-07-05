@@ -1,19 +1,29 @@
 #pragma once
 
 #include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct TruncatedNormal {
+    double a_;
+    double b_;
     double loc_;
     double scale_;
-    TruncatedNormal(double loc, double scale) : loc_(loc), scale_(scale) {}
+    TruncatedNormal(double a, double b, double loc, double scale) : a_(a), b_(b), loc_(loc), scale_(scale) {
+        detail::assert_strictly_positive(a_);
+        detail::assert_strictly_positive(b_);
+        detail::assert_finite(loc_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        for (;;) {
+            const double x = detail::sample_normal(rng, loc_, scale_);
+            if (x >= a_ && x <= b_) { return x; }
+        }
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

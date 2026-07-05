@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/uniform.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cmath>
 #include <cstddef>
@@ -10,7 +11,9 @@ namespace distributions {
 struct WignerSemicircle {
     double lo_;
     double scale_;
-    WignerSemicircle(double lo, double scale) : lo_(lo), scale_(scale) {}
+    WignerSemicircle(double lo, double scale) : lo_(lo), scale_(scale) {
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         const double u = detail::sample_uniform(rng, 0.0, 1.0);

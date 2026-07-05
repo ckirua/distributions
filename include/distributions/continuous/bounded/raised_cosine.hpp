@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/uniform.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <numbers>
 #include <cmath>
@@ -11,7 +12,9 @@ namespace distributions {
 struct RaisedCosine {
     double lo_;
     double hi_;
-    RaisedCosine(double lo, double hi) : lo_(lo), hi_(hi) {}
+    RaisedCosine(double lo, double hi) : lo_(lo), hi_(hi) {
+        detail::assert_double_interval(lo_, hi_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         const double u = detail::sample_uniform(rng, 0.0, 1.0);

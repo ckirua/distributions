@@ -1,20 +1,33 @@
 #pragma once
 
+#include "distributions/concepts.hpp"
+#include "distributions/detail/counter_rng.hpp"
+#include "distributions/detail/fast/common.hpp"
+#include "distributions/detail/fast/zipf.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cmath>
 #include <cstddef>
+#include <type_traits>
 #include <vector>
 
 namespace distributions {
 
-struct Zipf {
+template <typename Sample = int>
+struct ZipfDistribution {
+    static_assert(is_discrete_sample_v<Sample>);
+
     int n;
     double s;
 
-    Zipf(int n = 10, double s = 2.0) : n(n), s(s) { rebuild(); }
+    ZipfDistribution(int n = 10, double s = 2.0) : n(n), s(s) {
+        detail::assert_positive_int(n);
+        detail::assert_strictly_positive(s);
+        rebuild();
+    }
 
-    [[nodiscard]] int sample(Pcg32& rng) const {
+    [[nodiscard]] Sample sample(Pcg32& rng) const {
         const double u = rng.next_double() * cdf_n_;
         int lo = 1;
         int hi = n;
@@ -26,10 +39,22 @@ struct Zipf {
                 hi = mid;
             }
         }
-        return lo;
+        return static_cast<Sample>(lo);
     }
 
-    void sample_batch(int* out, std::size_t n_out, Pcg32& rng) const {
+    void sample_batch(Sample* out, std::size_t n_out, Pcg32& rng) const {
+        if constexpr (is_discrete_sample_v<Sample>) {
+            if (n_out >= detail::kFastThreshold) {
+                detail::fast::zipf_sample_batch(
+                    reinterpret_cast<int*>(out),
+                    n_out,
+                    n,
+                    cdf_.data(),
+                    cdf_n_,
+                    detail::batch_seed_from(rng));
+                return;
+            }
+        }
         for (std::size_t i = 0; i < n_out; ++i) {
             out[i] = sample(rng);
         }
@@ -57,16 +82,23 @@ private:
     }
 };
 
-struct ZipfMandelbrot {
+template <typename Sample = int>
+struct ZipfMandelbrotDistribution {
+    static_assert(is_discrete_sample_v<Sample>);
+
     int n;
     double q;
     double s;
 
-    ZipfMandelbrot(int n = 10, double q = 1.0, double s = 2.0) : n(n), q(q), s(s) {
+    ZipfMandelbrotDistribution(int n = 10, double q = 1.0, double s = 2.0) : n(n), q(q), s(s) {
+        detail::assert_positive_int(n);
+        detail::assert_strictly_positive(s);
+        detail::assert_finite(q);
+        detail::assert_zipf_mandelbrot_q(q);
         rebuild();
     }
 
-    [[nodiscard]] int sample(Pcg32& rng) const {
+    [[nodiscard]] Sample sample(Pcg32& rng) const {
         const double u = rng.next_double() * cdf_n_;
         int lo = 1;
         int hi = n;
@@ -78,10 +110,22 @@ struct ZipfMandelbrot {
                 hi = mid;
             }
         }
-        return lo;
+        return static_cast<Sample>(lo);
     }
 
-    void sample_batch(int* out, std::size_t n_out, Pcg32& rng) const {
+    void sample_batch(Sample* out, std::size_t n_out, Pcg32& rng) const {
+        if constexpr (is_discrete_sample_v<Sample>) {
+            if (n_out >= detail::kFastThreshold) {
+                detail::fast::zipf_sample_batch(
+                    reinterpret_cast<int*>(out),
+                    n_out,
+                    n,
+                    cdf_.data(),
+                    cdf_n_,
+                    detail::batch_seed_from(rng));
+                return;
+            }
+        }
         for (std::size_t i = 0; i < n_out; ++i) {
             out[i] = sample(rng);
         }
@@ -108,5 +152,8 @@ private:
         }
     }
 };
+
+using Zipf = ZipfDistribution<int>;
+using ZipfMandelbrot = ZipfMandelbrotDistribution<int>;
 
 }  // namespace distributions
