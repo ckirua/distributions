@@ -65,6 +65,14 @@ C_FUNC_ALIASES = {
     "zipfmandelbrot": "cydist_zipf_mandelbrot_sample_batch",
 }
 
+# cydist batch entry points with Cython FusedType (float32 | float64) output.
+FUSED_CONTINUOUS_VAULT_IDS = frozenset({"normal-gaussian", "exponential"})
+
+FUSED_FLOAT_CPP_CLASS = {
+    "normal-gaussian": "NormalDistribution<float>",
+    "exponential": "ExponentialDistribution<float>",
+}
+
 MANUAL_CPP_CLASS = {
     "bernoulli": "Bernoulli",
     "discrete-uniform": "DiscreteUniform",

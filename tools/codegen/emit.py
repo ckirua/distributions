@@ -16,6 +16,8 @@ from codegen.constants import (
     BENCH_ALIAS,
     C_FUNC_ALIASES,
     CYDIST,
+    FUSED_CONTINUOUS_VAULT_IDS,
+    FUSED_FLOAT_CPP_CLASS,
     INCLUDE,
     MANUAL,
     MANUAL_CPP_CLASS,
@@ -108,14 +110,16 @@ def _category_banner(category_path: str) -> str:
 CYDIST_MODULE_DOC = '''"""Fast batch samplers for probability distributions (C++/Cython).
 
 Pre-allocate ``out`` and pass it to ``*_sample_batch``; samples are written in-place.
-Discrete distributions use ``int32`` arrays, continuous use ``float64``.
+Discrete distributions use ``int32`` arrays; continuous use ``float64`` (default) or
+``float32`` for normal and exponential (Cython ``FusedType`` dispatch).
 The GIL is released during each call. RNG: PCG32 via ``seed`` (default 42).
 """'''
 
 CYDIST_PYX_MODULE_DOC = '''"""Cython batch samplers for all vault distributions (generated).
 
 Pre-allocated NumPy ``out`` is filled in-place; GIL released per call.
-Discrete → int32, continuous → float64. RNG: PCG32 (``seed``, default 42).
+Discrete → int32; continuous → float64 (or float32 for normal/exponential via FusedType).
+RNG: PCG32 (``seed``, default 42).
 """'''
 
 CYDIST_PXD_HEADER = """# dist: ignore
@@ -200,6 +204,33 @@ def build_cydist_specs(registry: list[dict], recipes: dict[str, Recipe]) -> list
     return specs
 
 
+def _cydist_ctor_body(
+    spec: CydistSpec, ctor_args: list[str], shim_body_prefix: list[str], cpp_class: str
+) -> list[str]:
+    if shim_body_prefix:
+        return shim_body_prefix
+    if ctor_args:
+        return [f"    distributions::{cpp_class} dist({', '.join(ctor_args)});"]
+    return [f"    distributions::{cpp_class} dist;"]
+
+
+def _append_cydist_shim(
+    *,
+    c_func: str,
+    c_params: list[str],
+    body: list[str],
+    shim_decls: list[str],
+    shim_impl: list[str],
+) -> None:
+    shim_decls.append(f"void {c_func}({', '.join(c_params)});")
+    shim_impl.append(f"void {c_func}({', '.join(c_params)}) {{")
+    shim_impl.extend(body)
+    shim_impl.append("    distributions::Pcg32 rng(seed);")
+    shim_impl.append("    dist.sample_batch(out, n_samples, rng);")
+    shim_impl.append("}")
+    shim_impl.append("")
+
+
 def emit_cydist(specs: list[CydistSpec]) -> None:
     shim_decls: list[str] = []
     shim_impl: list[str] = []
@@ -218,7 +249,8 @@ def emit_cydist(specs: list[CydistSpec]) -> None:
             prev_category = spec.category_path
 
         out_c = "int" if spec.discrete else "double"
-        out_pyx = "cnp.int32_t" if spec.discrete else "cnp.float64_t"
+        fused_continuous = spec.vault_id in FUSED_CONTINUOUS_VAULT_IDS and not spec.discrete
+        out_pyx = "cnp.int32_t" if spec.discrete else ("ContinuousOut" if fused_continuous else "cnp.float64_t")
 
         c_params: list[str] = []
         pyx_sig_params: list[str] = [f"{out_pyx}[:] out"]
@@ -252,21 +284,27 @@ def emit_cydist(specs: list[CydistSpec]) -> None:
         pyx_sig_params.append("uint64_t seed=42")
         py_sig_params.append("seed: int = 42")
 
-        shim_decls.append(f"void {spec.c_func}({', '.join(c_params)});")
+        body = _cydist_ctor_body(spec, ctor_args, shim_body_prefix, spec.cpp_class)
+        _append_cydist_shim(
+            c_func=spec.c_func,
+            c_params=c_params,
+            body=body,
+            shim_decls=shim_decls,
+            shim_impl=shim_impl,
+        )
 
-        if shim_body_prefix:
-            body = shim_body_prefix
-        elif ctor_args:
-            body = [f"    distributions::{spec.cpp_class} dist({', '.join(ctor_args)});"]
-        else:
-            body = [f"    distributions::{spec.cpp_class} dist;"]
-
-        shim_impl.append(f"void {spec.c_func}({', '.join(c_params)}) {{")
-        shim_impl.extend(body)
-        shim_impl.append("    distributions::Pcg32 rng(seed);")
-        shim_impl.append("    dist.sample_batch(out, n_samples, rng);")
-        shim_impl.append("}")
-        shim_impl.append("")
+        if fused_continuous:
+            c_func_f32 = f"{spec.c_func}_f32"
+            float_cpp = FUSED_FLOAT_CPP_CLASS[spec.vault_id]
+            c_params_f32 = c_params[:-3] + ["uint64_t seed", "float* out", "size_t n_samples"]
+            body_f32 = _cydist_ctor_body(spec, ctor_args, shim_body_prefix, float_cpp)
+            _append_cydist_shim(
+                c_func=c_func_f32,
+                c_params=c_params_f32,
+                body=body_f32,
+                shim_decls=shim_decls,
+                shim_impl=shim_impl,
+            )
 
         pyx_c_params: list[str] = []
         for name, c_type, kind in spec.params:
@@ -280,12 +318,14 @@ def emit_cydist(specs: list[CydistSpec]) -> None:
         pyx_extern.append(
             f"    void {spec.c_func}({', '.join(pyx_c_params)}) nogil"
         )
+        if fused_continuous:
+            pyx_c_params_f32 = pyx_c_params[:-3] + ["uint64_t seed", "float* out", "size_t n_samples"]
+            pyx_extern.append(
+                f"    void {c_func_f32}({', '.join(pyx_c_params_f32)}) nogil"
+            )
 
         call_args: list[str] = []
-        setup: list[str] = [
-            f"    cdef {out_c}* ptr = <{out_c}*>&out[0]",
-            "    cdef size_t n_samples = <size_t>out.shape[0]",
-        ]
+        setup: list[str] = ["    cdef size_t n_samples = <size_t>out.shape[0]"]
         for name, _c_type, kind in spec.params:
             safe = safe_param_name(name)
             if kind == "probs":
@@ -294,16 +334,38 @@ def emit_cydist(specs: list[CydistSpec]) -> None:
                 call_args.extend(["probs_ptr", "k"])
             else:
                 call_args.append(safe)
-        call_args.extend(["seed", "ptr", "n_samples"])
 
         pyx_funcs.append(f"def {spec.py_func}({', '.join(pyx_sig_params)}):")
-        pyx_funcs.extend(setup)
-        pyx_funcs.append("    with nogil:")
-        pyx_funcs.append(f"        {spec.c_func}({', '.join(call_args)})")
+        if fused_continuous:
+            setup.extend(
+                [
+                    "    cdef float* ptr_f32",
+                    "    cdef double* ptr_f64",
+                ]
+            )
+            pyx_funcs.extend(setup)
+            call_f64 = call_args + ["seed", "ptr_f64", "n_samples"]
+            call_f32 = call_args + ["seed", "ptr_f32", "n_samples"]
+            pyx_funcs.append("    if ContinuousOut is cnp.float32_t:")
+            pyx_funcs.append("        ptr_f32 = &out[0]")
+            pyx_funcs.append("        with nogil:")
+            pyx_funcs.append(f"            {c_func_f32}({', '.join(call_f32)})")
+            pyx_funcs.append("    else:")
+            pyx_funcs.append("        ptr_f64 = &out[0]")
+            pyx_funcs.append("        with nogil:")
+            pyx_funcs.append(f"            {spec.c_func}({', '.join(call_f64)})")
+        else:
+            setup.append(f"    cdef {out_c}* ptr = <{out_c}*>&out[0]")
+            pyx_funcs.extend(setup)
+            call_args.extend(["seed", "ptr", "n_samples"])
+            pyx_funcs.append("    with nogil:")
+            pyx_funcs.append(f"        {spec.c_func}({', '.join(call_args)})")
         pyx_funcs.append("")
 
         py_exports.append(spec.py_func)
         doc = _func_docstring(spec)
+        if fused_continuous:
+            doc += " Accepts float32 or float64 ``out`` (FusedType dispatch)."
         pyi_lines.append(f"def {spec.py_func}({', '.join(py_sig_params)}) -> None:")
         pyi_lines.append(f'    """{doc}"""')
         pyi_lines.append("")
@@ -333,7 +395,14 @@ def emit_cydist(specs: list[CydistSpec]) -> None:
         "from libc.stddef cimport size_t\n"
         "from libc.stdint cimport uint64_t\n\n"
         "cnp.import_array()\n\n"
-        'cdef extern from "cydist_shim.h":\n'
+        + (
+            "ctypedef fused ContinuousOut:\n"
+            "    cnp.float32_t\n"
+            "    cnp.float64_t\n\n"
+            if any(s.vault_id in FUSED_CONTINUOUS_VAULT_IDS for s in specs)
+            else ""
+        )
+        + 'cdef extern from "cydist_shim.h":\n'
         + "\n".join(pyx_extern)
         + "\n\n"
         + "\n".join(pyx_funcs)

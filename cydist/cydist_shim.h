@@ -74,6 +74,7 @@ void cydist_davis_sample_batch(double nu, uint64_t seed, double* out, size_t n_s
 void cydist_erlang_sample_batch(double a, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_hyper_sample_batch(double lambda1, double lambda2, double w1, uint64_t seed, double* out, size_t n_samples);
 void cydist_exponential_sample_batch(double rate, uint64_t seed, double* out, size_t n_samples);
+void cydist_exponential_sample_batch_f32(double rate, uint64_t seed, float* out, size_t n_samples);
 void cydist_hyperexponential_sample_batch(double lambda1, double lambda2, double w1, uint64_t seed, double* out, size_t n_samples);
 void cydist_hypoexponential_sample_batch(double rate1, double rate2, uint64_t seed, double* out, size_t n_samples);
 void cydist_exponential_logarithmic_sample_batch(double scale, uint64_t seed, double* out, size_t n_samples);
@@ -136,6 +137,7 @@ void cydist_asymmetric_sample_batch(double kappa, double loc, double scale, uint
 void cydist_logistic_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_noncentral_t_sample_batch(double df, double nc, double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_normal_sample_batch(double mu, double sigma, uint64_t seed, double* out, size_t n_samples);
+void cydist_normal_sample_batch_f32(double mu, double sigma, uint64_t seed, float* out, size_t n_samples);
 void cydist_normal_inverse_gaussian_sample_batch(double a, double b, double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_skew_normal_sample_batch(double loc, double scale, double alpha, uint64_t seed, double* out, size_t n_samples);
 void cydist_slash_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);

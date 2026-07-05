@@ -1,7 +1,8 @@
 """Fast batch samplers for probability distributions (C++/Cython).
 
 Pre-allocate ``out`` and pass it to ``*_sample_batch``; samples are written in-place.
-Discrete distributions use ``int32`` arrays, continuous use ``float64``.
+Discrete distributions use ``int32`` arrays; continuous use ``float64`` (default) or
+``float32`` for normal and exponential (Cython ``FusedType`` dispatch).
 The GIL is released during each call. RNG: PCG32 via ``seed`` (default 42).
 """
 
@@ -203,7 +204,7 @@ def hyper_sample_batch(out: np.ndarray, lambda1: float, lambda2: float, w1: floa
     """Sample Hyper into ``out`` (float64). Hyper distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def exponential_sample_batch(out: np.ndarray, rate: float, seed: int = 42) -> None:
-    """Sample Exponential into ``out`` (float64). Waiting time until the next event when events occur at a constant rate."""
+    """Sample Exponential into ``out`` (float64). Waiting time until the next event when events occur at a constant rate. Accepts float32 or float64 ``out`` (FusedType dispatch)."""
 
 def hyperexponential_sample_batch(out: np.ndarray, lambda1: float, lambda2: float, w1: float, seed: int = 42) -> None:
     """Sample Hyperexponential into ``out`` (float64). Hyperexponential distribution: A continuous random variable with support on a half-line such as [..."""
@@ -389,7 +390,7 @@ def noncentral_t_sample_batch(out: np.ndarray, df: float, nc: float, loc: float,
     """Sample Noncentral _t_ into ``out`` (float64). Noncentral _t_ distribution: A continuous random variable with support on the entire real line."""
 
 def normal_sample_batch(out: np.ndarray, mu: float, sigma: float, seed: int = 42) -> None:
-    """Sample Normal (Gaussian) into ``out`` (float64). The bell curve: symmetric uncertainty around a central value with controlled spread."""
+    """Sample Normal (Gaussian) into ``out`` (float64). The bell curve: symmetric uncertainty around a central value with controlled spread. Accepts float32 or float64 ``out`` (FusedType dispatch)."""
 
 def normal_inverse_gaussian_sample_batch(out: np.ndarray, a: float, b: float, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Normal-inverse Gaussian into ``out`` (float64). Normal-inverse Gaussian distribution: A continuous random variable with support on the entire rea..."""

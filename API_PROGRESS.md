@@ -11,15 +11,21 @@ Goal: **C++20 `Distribution` concept**, **`template<typename Sample>` + type ali
 | Hand-written modeling `Distribution` concept (verified) | **13 / 13** |
 | Hand-written with `template<typename Sample>` + alias | **4 / 13** |
 | Hand-written with float Tier A | **2 / 13** |
-| Required batches complete | **4 / 9** |
+| Required batches complete | **5 / 9** |
 
-Last push: batch 3 (templated normal + exponential, float Tier A).
+Last push: batch 4 (cydist float32 FusedType for normal/exponential).
 
 ## Next batch
 
-**Batch 4** — cydist `float32` paths for bernoulli/discrete-uniform/normal/exponential batch entry points.
+**Batch 5** — Float Tier B fast paths (4 hot dists).
 
 ## Completed batches
+
+### Batch 4 — cydist float32 (FusedType)
+
+- Cython `ContinuousOut` fused type (`float32` | `float64`) for `normal_sample_batch` and `exponential_sample_batch`
+- Shim `*_f32` entry points call `NormalDistribution<float>` / `ExponentialDistribution<float>`
+- Discrete batch entry points (bernoulli, discrete-uniform) remain `int32` only
 
 ### Batch 3 — Templated continuous (2)
 
