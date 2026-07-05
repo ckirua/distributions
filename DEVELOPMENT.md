@@ -101,11 +101,13 @@ Phase-1 ISPC kernels were removed in optimize batch 9; see `archive/ispc-phase1/
 | **A** | `sample()`, or `sample_batch` with `n < kFastThreshold` (4096) | Serial `Pcg32` | Bit-exact stream |
 | **B** | `sample_batch` with `n >= 4096` when a fast path exists | SplitMix64 or derived-seed PCG | Statistical match only |
 | **C** | Same as B when `-DDISTRIBUTIONS_ENABLE_SIMD=ON` and CPU has AVX2 | AVX2 (`detail/simd/`) | Statistical match only |
+| **C512** | Same as B when `-DDISTRIBUTIONS_ENABLE_AVX512=ON` (requires SIMD) and CPU has AVX-512F | 8-wide double kernels (`detail/simd/avx512/`) | Statistical match only |
 
 Build SIMD (optional, off by default):
 
 ```bash
-make build-simd    # separate build dir: build-simd/
+make build-simd       # separate build dir: build-simd/
+make build-simd512    # AVX-512 spike (Intel HPC): build-simd512/
 ```
 
 Phase 2 tracker: [`plan-simd.md`](plan-simd.md), [`SIMD_PROGRESS.md`](SIMD_PROGRESS.md). Baseline for SIMD comparisons: `results/baseline-v0.3.0/` (Tier B @ v0.3.0).

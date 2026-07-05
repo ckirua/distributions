@@ -14,14 +14,19 @@ Goal: **C++20 `Distribution` concept**, **`template<typename Sample>` + type ali
 | Hand-written with float Tier B | **2 / 13** |
 | Hand-written with float Tier C | **2 / 13** |
 | Required batches complete | **9 / 9** |
+| Optional batch 9 (AVX-512 spike) | **done** |
 
-Last push: batch 8 (integration sign-off). **Phase 3 required batches done.**
-
-## Optional next
-
-**Batch 9** — AVX-512 spike (Intel HPC only; see [`plan-api.md`](plan-api.md)).
+Last push: batch 9 (AVX-512 spike).
 
 ## Completed batches
+
+### Batch 9 — AVX-512 spike (optional)
+
+- CMake gate `DISTRIBUTIONS_ENABLE_AVX512` (requires `DISTRIBUTIONS_ENABLE_SIMD`)
+- Runtime `cpu_has_avx512()` / `tier_c512_enabled()` in `detail/simd/config.hpp`
+- 8-wide libmvec double kernels: `detail/simd/avx512/exponential.hpp`, `normal.hpp`
+- Dispatch: Tier C512 → Tier C AVX2 → Tier B fallback
+- `make build-simd512` / `make test-simd512`; `simd_avx512_config_test`
 
 ### Batch 8 — Integration sign-off
 
@@ -78,11 +83,11 @@ Last push: batch 8 (integration sign-off). **Phase 3 required batches done.**
 | `geometric` | `GeometricDistribution<Sample>` | `Geometric` | Tier A only | 7 |
 | `negative-binomial` | `NegativeBinomialDistribution<Sample>` | `NegativeBinomial` | int Tier B | 7 |
 | `skellam` | `SkellamDistribution<Sample>` | `Skellam` | int Tier B | 7 |
-| `normal-gaussian` | `NormalDistribution<Sample>` | `Normal` | float Tier A/B/C | 3, 5, 6 |
-| `exponential` | `ExponentialDistribution<Sample>` | `Exponential` | float Tier A/B/C | 3, 5, 6 |
+| `normal-gaussian` | `NormalDistribution<Sample>` | `Normal` | float Tier A/B/C; double Tier C512 | 3, 5, 6, 9 |
+| `exponential` | `ExponentialDistribution<Sample>` | `Exponential` | float Tier A/B/C; double Tier C512 | 3, 5, 6, 9 |
 
 ## Agent instructions
 
-Phase 3 required work is complete. Optional batch 9 only if requested.
+Phase 3 complete (required + optional batch 9).
 
 Prior phases: [`OPTIMIZE_PROGRESS.md`](OPTIMIZE_PROGRESS.md), [`SIMD_PROGRESS.md`](SIMD_PROGRESS.md).

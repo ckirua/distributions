@@ -7,16 +7,20 @@ BUILD    := build
 CMAKE    := cmake -S . -B $(BUILD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14
 BUILD_SIMD := build-simd
 CMAKE_SIMD := cmake -S . -B $(BUILD_SIMD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14 -DDISTRIBUTIONS_ENABLE_SIMD=ON
+BUILD_SIMD512 := build-simd512
+CMAKE_SIMD512 := cmake -S . -B $(BUILD_SIMD512) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14 -DDISTRIBUTIONS_ENABLE_SIMD=ON -DDISTRIBUTIONS_ENABLE_AVX512=ON
 
-.PHONY: help clean codegen configure configure-simd build build-simd test test-simd test-sanity test-all bench bench-core bench-core-simd bench-core-baseline bench-core-quick bench-all vault install
+.PHONY: help clean codegen configure configure-simd configure-simd512 build build-simd build-simd512 test test-simd test-simd512 test-sanity test-all bench bench-core bench-core-simd bench-core-baseline bench-core-quick bench-all vault install
 
 help:
 	@echo "Targets: clean codegen configure build test bench vault install"
 	@echo "  make codegen   — regenerate distribution headers + dispatch + cydist shim"
 	@echo "  make build     — configure (if needed) and compile C++ benchmarks"
 	@echo "  make build-simd — same with -DDISTRIBUTIONS_ENABLE_SIMD=ON (AVX2 Tier C)"
+	@echo "  make build-simd512 — AVX2 + AVX-512 Tier C (Intel HPC; optional batch 9)"
 	@echo "  make test      — ctest + fast pytest smoke (excludes sanity)"
 	@echo "  make test-simd — ctest on build-simd (Tier B vs C repro, when AVX2)"
+	@echo "  make test-simd512 — ctest on build-simd512 (AVX-512 config + repro when CPU supports)"
 	@echo "  make test-sanity — statistical checks vs scipy (~48 cases, slow)"
 	@echo "  make test-all  — smoke + sanity"
 	@echo "  make bench     — benchmark 13 hand-written ids (alias for bench-core)"
@@ -48,12 +52,22 @@ build: configure
 build-simd: configure-simd
 	cmake --build $(BUILD_SIMD) -j$$(nproc)
 
+configure-simd512:
+	$(CMAKE_SIMD512)
+
+build-simd512: configure-simd512
+	cmake --build $(BUILD_SIMD512) -j$$(nproc)
+
 test: build install
 	ctest --test-dir $(BUILD) --output-on-failure
 	$(PYTHON) -m pytest tests/ -q --tb=line
 
 test-simd: build-simd install
 	ctest --test-dir $(BUILD_SIMD) --output-on-failure
+	$(PYTHON) -m pytest tests/test_reproducibility_simd.py -q --tb=line
+
+test-simd512: build-simd512 install
+	ctest --test-dir $(BUILD_SIMD512) --output-on-failure
 	$(PYTHON) -m pytest tests/test_reproducibility_simd.py -q --tb=line
 
 test-sanity: install

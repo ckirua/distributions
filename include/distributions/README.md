@@ -47,6 +47,7 @@ Generated family samplers (176) keep the same method names but are not yet conce
 | **A — Serial** | `Pcg32` in [`rng.hpp`](rng.hpp) | `sample()`, small batches, tests — bit-exact stream |
 | **B — Fast scalar** | SplitMix64 or derived-seed PCG ([`detail/fast/`](detail/fast/)) | Large `sample_batch` when a fast path exists |
 | **C — SIMD** | AVX2 ([`detail/simd/`](detail/simd/)) | Same threshold as B when `DISTRIBUTIONS_ENABLE_SIMD=ON` and CPU has AVX2 |
+| **C512 — AVX-512** | 8-wide double ([`detail/simd/avx512/`](detail/simd/avx512/)) | `normal` / `exponential` double only; `-DDISTRIBUTIONS_ENABLE_AVX512=ON` (Intel HPC) |
 
 Tier-C primitives (batch 1+): `fill_uniform01_avx2` in [`detail/simd/uniform.hpp`](detail/simd/uniform.hpp).
 

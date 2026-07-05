@@ -9,6 +9,10 @@
 #include <immintrin.h>
 #endif
 
+#if defined(DISTRIBUTIONS_HAS_AVX512)
+#include "distributions/detail/simd/avx512/normal.hpp"
+#endif
+
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
@@ -18,6 +22,12 @@ namespace distributions::detail::simd {
 
 inline void normal_sample_batch(
     double* out, std::size_t n, double mu, double sigma, std::uint64_t seed) {
+#if defined(DISTRIBUTIONS_HAS_AVX512)
+    if (tier_c512_enabled()) {
+        avx512::normal_sample_batch(out, n, mu, sigma, seed);
+        return;
+    }
+#endif
 #if defined(DISTRIBUTIONS_HAS_AVX2)
     if (tier_c_enabled()) {
         static constexpr double kTwoPi = 6.283185307179586;

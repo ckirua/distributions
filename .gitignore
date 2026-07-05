@@ -1,6 +1,7 @@
 # CMake / C++
 build/
 build-simd/
+build-simd512/
 build/verify_tmp/
 cmake-build-*/
 *.o

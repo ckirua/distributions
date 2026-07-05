@@ -7,9 +7,10 @@ After each API batch (see [`plan-api.md`](../plan-api.md)):
    ```bash
    make codegen && make build && make test && make test-sanity
    ```
-3. If batch touches float SIMD (batch 6+):
+3. If batch touches float SIMD (batch 6+) or AVX-512 (batch 9):
    ```bash
    make build-simd && make test-simd
+   make build-simd512 && make test-simd512   # batch 9 only
    ```
 4. Update [`API_PROGRESS.md`](../API_PROGRESS.md):
    - status counts
