@@ -48,6 +48,7 @@ endmacro()
 add_dist_test(bernoulli_test tests/cpp/bernoulli_test.cpp)
 add_dist_test(counter_rng_test tests/cpp/counter_rng_test.cpp)
 add_dist_test(simd_config_test tests/cpp/simd_config_test.cpp)
+add_dist_test(simd_uniform_test tests/cpp/simd_uniform_test.cpp)
 add_dist_test(smoke_all_test tests/cpp/smoke_all_test.cpp)
 
 option(DISTRIBUTIONS_BUILD_EXAMPLES "Build examples/ targets" ON)

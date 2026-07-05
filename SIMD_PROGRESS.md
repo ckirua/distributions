@@ -13,19 +13,25 @@ Goal: **AVX2 Tier-C** vector `sample_batch` for the **13 hand-written** core on 
 | Runtime cpuid guard (`detail/simd/config.hpp`) | **yes** |
 | Geomean vs v0.3.0 Tier B @10M | **1.0×** (no SIMD samplers yet) |
 | Geomean vs v0.2.0 @10M (cumulative) | **1.29×** (inherited) |
-| Required batches complete | **1 / 7** |
+| Required batches complete | **2 / 7** |
 
-Last push: batch 0 (AVX2 gate + v0.3.0 baseline).
+Last push: batch 1 (AVX2 Philox uniform fill).
 
 ## Next batch
 
-**Batch 1** — Vector Philox + `fill_uniform01_avx2` in `detail/simd/`.
+**Batch 2** — AVX2 bernoulli + discrete-uniform Tier C dispatch.
 
 ## Batch 6 decision gate
 
 Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** (currently 1.29×). Skip batch 7 (parallel) if met.
 
 ## Completed batches
+
+### Batch 1 — Vector counter-RNG + uniforms
+
+- `detail/simd/philox4x32_avx2.hpp`: Philox4x32-10 + AVX2 u01 block convert
+- `detail/simd/uniform.hpp`: `fill_uniform01_avx2()` (falls back to scalar Philox)
+- `tests/cpp/simd_uniform_test.cpp`: moments + bit-identical vs scalar Philox @1M
 
 ### Batch 0 — Infrastructure
 
