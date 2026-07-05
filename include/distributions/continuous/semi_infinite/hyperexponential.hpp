@@ -1,19 +1,19 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/semi_infinite.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Hyperexponential {
-    double loc_;
-    double scale_;
-    Hyperexponential(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double lambda1_;
+    double lambda2_;
+    double w1_;
+    Hyperexponential(double lambda1, double lambda2, double w1) : lambda1_(lambda1), lambda2_(lambda2), w1_(w1) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_hyper_mixture(rng, lambda1_, lambda2_, w1_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

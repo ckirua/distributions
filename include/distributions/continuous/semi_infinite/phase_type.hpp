@@ -1,19 +1,19 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/semi_infinite.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct PhaseType {
-    double loc_;
-    double scale_;
-    PhaseType(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double rate1_;
+    double rate2_;
+    double rate3_;
+    PhaseType(double rate1, double rate2, double rate3) : rate1_(rate1), rate2_(rate2), rate3_(rate3) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_phase_type(rng, rate1_, rate2_, rate3_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

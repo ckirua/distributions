@@ -1,19 +1,18 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/semi_infinite.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Frechet {
-    double loc_;
+    double c_;
     double scale_;
-    Frechet(double loc, double scale) : loc_(loc), scale_(scale) {}
+    Frechet(double c, double scale) : c_(c), scale_(scale) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_invweibull(rng, c_, scale_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

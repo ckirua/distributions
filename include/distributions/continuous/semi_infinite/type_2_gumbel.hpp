@@ -1,19 +1,18 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/semi_infinite.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Type2Gumbel {
-    double loc_;
+    double shape_;
     double scale_;
-    Type2Gumbel(double loc, double scale) : loc_(loc), scale_(scale) {}
+    Type2Gumbel(double shape, double scale) : shape_(shape), scale_(scale) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_weibull_min(rng, shape_, scale_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

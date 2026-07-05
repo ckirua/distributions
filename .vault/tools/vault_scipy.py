@@ -80,6 +80,13 @@ SCIPY_SPECS: dict[str, tuple[str, dict]] = {
     "beta-rectangular": ("beta", {"a": 2, "b": 5}),
     "generalized-beta": ("beta", {"a": 2, "b": 5}),
     "pert": ("beta", {"a": 3, "b": 3}),
+    "frechet": ("invweibull", {"c": 2, "scale": 1.0}),
+    "generalized": ("gengamma", {"a": 2, "c": 1, "scale": 1.0}),
+    "noncentral-f": ("ncf", {"dfn": 5, "dfd": 10, "nc": 2}),
+    "type-2-gumbel": ("weibull_min", {"c": 1.5, "scale": 2.0}),
+    "shifted": ("expon", {"loc": 1, "scale": 1.0}),
+    "relativistic-breitwigner": ("rel_breitwigner", {"rho": 1.0}),
+    "hotellings-t-squared": ("f", {"dfn": 5, "dfd": 10}),
 }
 
 CONTENT_ALIASES: dict[str, str] = {

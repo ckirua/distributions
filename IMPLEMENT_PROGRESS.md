@@ -10,12 +10,12 @@ Goal: implement all **121** heuristic placeholders as real `family` samplers; al
 |--------|------:|
 | Total distributions | 189 |
 | `hand-written` | 13 |
-| `family` | **85** |
-| `heuristic` remaining | **90** |
+| `family` | **110** |
+| `heuristic` remaining | **65** |
 | `exact` | 1 |
-| Sanity tests passing | 47 (+ 12 xfail, 2 xpass) |
+| Sanity tests passing | 53 (+ 12 xfail, 2 xpass) |
 
-Last push: batch 4 (bounded continuous, 8 samplers).
+Last push: batch 5 (semi-infinite continuous, 25 samplers).
 
 ## Completed batches
 
@@ -44,9 +44,25 @@ Last push: batch 4 (bounded continuous, 8 samplers).
 | `noncentral-beta` | ncx2 / chi² ratio | skip |
 | `pert` | scaled Beta(a,b) | yes |
 
+### Batch 5 — `continuous/semi-infinite-interval` (25)
+
+New helper: `include/distributions/detail/semi_infinite.hpp`
+
+| vault id | algorithm | scipy sanity |
+|----------|-----------|--------------|
+| `frechet` | inverse Weibull | yes |
+| `generalized` | generalized gamma | yes |
+| `type-2-gumbel` | Weibull minimum | yes |
+| `shifted` | shifted exponential | yes |
+| `noncentral-f` | ncx2 / chi² ratio | yes |
+| `hotellings-t-squared` | noncentral F (nc=0) | yes |
+| `hyperexponential` | exponential mixture | skip |
+| `hypoexponential` | sum of exponentials | skip |
+| `benini`, `benktander-*`, `davis`, `discrete-weibull`, `hartmanwatson`, `hyper`, `kolmogorov`, `log-cauchy`, `log-t`, `matrix-exponential`, `maxwelljuttner`, `mittag-leffler`, `phase-type`, `poly-weibull`, `relativistic-breitwigner`, `wilkss-lambda` | specialized / approximate | skip |
+
 ## Next batch
 
-**`continuous/semi-infinite-interval`** (25 remaining): `benini`, `gompertz` done, `frechet`, `generalized-gamma` done, …
+**`continuous/whole-real-line`** (19 heuristic): `asymmetric-laplace`, `cauchy` done, `exponential-power`, …
 
 ## Agent instructions
 

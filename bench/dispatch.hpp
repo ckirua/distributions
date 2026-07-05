@@ -538,19 +538,19 @@ inline void sample_cpp(
         return;
     }
     if (dist == "benini") {
-        const distributions::Benini d(0.0, 1.0);
+        const distributions::Benini d(1.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "benktander-1st-kind") {
-        const distributions::Benktander1stKind d(0.0, 1.0);
+        const distributions::Benktander1stKind d(1.0, 1.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "benktander-2nd-kind") {
-        const distributions::Benktander2ndKind d(0.0, 1.0);
+        const distributions::Benktander2ndKind d(1.0, 2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -604,7 +604,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "davis") {
-        const distributions::Davis d(0.0, 1.0);
+        const distributions::Davis d(3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -616,7 +616,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "hyper") {
-        const distributions::Hyper d(0.0, 1.0);
+        const distributions::Hyper d(1.0, 2.0, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -628,13 +628,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "hyperexponential") {
-        const distributions::Hyperexponential d(0.0, 1.0);
+        const distributions::Hyperexponential d(0.5, 1.0, 0.6);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "hypoexponential") {
-        const distributions::Hypoexponential d(0.0, 1.0);
+        const distributions::Hypoexponential d(2.0, 3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -652,7 +652,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "noncentral-f") {
-        const distributions::NoncentralF d(0.0, 1.0);
+        const distributions::NoncentralF d(5.0, 10.0, 2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -664,7 +664,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "frechet") {
-        const distributions::Frechet d(0.0, 1.0);
+        const distributions::Frechet d(2.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -700,7 +700,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "shifted") {
-        const distributions::Shifted d(0.0, 1.0);
+        const distributions::Shifted d(1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -718,13 +718,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "hotellings-t-squared") {
-        const distributions::HotellingsTSquared d(0.0, 1.0);
+        const distributions::HotellingsTSquared d(5.0, 10.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "hartmanwatson") {
-        const distributions::Hartmanwatson d(0.0, 1.0);
+        const distributions::Hartmanwatson d(3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -736,13 +736,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "generalized") {
-        const distributions::Generalized d(0.0, 1.0);
+        const distributions::Generalized d(2.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kolmogorov") {
-        const distributions::Kolmogorov d(0.0, 1.0);
+        const distributions::Kolmogorov d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -778,7 +778,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "log-t") {
-        const distributions::LogT d(0.0, 1.0);
+        const distributions::LogT d(5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -790,7 +790,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "matrix-exponential") {
-        const distributions::MatrixExponential d(0.0, 1.0);
+        const distributions::MatrixExponential d(1.0, 2.0, 3.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -802,13 +802,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "maxwelljuttner") {
-        const distributions::Maxwelljuttner d(0.0, 1.0);
+        const distributions::Maxwelljuttner d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "mittag-leffler") {
-        const distributions::MittagLeffler d(0.0, 1.0);
+        const distributions::MittagLeffler d(0.8, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -826,13 +826,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "phase-type") {
-        const distributions::PhaseType d(0.0, 1.0);
+        const distributions::PhaseType d(1.0, 2.0, 4.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "poly-weibull") {
-        const distributions::PolyWeibull d(0.0, 1.0);
+        const distributions::PolyWeibull d(1.5, 2.5, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -844,7 +844,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "relativistic-breitwigner") {
-        const distributions::RelativisticBreitwigner d(0.0, 1.0);
+        const distributions::RelativisticBreitwigner d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -862,7 +862,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "type-2-gumbel") {
-        const distributions::Type2Gumbel d(0.0, 1.0);
+        const distributions::Type2Gumbel d(1.5, 2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -874,13 +874,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "discrete-weibull") {
-        const distributions::DiscreteWeibull d(0.0, 1.0);
+        const distributions::DiscreteWeibull d(1.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "wilkss-lambda") {
-        const distributions::WilkssLambda d(0.0, 1.0);
+        const distributions::WilkssLambda d(3.0, 5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1120,7 +1120,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "shifted-log-logistic") {
-        const distributions::ShiftedLogLogistic d(0.0, 1.0);
+        const distributions::ShiftedLogLogistic d(1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;

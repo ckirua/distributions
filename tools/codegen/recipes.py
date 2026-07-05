@@ -755,6 +755,208 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        cydist_params=[("double", "a"), ("double", "c"), ("double", "scale"), ("uint64_t", "seed")]))
             continue
 
+        # --- semi-infinite (heuristic batch 5) ---
+        if vid == "benini":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "alpha", "1.0"), ("double", "beta", "1.0"), ("double", "gamma", "1.0")],
+                       sample_body="return detail::sample_benini(rng, alpha_, beta_, gamma_);",
+                       bench_ctor_args="1.0, 1.0, 1.0",
+                       cydist_params=[("double", "alpha"), ("double", "beta"), ("double", "gamma"), ("uint64_t", "seed")]))
+            continue
+        if vid == "benktander-1st-kind":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "a", "1.0"), ("double", "b", "1.5")],
+                       sample_body="return detail::sample_benktander(rng, a_, b_);",
+                       bench_ctor_args="1.0, 1.5",
+                       cydist_params=[("double", "a"), ("double", "b"), ("uint64_t", "seed")]))
+            continue
+        if vid == "benktander-2nd-kind":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "a", "1.0"), ("double", "b", "2.0")],
+                       sample_body="return detail::sample_benktander(rng, a_, b_);",
+                       bench_ctor_args="1.0, 2.0",
+                       cydist_params=[("double", "a"), ("double", "b"), ("uint64_t", "seed")]))
+            continue
+        if vid == "davis":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "nu", "3.0")],
+                       sample_body="return detail::sample_davis(rng, nu_);",
+                       bench_ctor_args="3.0",
+                       cydist_params=[("double", "nu"), ("uint64_t", "seed")]))
+            continue
+        if vid == "discrete-weibull":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "c", "1.5")],
+                       sample_body="return detail::sample_discrete_weibull(rng, c_);",
+                       bench_ctor_args="1.5",
+                       cydist_params=[("double", "c"), ("uint64_t", "seed")]))
+            continue
+        if vid == "frechet":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "c", "2.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_invweibull(rng, c_, scale_);",
+                       bench_ctor_args="2.0, 1.0",
+                       cydist_params=[("double", "c"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "generalized":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/gamma.hpp"],
+                       members=[("double", "a", "2.0"), ("double", "c", "1.0"), ("double", "scale", "1.0")],
+                       sample_body="return scale_ * std::pow(detail::sample_gamma(rng, a_, 1.0), 1.0 / c_);",
+                       bench_ctor_args="2.0, 1.0, 1.0",
+                       cydist_params=[("double", "a"), ("double", "c"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "hartmanwatson":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "nu", "3.0")],
+                       sample_body="return detail::sample_hartman_watson(rng, nu_);",
+                       bench_ctor_args="3.0",
+                       cydist_params=[("double", "nu"), ("uint64_t", "seed")]))
+            continue
+        if vid == "hotellings-t-squared":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "df1", "5.0"), ("double", "df2", "10.0")],
+                       sample_body="return detail::sample_hotelling_t_squared(rng, df1_, df2_);",
+                       bench_ctor_args="5.0, 10.0",
+                       cydist_params=[("double", "df1"), ("double", "df2"), ("uint64_t", "seed")]))
+            continue
+        if vid == "hyper":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "lambda1", "1.0"), ("double", "lambda2", "2.0"), ("double", "w1", "0.5")],
+                       sample_body="return detail::sample_hyper_mixture(rng, lambda1_, lambda2_, w1_);",
+                       bench_ctor_args="1.0, 2.0, 0.5",
+                       cydist_params=[("double", "lambda1"), ("double", "lambda2"), ("double", "w1"), ("uint64_t", "seed")]))
+            continue
+        if vid == "hyperexponential":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "lambda1", "0.5"), ("double", "lambda2", "1.0"), ("double", "w1", "0.6")],
+                       sample_body="return detail::sample_hyper_mixture(rng, lambda1_, lambda2_, w1_);",
+                       bench_ctor_args="0.5, 1.0, 0.6",
+                       cydist_params=[("double", "lambda1"), ("double", "lambda2"), ("double", "w1"), ("uint64_t", "seed")]))
+            continue
+        if vid == "hypoexponential":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "rate1", "2.0"), ("double", "rate2", "3.0")],
+                       sample_body="return detail::sample_hypoexponential(rng, rate1_, rate2_);",
+                       bench_ctor_args="2.0, 3.0",
+                       cydist_params=[("double", "rate1"), ("double", "rate2"), ("uint64_t", "seed")]))
+            continue
+        if vid == "kolmogorov":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "scale", "1.0")],
+                       sample_body="return detail::sample_kolmogorov(rng, scale_);",
+                       bench_ctor_args="1.0",
+                       cydist_params=[("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "log-cauchy":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_log_cauchy(rng, loc_, scale_);",
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "log-t":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "df", "5.0")],
+                       sample_body="return detail::sample_log_t(rng, df_);",
+                       bench_ctor_args="5.0",
+                       cydist_params=[("double", "df"), ("uint64_t", "seed")]))
+            continue
+        if vid == "matrix-exponential":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "rate1", "1.0"), ("double", "rate2", "2.0"), ("double", "rate3", "3.0")],
+                       sample_body="return detail::sample_phase_type(rng, rate1_, rate2_, rate3_);",
+                       bench_ctor_args="1.0, 2.0, 3.0",
+                       cydist_params=[("double", "rate1"), ("double", "rate2"), ("double", "rate3"), ("uint64_t", "seed")]))
+            continue
+        if vid == "maxwelljuttner":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "a", "1.0")],
+                       sample_body="return detail::sample_maxwell_juttner(rng, a_);",
+                       bench_ctor_args="1.0",
+                       cydist_params=[("double", "a"), ("uint64_t", "seed")]))
+            continue
+        if vid == "mittag-leffler":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "alpha", "0.8"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_mittag_leffler(rng, alpha_, scale_);",
+                       bench_ctor_args="0.8, 1.0",
+                       cydist_params=[("double", "alpha"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "noncentral-f":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "dfn", "5.0"), ("double", "dfd", "10.0"), ("double", "nc", "2.0")],
+                       sample_body="return detail::sample_noncentral_f(rng, dfn_, dfd_, nc_);",
+                       bench_ctor_args="5.0, 10.0, 2.0",
+                       cydist_params=[("double", "dfn"), ("double", "dfd"), ("double", "nc"), ("uint64_t", "seed")]))
+            continue
+        if vid == "phase-type":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "rate1", "1.0"), ("double", "rate2", "2.0"), ("double", "rate3", "4.0")],
+                       sample_body="return detail::sample_phase_type(rng, rate1_, rate2_, rate3_);",
+                       bench_ctor_args="1.0, 2.0, 4.0",
+                       cydist_params=[("double", "rate1"), ("double", "rate2"), ("double", "rate3"), ("uint64_t", "seed")]))
+            continue
+        if vid == "poly-weibull":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "shape1", "1.5"), ("double", "shape2", "2.5"), ("double", "weight", "0.5")],
+                       sample_body="return detail::sample_poly_weibull(rng, shape1_, shape2_, weight_);",
+                       bench_ctor_args="1.5, 2.5, 0.5",
+                       cydist_params=[("double", "shape1"), ("double", "shape2"), ("double", "weight"), ("uint64_t", "seed")]))
+            continue
+        if vid == "relativistic-breitwigner":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "rho", "1.0")],
+                       sample_body="return detail::sample_rel_breitwigner(rng, rho_);",
+                       bench_ctor_args="1.0",
+                       cydist_params=[("double", "rho"), ("uint64_t", "seed")]))
+            continue
+        if vid == "shifted":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "loc", "1.0"), ("double", "rate", "1.0")],
+                       sample_body="return detail::sample_shifted_exponential(rng, loc_, rate_);",
+                       bench_ctor_args="1.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "rate"), ("uint64_t", "seed")]))
+            continue
+        if vid == "type-2-gumbel":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "shape", "1.5"), ("double", "scale", "2.0")],
+                       sample_body="return detail::sample_weibull_min(rng, shape_, scale_);",
+                       bench_ctor_args="1.5, 2.0",
+                       cydist_params=[("double", "shape"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "wilkss-lambda":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/semi_infinite.hpp"],
+                       members=[("double", "a", "3.0"), ("double", "b", "5.0")],
+                       sample_body="return detail::sample_wilks_lambda(rng, a_, b_);",
+                       bench_ctor_args="3.0, 5.0",
+                       cydist_params=[("double", "a"), ("double", "b"), ("uint64_t", "seed")]))
+            continue
+
         # --- directional ---
         if vid == "univariate-von-mises" or vid == "circular-uniform":
             kappa = "0.0" if vid == "circular-uniform" else "2.0"

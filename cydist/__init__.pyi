@@ -160,14 +160,14 @@ def uniform_sample_batch(out: np.ndarray, lo: float, hi: float, seed: int = 42) 
 def wigner_semicircle_sample_batch(out: np.ndarray, lo: float, scale: float, seed: int = 42) -> None:
     """Sample Wigner semicircle into ``out`` (float64). Wigner semicircle distribution: A continuous random variable confined to a bounded interval."""
 
-def benini_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Benini into ``out`` (float64). Benini distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def benini_sample_batch(out: np.ndarray, alpha: float, beta: float, gamma: float, seed: int = 42) -> None:
+    """Sample Benini into ``out`` (float64). Benini distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def benktander_1st_kind_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Benktander 1st kind into ``out`` (float64). Benktander 1st kind distribution: A continuous random variable with support on a half-line such a... Tier: heuristic."""
+def benktander_1st_kind_sample_batch(out: np.ndarray, a: float, b: float, seed: int = 42) -> None:
+    """Sample Benktander 1st kind into ``out`` (float64). Benktander 1st kind distribution: A continuous random variable with support on a half-line such a..."""
 
-def benktander_2nd_kind_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Benktander 2nd kind into ``out`` (float64). Benktander 2nd kind distribution: A continuous random variable with support on a half-line such a... Tier: heuristic."""
+def benktander_2nd_kind_sample_batch(out: np.ndarray, a: float, b: float, seed: int = 42) -> None:
+    """Sample Benktander 2nd kind into ``out`` (float64). Benktander 2nd kind distribution: A continuous random variable with support on a half-line such a..."""
 
 def beta_prime_sample_batch(out: np.ndarray, alpha: float, beta: float, seed: int = 42) -> None:
     """Sample Beta prime into ``out`` (float64). Beta prime distribution: A continuous random variable with support on a half-line such as [0,∞)."""
@@ -193,23 +193,23 @@ def scaled_inverse_chi_squared_sample_batch(out: np.ndarray, df: float, scale: f
 def dagum_sample_batch(out: np.ndarray, c: float, scale: float, seed: int = 42) -> None:
     """Sample Dagum into ``out`` (float64). Dagum distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def davis_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Davis into ``out`` (float64). Davis distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def davis_sample_batch(out: np.ndarray, nu: float, seed: int = 42) -> None:
+    """Sample Davis into ``out`` (float64). Davis distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def erlang_sample_batch(out: np.ndarray, a: float, scale: float, seed: int = 42) -> None:
     """Sample Erlang into ``out`` (float64). Erlang distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def hyper_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Hyper into ``out`` (float64). Hyper distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def hyper_sample_batch(out: np.ndarray, lambda1: float, lambda2: float, w1: float, seed: int = 42) -> None:
+    """Sample Hyper into ``out`` (float64). Hyper distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def exponential_sample_batch(out: np.ndarray, rate: float, seed: int = 42) -> None:
     """Sample Exponential into ``out`` (float64). Waiting time until the next event when events occur at a constant rate."""
 
-def hyperexponential_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Hyperexponential into ``out`` (float64). Hyperexponential distribution: A continuous random variable with support on a half-line such as [... Tier: heuristic."""
+def hyperexponential_sample_batch(out: np.ndarray, lambda1: float, lambda2: float, w1: float, seed: int = 42) -> None:
+    """Sample Hyperexponential into ``out`` (float64). Hyperexponential distribution: A continuous random variable with support on a half-line such as [..."""
 
-def hypoexponential_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Hypoexponential into ``out`` (float64). Hypoexponential distribution: A continuous random variable with support on a half-line such as [0... Tier: heuristic."""
+def hypoexponential_sample_batch(out: np.ndarray, rate1: float, rate2: float, seed: int = 42) -> None:
+    """Sample Hypoexponential into ``out`` (float64). Hypoexponential distribution: A continuous random variable with support on a half-line such as [0..."""
 
 def exponential_logarithmic_sample_batch(out: np.ndarray, scale: float, seed: int = 42) -> None:
     """Sample Exponential-logarithmic into ``out`` (float64). Exponential-logarithmic distribution: A continuous random variable with support on a half-line su..."""
@@ -217,14 +217,14 @@ def exponential_logarithmic_sample_batch(out: np.ndarray, scale: float, seed: in
 def f_sample_batch(out: np.ndarray, dfn: float, dfd: float, seed: int = 42) -> None:
     """Sample _F_ into ``out`` (float64). _F_ distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def noncentral_f_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Noncentral F into ``out`` (float64). Noncentral F distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def noncentral_f_sample_batch(out: np.ndarray, dfn: float, dfd: float, nc: float, seed: int = 42) -> None:
+    """Sample Noncentral F into ``out`` (float64). Noncentral F distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def folded_normal_sample_batch(out: np.ndarray, c: float, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Folded normal into ``out`` (float64). Folded normal distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def frechet_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Fréchet into ``out`` (float64). Fréchet distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def frechet_sample_batch(out: np.ndarray, c: float, scale: float, seed: int = 42) -> None:
+    """Sample Fréchet into ``out`` (float64). Fréchet distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def gamma_sample_batch(out: np.ndarray, shape: float, scale: float, seed: int = 42) -> None:
     """Sample Gamma into ``out`` (float64). Gamma distribution: A continuous random variable with support on a half-line such as [0,∞)."""
@@ -241,8 +241,8 @@ def gamma_gompertz_sample_batch(out: np.ndarray, shape: float, scale: float, see
 def gompertz_sample_batch(out: np.ndarray, c: float, scale: float, seed: int = 42) -> None:
     """Sample Gompertz into ``out`` (float64). Gompertz distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def shifted_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Shifted into ``out`` (float64). Shifted distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def shifted_sample_batch(out: np.ndarray, loc: float, rate: float, seed: int = 42) -> None:
+    """Sample Shifted into ``out`` (float64). Shifted distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def half_logistic_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Half-logistic into ``out`` (float64). Half-logistic distribution: A continuous random variable with support on a half-line such as [0,∞)."""
@@ -250,26 +250,26 @@ def half_logistic_sample_batch(out: np.ndarray, loc: float, scale: float, seed: 
 def half_normal_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Half-normal into ``out`` (float64). Half-normal distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def hotellings_t_squared_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Hotelling's _T_\-squared into ``out`` (float64). Hotelling's _T_\-squared distribution: A continuous random variable with support on a half-line s... Tier: heuristic."""
+def hotellings_t_squared_sample_batch(out: np.ndarray, df1: float, df2: float, seed: int = 42) -> None:
+    """Sample Hotelling's _T_\-squared into ``out`` (float64). Hotelling's _T_\-squared distribution: A continuous random variable with support on a half-line s..."""
 
-def hartmanwatson_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Hartman–Watson into ``out`` (float64). Hartman–Watson distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def hartmanwatson_sample_batch(out: np.ndarray, nu: float, seed: int = 42) -> None:
+    """Sample Hartman–Watson into ``out`` (float64). Hartman–Watson distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def inverse_gaussian_sample_batch(out: np.ndarray, mu: float, lambda_: float, seed: int = 42) -> None:
     """Sample Inverse Gaussian into ``out`` (float64). Inverse Gaussian distribution: A continuous random variable with support on a half-line such as [..."""
 
-def generalized_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Generalized into ``out`` (float64). Generalized distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def generalized_sample_batch(out: np.ndarray, a: float, c: float, scale: float, seed: int = 42) -> None:
+    """Sample Generalized into ``out`` (float64). Generalized distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def kolmogorov_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Kolmogorov into ``out`` (float64). Kolmogorov distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def kolmogorov_sample_batch(out: np.ndarray, scale: float, seed: int = 42) -> None:
+    """Sample Kolmogorov into ``out`` (float64). Kolmogorov distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def levy_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Lévy into ``out`` (float64). Lévy distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def log_cauchy_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Log-Cauchy into ``out`` (float64). Log-Cauchy distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+    """Sample Log-Cauchy into ``out`` (float64). Log-Cauchy distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def log_laplace_sample_batch(out: np.ndarray, c: float, scale: float, seed: int = 42) -> None:
     """Sample Log-Laplace into ``out`` (float64). Log-Laplace distribution: A continuous random variable with support on a half-line such as [0,∞)."""
@@ -280,23 +280,23 @@ def log_logistic_sample_batch(out: np.ndarray, c: float, scale: float, seed: int
 def log_normal_sample_batch(out: np.ndarray, mu: float, sigma: float, seed: int = 42) -> None:
     """Sample Log-normal into ``out`` (float64). Log-normal distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def log_t_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Log-t into ``out`` (float64). Log-t distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def log_t_sample_batch(out: np.ndarray, df: float, seed: int = 42) -> None:
+    """Sample Log-t into ``out`` (float64). Log-t distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def lomax_sample_batch(out: np.ndarray, c: float, scale: float, seed: int = 42) -> None:
     """Sample Lomax into ``out`` (float64). Lomax distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def matrix_exponential_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Matrix-exponential into ``out`` (float64). Matrix-exponential distribution: A continuous random variable with support on a half-line such as... Tier: heuristic."""
+def matrix_exponential_sample_batch(out: np.ndarray, rate1: float, rate2: float, rate3: float, seed: int = 42) -> None:
+    """Sample Matrix-exponential into ``out`` (float64). Matrix-exponential distribution: A continuous random variable with support on a half-line such as..."""
 
 def maxwellboltzmann_sample_batch(out: np.ndarray, a: float, seed: int = 42) -> None:
     """Sample Maxwell–Boltzmann into ``out`` (float64). Maxwell–Boltzmann distribution: A continuous random variable with support on a half-line such as..."""
 
-def maxwelljuttner_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Maxwell–Jüttner into ``out`` (float64). Maxwell–Jüttner distribution: A continuous random variable with support on a half-line such as [0... Tier: heuristic."""
+def maxwelljuttner_sample_batch(out: np.ndarray, a: float, seed: int = 42) -> None:
+    """Sample Maxwell–Jüttner into ``out`` (float64). Maxwell–Jüttner distribution: A continuous random variable with support on a half-line such as [0..."""
 
-def mittag_leffler_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Mittag-Leffler into ``out`` (float64). Mittag-Leffler distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def mittag_leffler_sample_batch(out: np.ndarray, alpha: float, scale: float, seed: int = 42) -> None:
+    """Sample Mittag-Leffler into ``out`` (float64). Mittag-Leffler distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def nakagami_sample_batch(out: np.ndarray, nu: float, scale: float, seed: int = 42) -> None:
     """Sample Nakagami into ``out`` (float64). Nakagami distribution: A continuous random variable with support on a half-line such as [0,∞)."""
@@ -304,17 +304,17 @@ def nakagami_sample_batch(out: np.ndarray, nu: float, scale: float, seed: int = 
 def pareto_sample_batch(out: np.ndarray, alpha: float, scale: float, seed: int = 42) -> None:
     """Sample Pareto into ``out`` (float64). Pareto distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def phase_type_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Phase-type into ``out`` (float64). Phase-type distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def phase_type_sample_batch(out: np.ndarray, rate1: float, rate2: float, rate3: float, seed: int = 42) -> None:
+    """Sample Phase-type into ``out`` (float64). Phase-type distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def poly_weibull_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Poly-Weibull into ``out`` (float64). Poly-Weibull distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def poly_weibull_sample_batch(out: np.ndarray, shape1: float, shape2: float, weight: float, seed: int = 42) -> None:
+    """Sample Poly-Weibull into ``out`` (float64). Poly-Weibull distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def rayleigh_sample_batch(out: np.ndarray, scale: float, seed: int = 42) -> None:
     """Sample Rayleigh into ``out`` (float64). Rayleigh distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def relativistic_breitwigner_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Relativistic Breit–Wigner into ``out`` (float64). Relativistic Breit–Wigner distribution: A continuous random variable with support on a half-line... Tier: heuristic."""
+def relativistic_breitwigner_sample_batch(out: np.ndarray, rho: float, seed: int = 42) -> None:
+    """Sample Relativistic Breit–Wigner into ``out`` (float64). Relativistic Breit–Wigner distribution: A continuous random variable with support on a half-line..."""
 
 def rice_sample_batch(out: np.ndarray, b: float, scale: float, seed: int = 42) -> None:
     """Sample Rice into ``out`` (float64). Rice distribution: A continuous random variable with support on a half-line such as [0,∞)."""
@@ -322,17 +322,17 @@ def rice_sample_batch(out: np.ndarray, b: float, scale: float, seed: int = 42) -
 def truncated_normal_sample_batch(out: np.ndarray, a: float, b: float, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Truncated normal into ``out`` (float64). Truncated normal distribution: A continuous random variable with support on a half-line such as [..."""
 
-def type_2_gumbel_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample type-2 Gumbel into ``out`` (float64). type-2 Gumbel distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def type_2_gumbel_sample_batch(out: np.ndarray, shape: float, scale: float, seed: int = 42) -> None:
+    """Sample type-2 Gumbel into ``out`` (float64). type-2 Gumbel distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def weibull_sample_batch(out: np.ndarray, shape: float, scale: float, seed: int = 42) -> None:
     """Sample Weibull into ``out`` (float64). Weibull distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def discrete_weibull_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Discrete Weibull into ``out`` (float64). Discrete Weibull distribution: A continuous random variable with support on a half-line such as [... Tier: heuristic."""
+def discrete_weibull_sample_batch(out: np.ndarray, c: float, seed: int = 42) -> None:
+    """Sample Discrete Weibull into ``out`` (float64). Discrete Weibull distribution: A continuous random variable with support on a half-line such as [..."""
 
-def wilkss_lambda_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Wilks's lambda into ``out`` (float64). Wilks's lambda distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def wilkss_lambda_sample_batch(out: np.ndarray, a: float, b: float, seed: int = 42) -> None:
+    """Sample Wilks's lambda into ``out`` (float64). Wilks's lambda distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def cauchy_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Cauchy into ``out`` (float64). Cauchy distribution: A continuous random variable with support on the entire real line."""
@@ -451,8 +451,8 @@ def q_gaussian_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int
 def q_weibull_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample _q_\-Weibull into ``out`` (float64). _q_\-Weibull distribution: A continuous distribution whose support type changes with parameters. Tier: heuristic."""
 
-def shifted_log_logistic_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Shifted log-logistic into ``out`` (float64). Shifted log-logistic distribution: A continuous distribution whose support type changes with para... Tier: heuristic."""
+def shifted_log_logistic_sample_batch(out: np.ndarray, scale: float, seed: int = 42) -> None:
+    """Sample Shifted log-logistic into ``out`` (float64). Shifted log-logistic distribution: A continuous distribution whose support type changes with para..."""
 
 def tukey_lambda_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Tukey lambda into ``out`` (float64). Tukey lambda distribution: A continuous distribution whose support type changes with parameters. Tier: heuristic."""

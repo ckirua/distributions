@@ -1,19 +1,19 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/semi_infinite.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct NoncentralF {
-    double loc_;
-    double scale_;
-    NoncentralF(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double dfn_;
+    double dfd_;
+    double nc_;
+    NoncentralF(double dfn, double dfd, double nc) : dfn_(dfn), dfd_(dfd), nc_(nc) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_noncentral_f(rng, dfn_, dfd_, nc_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

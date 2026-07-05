@@ -1,19 +1,20 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/gamma.hpp"
 #include "distributions/rng.hpp"
+#include <cmath>
 #include <cstddef>
 
 namespace distributions {
 
 struct Generalized {
-    double loc_;
+    double a_;
+    double c_;
     double scale_;
-    Generalized(double loc, double scale) : loc_(loc), scale_(scale) {}
+    Generalized(double a, double c, double scale) : a_(a), c_(c), scale_(scale) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return scale_ * std::pow(detail::sample_gamma(rng, a_, 1.0), 1.0 / c_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {
