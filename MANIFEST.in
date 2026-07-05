@@ -1,4 +1,4 @@
 include setup.py
 include pyproject.toml
 recursive-include include *
-recursive-include cydist *.pyx *.pxd *.pyi *.h *.cpp *.py
+recursive-include cydist *.pyx *.pxd *.pyi *.h *.hpp *.cpp *.py

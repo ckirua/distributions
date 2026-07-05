@@ -1,4 +1,4 @@
-# v0.7.0 progress (Phase 5) — batch 4 next
+# v0.7.0 progress (Phase 5) — batch 5 next
 
 Goal: **bench-driven Tier B promotion** for selected codegen samplers + **complete cydist Python validation**. See [`plan-v0.7.0.md`](plan-v0.7.0.md).
 
@@ -11,8 +11,8 @@ Goal: **bench-driven Tier B promotion** for selected codegen samplers + **comple
 | Codegen with Tier B batch path | **2 / 171** |
 | Tier B wave 1 shipped | **2 / 5** (bench-gated) |
 | cydist Python validation | **184 / 184** parameterized |
-| Shim `std::span` | **no** |
-| Batches complete | **4 / 6** |
+| Shim `std::span` | **yes** |
+| Batches complete | **5 / 6** |
 | `tier_b_candidate` in registry | **20** |
 
 ## Completed batches
@@ -37,6 +37,12 @@ Goal: **bench-driven Tier B promotion** for selected codegen samplers + **comple
 - Vault overrides for stable skew `beta`, truncated-normal bounds, variance-gamma, bingham
 - Coverage tests: `test_all_parameterized_cydist_have_python_checks`, `test_cydist_pyx_emits_checks_for_parameterized`
 
+### Batch 4 — `std::span` at cydist shim
+
+- `cydist/cydist_shim_span.hpp`: `checked_output_span` + `sample_batch` helper (length-checked via `std::span`)
+- Codegen routes all 189 shim impls through `cydist_shim::sample_batch`; extern `"C"` ABI unchanged
+- `tests/cpp/cydist_shim_span_test.cpp` + CMake target
+
 ## Agent instructions
 
-Continue batch 4 (optional `std::span` at cydist shim) or batch 5 (Tier B wave 2). Push to `v0.7.0` only.
+Continue batch 5 (Tier B wave 2, bench-gated) or batch 6 (integration sign-off). Push to `v0.7.0` only.
