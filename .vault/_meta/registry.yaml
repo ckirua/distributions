@@ -640,7 +640,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: borel
   name: Borel
   title: Borel distribution
@@ -676,7 +676,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: conwaymaxwellpoisson
   name: Conway–Maxwell–Poisson
   title: Conway–Maxwell–Poisson distribution
@@ -713,7 +713,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: discrete-phase-type
   name: Discrete phase-type
   title: Discrete phase-type distribution
@@ -750,7 +750,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: delaporte
   name: Delaporte
   title: Delaporte distribution
@@ -787,7 +787,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: extended-negative-binomial
   name: Extended negative binomial
   title: Extended negative binomial distribution
@@ -824,7 +824,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: floryschulz
   name: Flory–Schulz
   title: Flory–Schulz distribution
@@ -867,7 +867,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: gausskuzmin
   name: Gauss–Kuzmin
   title: Gauss–Kuzmin distribution
@@ -904,7 +904,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: geometric
   name: Geometric
   title: Geometric distribution
@@ -1025,7 +1025,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: negative-binomial
   name: Negative binomial
   title: Negative binomial distribution
@@ -1115,7 +1115,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: parabolic-fractal
   name: Parabolic fractal
   title: Parabolic fractal distribution
@@ -1152,7 +1152,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: poisson
   name: Poisson
   title: Poisson distribution

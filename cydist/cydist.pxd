@@ -20,20 +20,20 @@ cdef extern from "cydist_shim.h":
     void cydist_discrete_uniform_sample_batch(int low, int high, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_zipf_sample_batch(int N, double s, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_zipf_mandelbrot_sample_batch(int N, double q, double s, uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_beta_negative_binomial_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_borel_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_conwaymaxwellpoisson_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_discrete_phase_type_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_delaporte_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_extended_negative_binomial_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_floryschulz_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_gausskuzmin_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_beta_negative_binomial_sample_batch(double alpha, double beta, double r, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_borel_sample_batch(double mu, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_conwaymaxwellpoisson_sample_batch(double lambda_, double nu, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_discrete_phase_type_sample_batch(double p1, double p2, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_delaporte_sample_batch(double lambda_, double r, double p, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_extended_negative_binomial_sample_batch(double r, double p, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_floryschulz_sample_batch(double p, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_gausskuzmin_sample_batch(uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_geometric_sample_batch(double p, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_logarithmic_sample_batch(double p, uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_mixed_poisson_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_mixed_poisson_sample_batch(double shape, double scale, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_negative_binomial_sample_batch(int r, double p, uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_panjer_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_parabolic_fractal_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_panjer_sample_batch(double lambda_, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_parabolic_fractal_sample_batch(double b, double c, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_poisson_sample_batch(double mu, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_skellam_sample_batch(double mu1, double mu2, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_yulesimon_sample_batch(double rho, uint64_t seed, int* out, size_t n_samples) nogil

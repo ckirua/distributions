@@ -1,19 +1,18 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/discrete.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct DiscretePhaseType {
-    double loc_;
-    double scale_;
-    DiscretePhaseType(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double p1_;
+    double p2_;
+    DiscretePhaseType(double p1, double p2) : p1_(p1), p2_(p2) {}
 
     [[nodiscard]] int sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_discrete_phase_type(rng, p1_, p2_);
     }
 
     void sample_batch(int* out, std::size_t n, Pcg32& rng) const {

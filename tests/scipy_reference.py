@@ -42,6 +42,13 @@ SKIP_VAULT_IDS: frozenset[str] = frozenset(
         "skew-normal",
         "dagum",
         "kumaraswamy",
+        "floryschulz",
+        "borel",
+        "gausskuzmin",
+        "delaporte",
+        "discrete-phase-type",
+        "parabolic-fractal",
+        "beta-negative-binomial",
     }
 )
 

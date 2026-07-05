@@ -72,6 +72,10 @@ SCIPY_SPECS: dict[str, tuple[str, dict]] = {
     "log-logistic": ("fisk", {"c": 2, "scale": 1.0}),
     "log-laplace": ("loglaplace", {"c": 1, "scale": 1.0}),
     "generalized-gamma": ("gengamma", {"a": 2, "c": 1, "scale": 1.0}),
+    "panjer": ("poisson", {"mu": 4}),
+    "conwaymaxwellpoisson": ("poisson", {"mu": 4}),
+    "extended-negative-binomial": ("nbinom", {"n": 5, "p": 0.4}),
+    "mixed-poisson": ("nbinom", {"n": 2, "p": 0.5}),
 }
 
 CONTENT_ALIASES: dict[str, str] = {

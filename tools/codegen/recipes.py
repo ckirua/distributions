@@ -99,6 +99,95 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        cydist_params=[("int", "N"), ("double", "s"), ("uint64_t", "seed")]))
             continue
 
+        # --- discrete / infinite (heuristic batch 3) ---
+        if vid == "floryschulz":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/discrete.hpp"],
+                       members=[("double", "p", "0.8")],
+                       sample_body="return detail::sample_flory_schulz(rng, p_);",
+                       bench_ctor_args="0.8",
+                       cydist_params=[("double", "p"), ("uint64_t", "seed")]))
+            continue
+        if vid == "gausskuzmin":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/discrete.hpp"],
+                       sample_body="return detail::sample_gauss_kuzmin(rng);",
+                       bench_ctor_args="",
+                       cydist_params=[("uint64_t", "seed")]))
+            continue
+        if vid == "borel":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/discrete.hpp"],
+                       members=[("double", "mu", "0.5")],
+                       sample_body="return detail::sample_borel(rng, mu_);",
+                       bench_ctor_args="0.5",
+                       cydist_params=[("double", "mu"), ("uint64_t", "seed")]))
+            continue
+        if vid == "beta-negative-binomial":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/discrete.hpp"],
+                       members=[("double", "alpha", "2.0"), ("double", "beta", "5.0"), ("double", "r", "1.0")],
+                       sample_body="return detail::sample_beta_negative_binomial(rng, alpha_, beta_, r_);",
+                       bench_ctor_args="2.0, 5.0, 1.0",
+                       cydist_params=[("double", "alpha"), ("double", "beta"), ("double", "r"), ("uint64_t", "seed")]))
+            continue
+        if vid == "mixed-poisson":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/discrete.hpp"],
+                       members=[("double", "shape", "2.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_mixed_poisson(rng, shape_, scale_);",
+                       bench_ctor_args="2.0, 1.0",
+                       cydist_params=[("double", "shape"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "delaporte":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/discrete.hpp"],
+                       members=[("double", "lambda", "1.0"), ("double", "r", "2.0"), ("double", "p", "0.5")],
+                       sample_body="return detail::sample_delaporte(rng, lambda_, r_, p_);",
+                       bench_ctor_args="1.0, 2.0, 0.5",
+                       cydist_params=[("double", "lambda"), ("double", "r"), ("double", "p"), ("uint64_t", "seed")]))
+            continue
+        if vid == "conwaymaxwellpoisson":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/discrete.hpp"],
+                       members=[("double", "lambda", "4.0"), ("double", "nu", "1.0")],
+                       sample_body="return detail::sample_comp_poisson(rng, lambda_, nu_);",
+                       bench_ctor_args="4.0, 1.0",
+                       cydist_params=[("double", "lambda"), ("double", "nu"), ("uint64_t", "seed")]))
+            continue
+        if vid == "discrete-phase-type":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/discrete.hpp"],
+                       members=[("double", "p1", "0.6"), ("double", "p2", "0.4")],
+                       sample_body="return detail::sample_discrete_phase_type(rng, p1_, p2_);",
+                       bench_ctor_args="0.6, 0.4",
+                       cydist_params=[("double", "p1"), ("double", "p2"), ("uint64_t", "seed")]))
+            continue
+        if vid == "extended-negative-binomial":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/discrete.hpp"],
+                       members=[("double", "r", "5.0"), ("double", "p", "0.4")],
+                       sample_body="return detail::sample_negative_binomial_gamma_poisson(rng, r_, p_);",
+                       bench_ctor_args="5.0, 0.4",
+                       cydist_params=[("double", "r"), ("double", "p"), ("uint64_t", "seed")]))
+            continue
+        if vid == "panjer":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/poisson.hpp"],
+                       members=[("double", "lambda", "4.0")],
+                       sample_body="return detail::sample_poisson(rng, lambda_);",
+                       bench_ctor_args="4.0",
+                       cydist_params=[("double", "lambda"), ("uint64_t", "seed")]))
+            continue
+        if vid == "parabolic-fractal":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/discrete.hpp"],
+                       members=[("double", "b", "2.0"), ("double", "c", "0.1")],
+                       sample_body="return detail::sample_parabolic_fractal(rng, b_, c_);",
+                       bench_ctor_args="2.0, 0.1",
+                       cydist_params=[("double", "b"), ("double", "c"), ("uint64_t", "seed")]))
+            continue
+
         # --- continuous / bounded ---
         if vid == "uniform":
             add(Recipe(vid, cls, cat, False,

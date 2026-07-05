@@ -310,49 +310,49 @@ inline void sample_cpp(
         return;
     }
     if (dist == "beta-negative-binomial") {
-        const distributions::BetaNegativeBinomial d(0.0, 1.0);
+        const distributions::BetaNegativeBinomial d(2.0, 5.0, 1.0);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "borel") {
-        const distributions::Borel d(0.0, 1.0);
+        const distributions::Borel d(0.5);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "conwaymaxwellpoisson") {
-        const distributions::Conwaymaxwellpoisson d(0.0, 1.0);
+        const distributions::Conwaymaxwellpoisson d(4.0, 1.0);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "discrete-phase-type") {
-        const distributions::DiscretePhaseType d(0.0, 1.0);
+        const distributions::DiscretePhaseType d(0.6, 0.4);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "delaporte") {
-        const distributions::Delaporte d(0.0, 1.0);
+        const distributions::Delaporte d(1.0, 2.0, 0.5);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "extended-negative-binomial") {
-        const distributions::ExtendedNegativeBinomial d(0.0, 1.0);
+        const distributions::ExtendedNegativeBinomial d(5.0, 0.4);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "floryschulz") {
-        const distributions::Floryschulz d(0.0, 1.0);
+        const distributions::Floryschulz d(0.8);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "gausskuzmin") {
-        const distributions::Gausskuzmin d(0.0, 1.0);
+        const distributions::Gausskuzmin d;
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
@@ -370,7 +370,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "mixed-poisson") {
-        const distributions::MixedPoisson d(0.0, 1.0);
+        const distributions::MixedPoisson d(2.0, 1.0);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
@@ -382,13 +382,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "panjer") {
-        const distributions::Panjer d(0.0, 1.0);
+        const distributions::Panjer d(4.0);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
     }
     if (dist == "parabolic-fractal") {
-        const distributions::ParabolicFractal d(0.0, 1.0);
+        const distributions::ParabolicFractal d(2.0, 0.1);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;

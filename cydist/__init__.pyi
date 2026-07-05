@@ -46,29 +46,29 @@ def zipf_sample_batch(out: np.ndarray, N: int, s: float, seed: int = 42) -> None
 def zipf_mandelbrot_sample_batch(out: np.ndarray, N: int, q: float, s: float, seed: int = 42) -> None:
     """Sample Zipf–Mandelbrot into ``out`` (int32). Rank-frequency law with an offset, flexible tail for ranked discrete data."""
 
-def beta_negative_binomial_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Beta negative binomial into ``out`` (int32). Beta negative binomial distribution: A discrete random variable on the non-negative integers or s... Tier: heuristic."""
+def beta_negative_binomial_sample_batch(out: np.ndarray, alpha: float, beta: float, r: float, seed: int = 42) -> None:
+    """Sample Beta negative binomial into ``out`` (int32). Beta negative binomial distribution: A discrete random variable on the non-negative integers or s..."""
 
-def borel_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Borel into ``out`` (int32). Borel distribution: A discrete random variable on the non-negative integers or similar count set. Tier: heuristic."""
+def borel_sample_batch(out: np.ndarray, mu: float, seed: int = 42) -> None:
+    """Sample Borel into ``out`` (int32). Borel distribution: A discrete random variable on the non-negative integers or similar count set."""
 
-def conwaymaxwellpoisson_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Conway–Maxwell–Poisson into ``out`` (int32). Conway–Maxwell–Poisson distribution: A discrete random variable on the non-negative integers or s... Tier: heuristic."""
+def conwaymaxwellpoisson_sample_batch(out: np.ndarray, lambda_: float, nu: float, seed: int = 42) -> None:
+    """Sample Conway–Maxwell–Poisson into ``out`` (int32). Conway–Maxwell–Poisson distribution: A discrete random variable on the non-negative integers or s..."""
 
-def discrete_phase_type_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Discrete phase-type into ``out`` (int32). Discrete phase-type distribution: A discrete random variable on the non-negative integers or simi... Tier: heuristic."""
+def discrete_phase_type_sample_batch(out: np.ndarray, p1: float, p2: float, seed: int = 42) -> None:
+    """Sample Discrete phase-type into ``out`` (int32). Discrete phase-type distribution: A discrete random variable on the non-negative integers or simi..."""
 
-def delaporte_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Delaporte into ``out`` (int32). Delaporte distribution: A discrete random variable on the non-negative integers or similar count... Tier: heuristic."""
+def delaporte_sample_batch(out: np.ndarray, lambda_: float, r: float, p: float, seed: int = 42) -> None:
+    """Sample Delaporte into ``out`` (int32). Delaporte distribution: A discrete random variable on the non-negative integers or similar count..."""
 
-def extended_negative_binomial_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Extended negative binomial into ``out`` (int32). Extended negative binomial distribution: A discrete random variable on the non-negative integers... Tier: heuristic."""
+def extended_negative_binomial_sample_batch(out: np.ndarray, r: float, p: float, seed: int = 42) -> None:
+    """Sample Extended negative binomial into ``out`` (int32). Extended negative binomial distribution: A discrete random variable on the non-negative integers..."""
 
-def floryschulz_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Flory–Schulz into ``out`` (int32). Flory–Schulz distribution: A discrete random variable on the non-negative integers or similar cou... Tier: heuristic."""
+def floryschulz_sample_batch(out: np.ndarray, p: float, seed: int = 42) -> None:
+    """Sample Flory–Schulz into ``out`` (int32). Flory–Schulz distribution: A discrete random variable on the non-negative integers or similar cou..."""
 
-def gausskuzmin_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Gauss–Kuzmin into ``out`` (int32). Gauss–Kuzmin distribution: A discrete random variable on the non-negative integers or similar cou... Tier: heuristic."""
+def gausskuzmin_sample_batch(out: np.ndarray, seed: int = 42) -> None:
+    """Sample Gauss–Kuzmin into ``out`` (int32). Gauss–Kuzmin distribution: A discrete random variable on the non-negative integers or similar cou..."""
 
 def geometric_sample_batch(out: np.ndarray, p: float, seed: int = 42) -> None:
     """Sample Geometric into ``out`` (int32). Number of trials until the first success in repeated independent Bernoulli trials."""
@@ -76,17 +76,17 @@ def geometric_sample_batch(out: np.ndarray, p: float, seed: int = 42) -> None:
 def logarithmic_sample_batch(out: np.ndarray, p: float, seed: int = 42) -> None:
     """Sample Logarithmic into ``out`` (int32). Logarithmic distribution: A discrete random variable on the non-negative integers or similar coun..."""
 
-def mixed_poisson_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Mixed Poisson into ``out`` (int32). Mixed Poisson distribution: A discrete random variable on the non-negative integers or similar co... Tier: heuristic."""
+def mixed_poisson_sample_batch(out: np.ndarray, shape: float, scale: float, seed: int = 42) -> None:
+    """Sample Mixed Poisson into ``out`` (int32). Mixed Poisson distribution: A discrete random variable on the non-negative integers or similar co..."""
 
 def negative_binomial_sample_batch(out: np.ndarray, r: int, p: float, seed: int = 42) -> None:
     """Sample Negative binomial into ``out`` (int32). Count of failures before a target number of successes in repeated Bernoulli trials."""
 
-def panjer_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Panjer into ``out`` (int32). Panjer (a,b,0) class: A discrete random variable on the non-negative integers or similar count set. Tier: heuristic."""
+def panjer_sample_batch(out: np.ndarray, lambda_: float, seed: int = 42) -> None:
+    """Sample Panjer into ``out`` (int32). Panjer (a,b,0) class: A discrete random variable on the non-negative integers or similar count set."""
 
-def parabolic_fractal_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Parabolic fractal into ``out`` (int32). Parabolic fractal distribution: A discrete random variable on the non-negative integers or simila... Tier: heuristic."""
+def parabolic_fractal_sample_batch(out: np.ndarray, b: float, c: float, seed: int = 42) -> None:
+    """Sample Parabolic fractal into ``out`` (int32). Parabolic fractal distribution: A discrete random variable on the non-negative integers or simila..."""
 
 def poisson_sample_batch(out: np.ndarray, mu: float, seed: int = 42) -> None:
     """Sample Poisson into ``out`` (int32). Models event counts in a fixed interval when events arrive independently at a steady average rate."""

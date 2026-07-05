@@ -1,19 +1,17 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/discrete.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Floryschulz {
-    double loc_;
-    double scale_;
-    Floryschulz(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double p_;
+    Floryschulz(double p) : p_(p) {}
 
     [[nodiscard]] int sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_flory_schulz(rng, p_);
     }
 
     void sample_batch(int* out, std::size_t n, Pcg32& rng) const {
