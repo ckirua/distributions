@@ -26,7 +26,7 @@ After each performance batch (see [`plan.md`](../plan.md)):
 
 ## Scope rules
 
-- **Do not** revive `ispc/kernels.ispc` as the primary SIMD strategy.
+- **Do not** revive `archive/ispc-phase1/` as the primary SIMD strategy.
 - **Do not** add `batch_parallel.hpp`, OpenMP, or threads before **batch 7** (optional).
 - **Do not** add per-distribution SIMD in `tools/codegen/recipes.py` in the required path.
 - **Do not** change serial `sample()` reproducibility on hand-written types (Tier A).

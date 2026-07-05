@@ -1,6 +1,6 @@
 # Performance optimization progress
 
-Goal: **single-thread** Tier-B fast `sample_batch` for the **13 hand-written** core. Multi-thread parallel is **optional** (batches 7–8). See [`plan.md`](plan.md).
+Goal: **single-thread** Tier-B fast `sample_batch` for the **13 hand-written** core. Multi-thread parallel is **optional** (batches 7–8, not implemented). See [`plan.md`](plan.md).
 
 **Visible progress:** each batch is committed and pushed to [`v0.3.0`](https://github.com/ckirua/distributions/tree/v0.3.0). CI runs on every push.
 
@@ -12,13 +12,14 @@ Goal: **single-thread** Tier-B fast `sample_batch` for the **13 hand-written** c
 | Hand-written Tier A only | **1** (`geometric`) |
 | Parallel enabled (`batch_parallel.hpp`) | **no** |
 | `bench-core` geomean speedup @10M (1 core) | **1.29×** |
-| Required batches complete | **7 / 8** (0–6 done; 9 pending) |
+| Dead ISPC stub removed | **yes** |
+| Required batches complete | **8 / 8** |
 
-Last push: batch 6 (integration + bench sign-off).
+Last push: batch 9 (ISPC cleanup).
 
-## Next batch
+## Next steps
 
-**Batch 9** — Cleanup: remove dead ISPC path, doc sweep.
+Optimize track **complete**. Optional: batches 7–8 (parallel wrapper) if multi-core throughput is needed.
 
 ## Batch 6 decision gate
 
@@ -28,6 +29,13 @@ Tier-A correctness: `tests/test_reproducibility.py` (12 cases) + `geometric` unc
 
 ## Completed batches
 
+### Batch 9 — Cleanup
+
+- Archived `ispc/` → `archive/ispc-phase1/`
+- Removed `DISTRIBUTIONS_ENABLE_ISPC` CMake option and bench ISPC dispatch
+- `bench/sweep.py`: C++-only sweep (no `PHASE1_ISPC`)
+- Docs updated; `run_bench` usage is `<dist> [n] [seed] [--csv]`
+
 ### Batch 6 — Integration
 
 - `kFastThreshold` = 4096 documented in README + DEVELOPMENT
@@ -35,23 +43,9 @@ Tier-A correctness: `tests/test_reproducibility.py` (12 cases) + `geometric` unc
 - `bench/compare_baseline.py`: current vs frozen baseline; geomean report
 - `make bench-core` writes to `results/current/` (baseline frozen in `baseline-v0.2.0/`)
 
-### Batch 5 — Heavy discrete (4)
+### Batches 0–5
 
-- Categorical: alias table + derived-seed PCG batch
-- Zipf / ZipfMandelbrot: CDF binary search + derived-seed PCG batch
-- Skellam: dual Poisson with derived-seed PCG batch
-- Speedups @10M: zipf **~1.03×**, skellam **~1.02×**; categorical/zipfmandelbrot neutral
-
-### Batch 4 — Counting discrete (4)
-
-- Binomial / beta-binomial: SplitMix64 Bernoulli-sum (`n ≤ 256` trials)
-- Negative-binomial: SplitMix64 success counting
-- Poisson-binomial: SplitMix64 batched trials
-- Speedups @10M: binomial **1.6×**, beta-binomial **1.3×**, poisson-binomial **1.7×**, negative-binomial **1.1×**
-
-### Batches 0–3
-
-See git history (`Optimize batch 0` … `Optimize batch 3`).
+See git history (`Optimize batch 0` … `Optimize batch 5`).
 
 ## Hand-written tracker (13)
 
@@ -93,4 +87,4 @@ Full CSVs: baseline `results/baseline-v0.2.0/`, current `results/current/`
 
 ## Agent instructions
 
-Read [`scripts/agent_optimize_checklist.md`](scripts/agent_optimize_checklist.md). One batch per session; **always push** to `v0.3.0` after tests pass.
+Read [`scripts/agent_optimize_checklist.md`](scripts/agent_optimize_checklist.md). Optimize track is complete on `v0.3.0`.

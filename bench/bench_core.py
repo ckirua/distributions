@@ -38,7 +38,7 @@ QUICK_BATCH_SIZES = [1_000, 100_000]
 
 def run_row(dist: str, n: int, seed: int = 42) -> dict[str, str]:
     proc = subprocess.run(
-        [str(RUN_BENCH), dist, "cpp", str(n), str(seed), "--csv"],
+        [str(RUN_BENCH), dist, str(n), str(seed), "--csv"],
         capture_output=True,
         text=True,
         check=True,

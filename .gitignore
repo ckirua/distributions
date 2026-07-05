@@ -10,7 +10,7 @@ cmake-build-*/
 *.exe
 compile_commands.json
 
-# ISPC (downloaded locally; see CMakeLists.txt)
+# ISPC (removed — archived under archive/ispc-phase1/)
 .tools/
 
 # Python

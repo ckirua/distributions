@@ -92,6 +92,8 @@ python bench/compare_baseline.py --n 1000 --geomean   # noisy Tier-A spot check
 
 Frozen Tier-A baseline CSVs live in `results/baseline-v0.2.0/` (v0.2.0 serial path). Current runs overwrite `results/current/` only.
 
+Phase-1 ISPC kernels were removed in optimize batch 9; see `archive/ispc-phase1/`.
+
 ### RNG tiers (hand-written core)
 
 | Tier | When | Engine | Reproducibility |
@@ -101,11 +103,9 @@ Frozen Tier-A baseline CSVs live in `results/baseline-v0.2.0/` (v0.2.0 serial pa
 
 `geometric` has no Tier-B path (SplitMix regressed scipy variance). See [`tests/test_reproducibility.py`](tests/test_reproducibility.py) for Tier A vs B checks on the other 12 hand-written ids.
 
-Legacy ISPC bench (`make bench`) is **off by default**; enable with `-DDISTRIBUTIONS_ENABLE_ISPC=ON` if the local ISPC compiler is installed under `.tools/`.
-
 ```bash
-make bench                    # Phase-1 ISPC candidates (legacy)
-python bench/sweep.py --all   # full 1k / 100k / 10M sweep
+make bench                    # alias for bench-core (13 hand-written ids)
+python bench/sweep.py --all   # full 1k / 100k / 10M sweep (189 ids, C++ only)
 python bench/aggregate_summary.py
 ```
 

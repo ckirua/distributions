@@ -30,7 +30,6 @@ class Recipe:
     members: list[tuple[str, str, str]] = field(default_factory=list)  # type, name, default
     sample_body: str = ""
     bench_ctor_args: str = ""
-    ispc: bool = False
     cydist_params: list[tuple[str, str]] = field(default_factory=list)  # c_type, name
     cydist_skip: bool = False
     sampler_tier: str = "family"  # hand-written | family | heuristic | exact

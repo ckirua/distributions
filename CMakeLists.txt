@@ -11,7 +11,6 @@ if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_VERSION VERSIO
 endif()
 
 option(DISTRIBUTIONS_ENABLE_NATIVE "Use -march=native" OFF)
-option(DISTRIBUTIONS_ENABLE_ISPC "Build legacy ISPC bench kernels (off by default)" OFF)
 
 add_library(distributions INTERFACE)
 target_include_directories(distributions INTERFACE "${CMAKE_SOURCE_DIR}/include")
@@ -23,44 +22,15 @@ function(apply_release_flags target)
     endif()
 endfunction()
 
-set(ISPC_EXECUTABLE "${CMAKE_SOURCE_DIR}/.tools/ispc-v1.22.0-linux/bin/ispc")
-if(DISTRIBUTIONS_ENABLE_ISPC AND EXISTS "${ISPC_EXECUTABLE}")
-    set(ISPC_OBJ "${CMAKE_BINARY_DIR}/kernels_ispc.o")
-    set(ISPC_HDR "${CMAKE_BINARY_DIR}/kernels_ispc.h")
-    add_custom_command(
-        OUTPUT "${ISPC_OBJ}" "${ISPC_HDR}"
-        COMMAND "${ISPC_EXECUTABLE}"
-            "${CMAKE_SOURCE_DIR}/ispc/kernels.ispc"
-            -h "${ISPC_HDR}"
-            -o "${ISPC_OBJ}"
-            --target=avx2-i32x8
-        DEPENDS
-            "${CMAKE_SOURCE_DIR}/ispc/kernels.ispc"
-            "${CMAKE_SOURCE_DIR}/ispc/pcg.ispc"
-        COMMENT "Compiling ISPC kernels"
-    )
-    add_custom_target(distributions_ispc_obj DEPENDS "${ISPC_OBJ}" "${ISPC_HDR}")
-endif()
-
-function(link_ispc target)
-    if(DISTRIBUTIONS_ENABLE_ISPC AND TARGET distributions_ispc_obj)
-        target_include_directories(${target} PRIVATE "${CMAKE_BINARY_DIR}")
-        target_compile_definitions(${target} PRIVATE DISTRIBUTIONS_HAS_ISPC=1)
-        add_dependencies(${target} distributions_ispc_obj)
-        target_sources(${target} PRIVATE "${ISPC_OBJ}")
-        set_source_files_properties("${ISPC_OBJ}" PROPERTIES EXTERNAL_OBJECT TRUE GENERATED TRUE)
-    endif()
-endfunction()
-
 add_executable(run_bench bench/run_bench.cpp)
 target_link_libraries(run_bench PRIVATE distributions)
+target_include_directories(run_bench PRIVATE "${CMAKE_SOURCE_DIR}/bench")
 apply_release_flags(run_bench)
-link_ispc(run_bench)
 
 add_executable(sample_dump bench/sample_dump.cpp)
 target_link_libraries(sample_dump PRIVATE distributions)
+target_include_directories(sample_dump PRIVATE "${CMAKE_SOURCE_DIR}/bench")
 apply_release_flags(sample_dump)
-link_ispc(sample_dump)
 
 macro(add_dist_test name src)
     add_executable(${name} ${src})

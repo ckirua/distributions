@@ -15,7 +15,7 @@ help:
 	@echo "  make test      — ctest + fast pytest smoke (excludes sanity)"
 	@echo "  make test-sanity — statistical checks vs scipy (~48 cases, slow)"
 	@echo "  make test-all  — smoke + sanity"
-	@echo "  make bench     — sweep Phase-1 ISPC candidates (legacy; ISPC off by default)"
+	@echo "  make bench     — benchmark 13 hand-written ids (alias for bench-core)"
 	@echo "  make bench-core — benchmark 13 hand-written ids (1k/100k/10M)"
 	@echo "  make bench-core-quick — hand-written ids at 1k/100k only"
 	@echo "  make bench-all — benchmark all 189 distributions (C++ timings)"
@@ -49,7 +49,7 @@ test-all: build install
 	$(PYTHON) -m pytest tests/ -q --tb=line -o addopts=
 
 bench: build
-	$(PYTHON) bench/sweep.py
+	$(PYTHON) bench/bench_core.py
 
 bench-core: build
 	$(PYTHON) bench/bench_core.py
