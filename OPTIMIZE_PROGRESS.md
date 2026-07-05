@@ -88,3 +88,5 @@ Full CSVs: baseline `results/baseline-v0.2.0/`, current `results/current/`
 ## Agent instructions
 
 Read [`scripts/agent_optimize_checklist.md`](scripts/agent_optimize_checklist.md). Optimize track is complete on `v0.3.0`.
+
+**Phase 2 (hardware SIMD):** see [`plan-simd.md`](plan-simd.md) and [`SIMD_PROGRESS.md`](SIMD_PROGRESS.md) — branch `v0.4.0`, AVX2 Tier C on top of Tier B.

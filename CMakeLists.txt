@@ -11,6 +11,7 @@ if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_VERSION VERSIO
 endif()
 
 option(DISTRIBUTIONS_ENABLE_NATIVE "Use -march=native" OFF)
+option(DISTRIBUTIONS_ENABLE_SIMD "Build AVX2 SIMD Tier-C paths (off by default)" OFF)
 
 add_library(distributions INTERFACE)
 target_include_directories(distributions INTERFACE "${CMAKE_SOURCE_DIR}/include")
@@ -19,6 +20,10 @@ function(apply_release_flags target)
     target_compile_options(${target} PRIVATE -O3 -fno-math-errno)
     if(DISTRIBUTIONS_ENABLE_NATIVE)
         target_compile_options(${target} PRIVATE -march=native)
+    endif()
+    if(DISTRIBUTIONS_ENABLE_SIMD)
+        target_compile_definitions(${target} PRIVATE DISTRIBUTIONS_HAS_AVX2=1)
+        target_compile_options(${target} PRIVATE -mavx2 -mfma)
     endif()
 endfunction()
 
@@ -42,6 +47,7 @@ endmacro()
 
 add_dist_test(bernoulli_test tests/cpp/bernoulli_test.cpp)
 add_dist_test(counter_rng_test tests/cpp/counter_rng_test.cpp)
+add_dist_test(simd_config_test tests/cpp/simd_config_test.cpp)
 add_dist_test(smoke_all_test tests/cpp/smoke_all_test.cpp)
 
 option(DISTRIBUTIONS_BUILD_EXAMPLES "Build examples/ targets" ON)

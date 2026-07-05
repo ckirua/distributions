@@ -100,6 +100,15 @@ Phase-1 ISPC kernels were removed in optimize batch 9; see `archive/ispc-phase1/
 |------|------|--------|-----------------|
 | **A** | `sample()`, or `sample_batch` with `n < kFastThreshold` (4096) | Serial `Pcg32` | Bit-exact stream |
 | **B** | `sample_batch` with `n >= 4096` when a fast path exists | SplitMix64 or derived-seed PCG | Statistical match only |
+| **C** | Same as B when `-DDISTRIBUTIONS_ENABLE_SIMD=ON` and CPU has AVX2 | AVX2 (`detail/simd/`) | Statistical match only |
+
+Build SIMD (optional, off by default):
+
+```bash
+make build-simd    # separate build dir: build-simd/
+```
+
+Phase 2 tracker: [`plan-simd.md`](plan-simd.md), [`SIMD_PROGRESS.md`](SIMD_PROGRESS.md). Baseline for SIMD comparisons: `results/baseline-v0.3.0/` (Tier B @ v0.3.0).
 
 `geometric` has no Tier-B path (SplitMix regressed scipy variance). See [`tests/test_reproducibility.py`](tests/test_reproducibility.py) for Tier A vs B checks on the other 12 hand-written ids.
 

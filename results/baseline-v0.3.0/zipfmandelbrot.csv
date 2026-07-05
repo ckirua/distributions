@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+zipfmandelbrot,cpp,1000,42,5730,10204,1260.4,5.73
+zipfmandelbrot,cpp,100000,42,906776,911460,4755.61,9.06776
+zipfmandelbrot,cpp,10000000,42,8.44447e+07,8.53441e+07,370499,8.44447

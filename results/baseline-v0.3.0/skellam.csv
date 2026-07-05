@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+skellam,cpp,1000,42,21198,27162,1364.28,21.198
+skellam,cpp,100000,42,6.56463e+06,6.7482e+06,60241.6,65.6463
+skellam,cpp,10000000,42,6.55627e+08,6.64082e+08,2.81976e+06,65.5627

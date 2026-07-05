@@ -1,5 +1,6 @@
 # CMake / C++
 build/
+build-simd/
 build/verify_tmp/
 cmake-build-*/
 *.o
@@ -44,6 +45,8 @@ results/*.csv
 !results/summary.csv
 !results/README.md
 !results/baseline-v0.2.0/*.csv
+!results/baseline-v0.3.0/
+!results/baseline-v0.3.0/*.csv
 
 # Cursor — keep project plans, ignore local IDE state
 .cursor/*

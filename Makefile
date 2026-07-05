@@ -5,13 +5,16 @@ PYTHON   := $(VENV)/python
 PIP      := $(VENV)/pip
 BUILD    := build
 CMAKE    := cmake -S . -B $(BUILD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14
+BUILD_SIMD := build-simd
+CMAKE_SIMD := cmake -S . -B $(BUILD_SIMD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14 -DDISTRIBUTIONS_ENABLE_SIMD=ON
 
-.PHONY: help clean codegen configure build test test-sanity test-all bench bench-core bench-core-quick bench-all vault install
+.PHONY: help clean codegen configure configure-simd build build-simd test test-sanity test-all bench bench-core bench-core-baseline bench-core-quick bench-all vault install
 
 help:
 	@echo "Targets: clean codegen configure build test bench vault install"
 	@echo "  make codegen   — regenerate distribution headers + dispatch + cydist shim"
 	@echo "  make build     — configure (if needed) and compile C++ benchmarks"
+	@echo "  make build-simd — same with -DDISTRIBUTIONS_ENABLE_SIMD=ON (AVX2 Tier C)"
 	@echo "  make test      — ctest + fast pytest smoke (excludes sanity)"
 	@echo "  make test-sanity — statistical checks vs scipy (~48 cases, slow)"
 	@echo "  make test-all  — smoke + sanity"
@@ -34,8 +37,14 @@ codegen:
 configure:
 	$(CMAKE)
 
+configure-simd:
+	$(CMAKE_SIMD)
+
 build: configure
 	cmake --build $(BUILD) -j$$(nproc)
+
+build-simd: configure-simd
+	cmake --build $(BUILD_SIMD) -j$$(nproc)
 
 test: build install
 	ctest --test-dir $(BUILD) --output-on-failure
@@ -53,6 +62,9 @@ bench: build
 
 bench-core: build
 	$(PYTHON) bench/bench_core.py
+
+bench-core-baseline: build
+	$(PYTHON) bench/bench_core.py --out $(CURDIR)/results/baseline-v0.3.0
 
 bench-core-quick: build
 	$(PYTHON) bench/bench_core.py --quick

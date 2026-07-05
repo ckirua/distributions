@@ -26,8 +26,9 @@ Root files: `rng.hpp`, `base.hpp`, `all.hpp` (generated umbrella).
 | Tier | Engine | Use |
 |------|--------|-----|
 | **A — Serial** | `Pcg32` in [`rng.hpp`](rng.hpp) | `sample()`, small batches, tests — bit-exact stream |
-| **B — Fast** | SplitMix64 or derived-seed PCG (`detail/fast/`) | Large `sample_batch` when a fast path exists |
+| **B — Fast scalar** | SplitMix64 or derived-seed PCG ([`detail/fast/`](detail/fast/)) | Large `sample_batch` when a fast path exists |
+| **C — SIMD** | AVX2 ([`detail/simd/`](detail/simd/)) | Same threshold as B when `DISTRIBUTIONS_ENABLE_SIMD=ON` and CPU has AVX2 |
 
-**Threshold:** `detail::kFastThreshold` is **4096** (see [`detail/counter_rng.hpp`](detail/counter_rng.hpp)). When `n >= kFastThreshold` and a Tier-B implementation exists, `sample_batch` dispatches to the fast path; otherwise the serial PCG loop runs.
+**Threshold:** `detail::kFastThreshold` is **4096** (see [`detail/counter_rng.hpp`](detail/counter_rng.hpp)). When `n >= kFastThreshold` and a fast path exists, `sample_batch` dispatches Tier B (or Tier C when enabled); otherwise the serial PCG loop runs.
 
-Tier B is statistically equivalent, not bit-identical to Tier A. Repro tests: [`tests/test_reproducibility.py`](../../tests/test_reproducibility.py). See [`plan.md`](../../plan.md).
+Tier B/C are statistically equivalent, not bit-identical to Tier A. Repro tests: [`tests/test_reproducibility.py`](../../tests/test_reproducibility.py). Phase 2 plan: [`plan-simd.md`](../../plan-simd.md).
