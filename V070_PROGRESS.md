@@ -56,7 +56,7 @@ Goal: **bench-driven Tier B promotion** for selected codegen samplers + **comple
 
 ### Batch 7 — merge to `main`
 
-- PR `v0.7.0` → `main`; retire phase branch after merge
+- PR [#3](https://github.com/ckirua/distributions/pull/3) (`v0.7.0` → `main`)
 
 ## Non-goals (deferred)
 
