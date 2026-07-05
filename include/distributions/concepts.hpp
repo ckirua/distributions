@@ -38,7 +38,7 @@ using compute_type_t = double;
 
 /// Hand-written distribution interface (Tier A entry point; ``Sample`` from batch 2+).
 template <typename Dist, typename Sample, typename RNG = Pcg32>
-concept Distribution = requires(const Dist dist, Sample* out, std::size_t n, RNG& rng) {
+concept Distribution = requires(const Dist& dist, Sample* out, std::size_t n, RNG& rng) {
     { dist.sample(rng) } -> std::convertible_to<Sample>;
     { dist.sample_batch(out, n, rng) } -> std::same_as<void>;
     { dist.mean() } -> std::convertible_to<double>;

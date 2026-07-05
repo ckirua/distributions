@@ -8,35 +8,46 @@ Goal: **C++20 `Distribution` concept**, **`template<typename Sample>` + type ali
 
 | Metric | Count |
 |--------|------:|
-| Hand-written modeling `Distribution` concept (verified) | **3 / 13** |
+| Hand-written modeling `Distribution` concept (verified) | **13 / 13** |
 | Hand-written with `template<typename Sample>` + alias | **0 / 13** |
 | Hand-written with float Tier A | **0 / 13** |
-| Required batches complete | **1 / 9** |
+| Required batches complete | **2 / 9** |
 
-Last push: batch 0 (concept infrastructure).
+Last push: batch 1 (Distribution concept on all hand-written).
 
 ## Next batch
 
-**Batch 1** — verify `Distribution` on all 13 hand-written; document public API in README.
+**Batch 2** — `Bernoulli<Sample>` + `DiscreteUniform<Sample>` with type aliases; Tier A only.
 
 ## Completed batches
 
+### Batch 1 — Concept on hand-written core
+
+- `Distribution` concept uses `const Dist&` (supports non-default-constructible types)
+- `concepts_test.cpp` — all 13 vault types + `ZipfMandelbrot`
+- Public API documented in `include/distributions/README.md`
+
 ### Batch 0 — Infrastructure
 
-- Branch `v0.5.0` from `v0.4.0`
-- `include/distributions/concepts.hpp` — `Distribution`, sample traits, `compute_type_t`
-- `tests/cpp/concepts_test.cpp` — bernoulli, discrete-uniform, normal
-- `plan-api.md`, `API_PROGRESS.md`, `scripts/agent_api_checklist.md`
-- **No sampler behavior change**
+- Branch `v0.5.0`; `concepts.hpp`, trackers, no sampler behavior change
 
 ## Hand-written tracker (13)
 
-| vault id | `Distribution` | templated | float | batch |
-|----------|:--------------:|:---------:|:-----:|------:|
-| `bernoulli` | yes | — | — | 0 |
-| `discrete-uniform` | yes | — | — | 0 |
-| `normal-gaussian` | yes | — | — | 0 |
-| *(others)* | — | — | — | — |
+| vault id | C++ type | sample | `Distribution` | templated | batch |
+|----------|----------|--------|:--------------:|:---------:|------:|
+| `bernoulli` | `Bernoulli` | `int` | yes | — | 1 |
+| `discrete-uniform` | `DiscreteUniform` | `int` | yes | — | 1 |
+| `binomial` | `Binomial` | `int` | yes | — | 1 |
+| `categorical` | `Categorical` | `int` | yes | — | 1 |
+| `beta-binomial` | `BetaBinomial` | `int` | yes | — | 1 |
+| `poisson-binomial` | `PoissonBinomial` | `int` | yes | — | 1 |
+| `zipf` | `Zipf` | `int` | yes | — | 1 |
+| `zipfmandelbrot` | `ZipfMandelbrot` | `int` | yes | — | 1 |
+| `geometric` | `Geometric` | `int` | yes | — | 1 |
+| `negative-binomial` | `NegativeBinomial` | `int` | yes | — | 1 |
+| `skellam` | `Skellam` | `int` | yes | — | 1 |
+| `exponential` | `Exponential` | `double` | yes | — | 1 |
+| `normal-gaussian` | `Normal` | `double` | yes | — | 1 |
 
 ## Agent instructions
 

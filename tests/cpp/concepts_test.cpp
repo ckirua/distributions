@@ -1,7 +1,16 @@
 #include "distributions/concepts.hpp"
 #include "distributions/continuous/real_line/normal.hpp"
+#include "distributions/continuous/semi_infinite/exponential.hpp"
 #include "distributions/discrete/finite/bernoulli.hpp"
+#include "distributions/discrete/finite/beta_binomial.hpp"
+#include "distributions/discrete/finite/binomial.hpp"
+#include "distributions/discrete/finite/categorical.hpp"
 #include "distributions/discrete/finite/discrete_uniform.hpp"
+#include "distributions/discrete/finite/poisson_binomial.hpp"
+#include "distributions/discrete/finite/zipf.hpp"
+#include "distributions/discrete/infinite/geometric.hpp"
+#include "distributions/discrete/infinite/negative_binomial.hpp"
+#include "distributions/discrete/infinite/skellam.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -11,6 +20,12 @@ namespace {
 
 template <typename Dist, typename Sample>
 constexpr bool models_distribution() {
+    return distributions::Distribution<Dist, Sample, distributions::Pcg32>;
+}
+
+template <typename Dist, typename Sample>
+bool runtime_models_distribution(const Dist& dist) {
+    (void)dist;
     return distributions::Distribution<Dist, Sample, distributions::Pcg32>;
 }
 
@@ -25,18 +40,85 @@ int main() {
 
     static_assert(models_distribution<distributions::Bernoulli, int>());
     static_assert(models_distribution<distributions::DiscreteUniform, int>());
+    static_assert(models_distribution<distributions::Binomial, int>());
+    static_assert(models_distribution<distributions::Categorical, int>());
+    static_assert(models_distribution<distributions::BetaBinomial, int>());
+    static_assert(models_distribution<distributions::PoissonBinomial, int>());
+    static_assert(models_distribution<distributions::Zipf, int>());
+    static_assert(models_distribution<distributions::ZipfMandelbrot, int>());
+    static_assert(models_distribution<distributions::Geometric, int>());
+    static_assert(models_distribution<distributions::NegativeBinomial, int>());
+    static_assert(models_distribution<distributions::Skellam, int>());
+    static_assert(models_distribution<distributions::Exponential, double>());
     static_assert(models_distribution<distributions::Normal, double>());
 
     static_assert(std::is_same_v<distributions::sample_type_t<distributions::Bernoulli>, int>);
     static_assert(std::is_same_v<distributions::sample_type_t<distributions::Normal>, double>);
+    static_assert(std::is_same_v<distributions::sample_type_t<distributions::Exponential>, double>);
 
-    distributions::Bernoulli bern(0.5);
-    distributions::Normal normal(0.0, 1.0);
-    if (!distributions::Distribution<decltype(bern), int>) {
+    const distributions::Bernoulli bern(0.5);
+    const distributions::DiscreteUniform du(1, 7);
+    const distributions::Binomial binom(20, 0.4);
+    const distributions::Categorical cat({0.5, 0.3, 0.2});
+    const distributions::BetaBinomial bb(20, 2.0, 5.0);
+    const distributions::PoissonBinomial pb({0.1, 0.2, 0.3, 0.4});
+    const distributions::Zipf zipf(10, 2.0);
+    const distributions::ZipfMandelbrot zm(10, 1.0, 2.0);
+    const distributions::Geometric geom(0.25);
+    const distributions::NegativeBinomial nb(5, 0.4);
+    const distributions::Skellam skellam(3.0, 1.0);
+    const distributions::Exponential exp(1.5);
+    const distributions::Normal normal(0.0, 1.0);
+
+    if (!runtime_models_distribution<distributions::Bernoulli, int>(bern)) {
         std::cerr << "Bernoulli failed runtime concept check\n";
         return EXIT_FAILURE;
     }
-    if (!distributions::Distribution<decltype(normal), double>) {
+    if (!runtime_models_distribution<distributions::DiscreteUniform, int>(du)) {
+        std::cerr << "DiscreteUniform failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+    if (!runtime_models_distribution<distributions::Binomial, int>(binom)) {
+        std::cerr << "Binomial failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+    if (!runtime_models_distribution<distributions::Categorical, int>(cat)) {
+        std::cerr << "Categorical failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+    if (!runtime_models_distribution<distributions::BetaBinomial, int>(bb)) {
+        std::cerr << "BetaBinomial failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+    if (!runtime_models_distribution<distributions::PoissonBinomial, int>(pb)) {
+        std::cerr << "PoissonBinomial failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+    if (!runtime_models_distribution<distributions::Zipf, int>(zipf)) {
+        std::cerr << "Zipf failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+    if (!runtime_models_distribution<distributions::ZipfMandelbrot, int>(zm)) {
+        std::cerr << "ZipfMandelbrot failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+    if (!runtime_models_distribution<distributions::Geometric, int>(geom)) {
+        std::cerr << "Geometric failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+    if (!runtime_models_distribution<distributions::NegativeBinomial, int>(nb)) {
+        std::cerr << "NegativeBinomial failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+    if (!runtime_models_distribution<distributions::Skellam, int>(skellam)) {
+        std::cerr << "Skellam failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+    if (!runtime_models_distribution<distributions::Exponential, double>(exp)) {
+        std::cerr << "Exponential failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+    if (!runtime_models_distribution<distributions::Normal, double>(normal)) {
         std::cerr << "Normal failed runtime concept check\n";
         return EXIT_FAILURE;
     }
