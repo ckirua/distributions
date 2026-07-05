@@ -11,15 +11,23 @@ Goal: **C++20 `Distribution` concept**, **`template<typename Sample>` + type ali
 | Hand-written modeling `Distribution` concept (verified) | **13 / 13** |
 | Hand-written with `template<typename Sample>` + alias | **4 / 13** |
 | Hand-written with float Tier A | **2 / 13** |
-| Required batches complete | **5 / 9** |
+| Hand-written with float Tier B | **2 / 13** |
+| Required batches complete | **6 / 9** |
 
-Last push: batch 4 (cydist float32 FusedType for normal/exponential).
+Last push: batch 5 (float Tier B for normal/exponential; int32 Tier B/C for bernoulli/discrete-uniform).
 
 ## Next batch
 
-**Batch 5** — Float Tier B fast paths (4 hot dists).
+**Batch 6** — Float Tier C SIMD (best-effort AVX2 for float paths).
 
 ## Completed batches
+
+### Batch 5 — Float Tier B (4 hot dists)
+
+- `detail::fast::normal_sample_batch(float*)` and `exponential_sample_batch(float*)` — compute in `double`, store `float`
+- `NormalDistribution<float>` / `ExponentialDistribution<float>` dispatch Tier B at `kFastThreshold`
+- `BernoulliDistribution<int32_t>` / `DiscreteUniformDistribution<int32_t>` now use Tier B/C (same as `int`)
+- `tests/test_reproducibility_float.py` — Tier A vs Tier B for float32 normal/exponential
 
 ### Batch 4 — cydist float32 (FusedType)
 
@@ -43,12 +51,12 @@ Last push: batch 4 (cydist float32 FusedType for normal/exponential).
 
 ## Hand-written tracker (13)
 
-| vault id | C++ template | alias | float Tier A | batch |
-|----------|--------------|-------|:------------:|------:|
-| `bernoulli` | `BernoulliDistribution<Sample>` | `Bernoulli` | — | 2 |
-| `discrete-uniform` | `DiscreteUniformDistribution<Sample>` | `DiscreteUniform` | — | 2 |
-| `normal-gaussian` | `NormalDistribution<Sample>` | `Normal` | yes | 3 |
-| `exponential` | `ExponentialDistribution<Sample>` | `Exponential` | yes | 3 |
+| vault id | C++ template | alias | float Tier A | float Tier B | batch |
+|----------|--------------|-------|:------------:|:------------:|------:|
+| `bernoulli` | `BernoulliDistribution<Sample>` | `Bernoulli` | — | int32 Tier B/C | 2, 5 |
+| `discrete-uniform` | `DiscreteUniformDistribution<Sample>` | `DiscreteUniform` | — | int32 Tier B/C | 2, 5 |
+| `normal-gaussian` | `NormalDistribution<Sample>` | `Normal` | yes | yes | 3, 5 |
+| `exponential` | `ExponentialDistribution<Sample>` | `Exponential` | yes | yes | 3, 5 |
 | *(others)* | — | — | — | — |
 
 ## Agent instructions

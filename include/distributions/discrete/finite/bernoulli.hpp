@@ -27,9 +27,10 @@ struct BernoulliDistribution : DistributionBase<BernoulliDistribution<Sample>, S
     }
 
     void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {
-        if constexpr (std::is_same_v<Sample, int>) {
+        if constexpr (is_discrete_sample_v<Sample>) {
             if (n >= detail::kFastThreshold) {
-                detail::simd::bernoulli_sample_batch(out, n, p, detail::batch_seed_from(rng));
+                detail::simd::bernoulli_sample_batch(
+                    reinterpret_cast<int*>(out), n, p, detail::batch_seed_from(rng));
                 return;
             }
         }

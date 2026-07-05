@@ -171,5 +171,19 @@ int main() {
         return EXIT_FAILURE;
     }
 
+    static_assert(sizeof(int) == sizeof(std::int32_t));
+    const distributions::BernoulliDistribution<std::int32_t> bern_i32_fast(0.35);
+    std::int32_t bern_i32_out[5000];
+    distributions::Pcg32 i32_rng(777);
+    bern_i32_fast.sample_batch(bern_i32_out, 5000, i32_rng);
+    double bern_i32_mean = 0.0;
+    for (std::size_t i = 0; i < 5000; ++i) {
+        bern_i32_mean += static_cast<double>(bern_i32_out[i]);
+    }
+    if (std::abs(bern_i32_mean / 5000.0 - bern_i32_fast.mean()) > 0.05) {
+        std::cerr << "BernoulliDistribution<int32_t> Tier B mean drift\n";
+        return EXIT_FAILURE;
+    }
+
     return EXIT_SUCCESS;
 }

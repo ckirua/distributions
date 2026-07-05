@@ -30,10 +30,10 @@ struct DiscreteUniformDistribution
     }
 
     void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {
-        if constexpr (std::is_same_v<Sample, int>) {
+        if constexpr (is_discrete_sample_v<Sample>) {
             if (n >= detail::kFastThreshold) {
                 detail::simd::discrete_uniform_sample_batch(
-                    out, n, low, high, detail::batch_seed_from(rng));
+                    reinterpret_cast<int*>(out), n, low, high, detail::batch_seed_from(rng));
                 return;
             }
         }

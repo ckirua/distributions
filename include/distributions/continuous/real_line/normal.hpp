@@ -38,6 +38,11 @@ struct NormalDistribution {
                 detail::simd::normal_sample_batch(out, n, mu, sigma, detail::batch_seed_from(rng));
                 return;
             }
+        } else if constexpr (std::is_same_v<Sample, float>) {
+            if (n >= detail::kFastThreshold) {
+                detail::fast::normal_sample_batch(out, n, mu, sigma, detail::batch_seed_from(rng));
+                return;
+            }
         }
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
@@ -50,6 +55,7 @@ struct NormalDistribution {
 };
 
 /// Default hand-written normal (``double`` samples; Tier B/C when ``n >= kFastThreshold``).
+/// ``NormalDistribution<float>`` uses Tier B scalar fast path at the same threshold.
 using Normal = NormalDistribution<double>;
 
 }  // namespace distributions

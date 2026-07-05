@@ -34,6 +34,11 @@ struct ExponentialDistribution {
                 detail::simd::exponential_sample_batch(out, n, rate, detail::batch_seed_from(rng));
                 return;
             }
+        } else if constexpr (std::is_same_v<Sample, float>) {
+            if (n >= detail::kFastThreshold) {
+                detail::fast::exponential_sample_batch(out, n, rate, detail::batch_seed_from(rng));
+                return;
+            }
         }
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
@@ -46,6 +51,7 @@ struct ExponentialDistribution {
 };
 
 /// Default hand-written exponential (``double`` samples; Tier B/C when ``n >= kFastThreshold``).
+/// ``ExponentialDistribution<float>`` uses Tier B scalar fast path at the same threshold.
 using Exponential = ExponentialDistribution<double>;
 
 }  // namespace distributions
