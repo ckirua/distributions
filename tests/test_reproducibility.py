@@ -38,6 +38,9 @@ TIER_B_CASES: list[tuple[str, dict, bool]] = [
     ("zipf_sample_batch", {"N": 10, "s": 2.0}, True),
     ("zipf_mandelbrot_sample_batch", {"N": 10, "q": 1.0, "s": 2.0}, True),
     ("skellam_sample_batch", {"mu1": 3.0, "mu2": 1.0}, True),
+    # Codegen Tier B wave 1 (v0.7.0 batch 2) — bench-gated ≥1.5× @10M
+    ("gamma_sample_batch", {"shape": 2.0, "scale": 2.0}, False),
+    ("beta_sample_batch", {"alpha": 2.0, "beta": 5.0}, False),
 ]
 
 

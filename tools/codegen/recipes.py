@@ -270,7 +270,8 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        members=[("double", "alpha", "2.0"), ("double", "beta", "5.0")],
                        sample_body="return detail::sample_beta(rng, alpha_, beta_);",
                        bench_ctor_args="2.0, 5.0",
-                       cydist_params=[("double", "alpha"), ("double", "beta"), ("uint64_t", "seed")]))
+                       cydist_params=[("double", "alpha"), ("double", "beta"), ("uint64_t", "seed")],
+                       batch_fast="beta"))
             continue
         if vid == "triangular":
             add(Recipe(vid, cls, cat, False,
@@ -378,7 +379,8 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        members=[("double", "shape", "2.0"), ("double", "scale", "2.0")],
                        sample_body="return detail::sample_gamma(rng, shape_, scale_);",
                        bench_ctor_args="2.0, 2.0",
-                       cydist_params=[("double", "shape"), ("double", "scale"), ("uint64_t", "seed")]))
+                       cydist_params=[("double", "shape"), ("double", "scale"), ("uint64_t", "seed")],
+                       batch_fast="gamma"))
             continue
         if vid == "erlang":
             add(Recipe(vid, cls, cat, False,

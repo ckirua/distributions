@@ -15,7 +15,7 @@ class BatchFastHook:
     call: str  # C++ statement(s); uses member names with trailing underscore
 
 
-# Known hooks. Wave 1 ids (poisson, gamma, beta, uniform, students-t) land in batch 2.
+# Wave 1 codegen Tier-B hooks (v0.7.0 batch 2).
 BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
     "bernoulli": BatchFastHook(
         includes=(
@@ -26,6 +26,17 @@ BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
         call=(
             "detail::fast::bernoulli_sample_batch("
             "out, n, p_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "beta": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/beta.hpp",
+            "distributions/detail/fast/common.hpp",
+        ),
+        call=(
+            "detail::fast::beta_sample_batch("
+            "out, n, alpha_, beta_, detail::batch_seed_from(rng));"
         ),
     ),
     "exponential": BatchFastHook(
@@ -39,6 +50,17 @@ BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
             "out, n, rate_, detail::batch_seed_from(rng));"
         ),
     ),
+    "gamma": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/gamma.hpp",
+        ),
+        call=(
+            "detail::fast::gamma_sample_batch("
+            "out, n, shape_, scale_, detail::batch_seed_from(rng));"
+        ),
+    ),
     "normal": BatchFastHook(
         includes=(
             "distributions/detail/counter_rng.hpp",
@@ -48,6 +70,39 @@ BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
         call=(
             "detail::fast::normal_sample_batch("
             "out, n, mu_, sigma_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "poisson": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/poisson.hpp",
+        ),
+        call=(
+            "detail::fast::poisson_sample_batch("
+            "out, n, mu_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "student_t": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/student_t.hpp",
+        ),
+        call=(
+            "detail::fast::student_t_sample_batch("
+            "out, n, df_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "uniform": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/uniform.hpp",
+        ),
+        call=(
+            "detail::fast::bounded_uniform_sample_batch("
+            "out, n, lo_, hi_, detail::batch_seed_from(rng));"
         ),
     ),
 }

@@ -1540,6 +1540,7 @@ distributions:
   - support/bounded
   sampler_tier: family
   tier_b_candidate: true
+  batch_fast: beta
 - id: generalized-beta
   name: Generalized beta
   title: Generalized beta distribution
@@ -3060,6 +3061,7 @@ distributions:
   - support/semi-infinite
   sampler_tier: family
   tier_b_candidate: true
+  batch_fast: gamma
 - id: generalized-gamma
   name: Generalized gamma
   title: Generalized gamma distribution

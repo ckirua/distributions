@@ -51,7 +51,7 @@ def test_unknown_batch_fast_raises() -> None:
         cpp_class="Gamma",
         folder="continuous/semi_infinite",
         discrete=False,
-        batch_fast="gamma",
+        batch_fast="not_a_real_hook",
     )
     with pytest.raises(ValueError, match="unknown batch_fast"):
         resolve_batch_fast(recipe)

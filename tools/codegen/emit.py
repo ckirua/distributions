@@ -475,8 +475,8 @@ def emit_registry_batch_fast(registry: list[dict], recipes: dict[str, Recipe]) -
         if recipe and recipe.batch_fast:
             entry["batch_fast"] = recipe.batch_fast
             tagged += 1
-        elif "batch_fast" in entry and not entry.get("batch_fast"):
-            del entry["batch_fast"]
+        else:
+            entry.pop("batch_fast", None)
     path.write_text(yaml.dump(data, sort_keys=False, allow_unicode=True, default_flow_style=False))
     if tagged:
         print(f"  registry: batch_fast tagged on {tagged} distribution(s)")

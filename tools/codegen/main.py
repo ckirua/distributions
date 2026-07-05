@@ -206,21 +206,10 @@ def move_manual_headers() -> None:
             sp.unlink()
 
 
-def apply_registry_batch_fast(recipes: dict[str, Recipe], registry: list[dict]) -> None:
-    for entry in registry:
-        vid = entry["id"]
-        if vid not in recipes:
-            continue
-        bf = entry.get("batch_fast")
-        if bf:
-            recipes[vid].batch_fast = str(bf)
-
-
 def main() -> None:
     registry = yaml.safe_load((ROOT / ".vault" / "_meta" / "registry.yaml").read_text())["distributions"]
     move_manual_headers()
     recipes = build_recipes(registry)
-    apply_registry_batch_fast(recipes, registry)
     assign_sampler_tiers(recipes)
     emit_all(registry, recipes)
     with_members = sum(1 for r in recipes.values() if r.members)
