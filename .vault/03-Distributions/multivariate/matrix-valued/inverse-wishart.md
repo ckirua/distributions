@@ -1,0 +1,62 @@
+---
+id: inverse-wishart
+title: Inverse-Wishart distribution
+aliases:
+- Inverse-Wishart
+type: multivariate
+support: matrix
+category: multivariate/matrix-valued
+parameters: []
+wikipedia: https://en.wikipedia.org/wiki/Inverse-Wishart%5Fdistribution
+chart: assets/charts/inverse-wishart.svg
+code_status: none
+code_symbols: {}
+tags:
+- distribution/multivariate
+- support/matrix
+---
+
+> [!summary] In one sentence
+> Inverse-Wishart distribution: A distribution over random matrices (covariance-like objects).
+
+## When you meet it
+
+- Specialized models where inverse-wishart structure appears — see Wikipedia for domain examples.
+- Building blocks in hierarchical or compound models.
+- Reference case when comparing against simpler distributions.
+
+## Parameters
+
+| Symbol | Name | Valid range | Effect on shape |
+|--------|------|-------------|-----------------|
+| — | (see Wikipedia) | — | Parameterization varies by convention |
+
+## Core functions
+
+### Density / mass function
+
+> [!note] Formula
+> See the [Wikipedia article](https://en.wikipedia.org/wiki/Inverse-Wishart%5Fdistribution) for the standard parameterization and density or mass function.
+
+### Moments
+
+| Quantity | Value |
+|----------|-------|
+| Mean | See [[Parameters and moments]] |
+
+## Shape
+
+Default illustrative parameters are used in the plot below.
+
+![[inverse-wishart chart|400]](assets/charts/inverse-wishart.svg)
+
+## Relationships
+
+- Related: [[Probability distribution]], [[Support and domain]]
+- Taxonomy: [[Matrix Valued]] · [[Support and domain]] · [[PMF, PDF, and CDF]]
+
+## Implementation
+
+No implementation is planned in the current codebase phase.
+
+Track status on [[Implementation index]].

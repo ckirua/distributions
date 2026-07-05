@@ -1,0 +1,3 @@
+# Per-distribution benchmark CSVs (regenerate with make bench-all).
+*.csv
+!summary.csv
