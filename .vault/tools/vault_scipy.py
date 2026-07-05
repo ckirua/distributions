@@ -99,6 +99,7 @@ SCIPY_SPECS: dict[str, tuple[str, dict]] = {
     "generalized-extreme-value": ("genextreme", {"c": 0.1, "loc": 0, "scale": 1.0}),
     "generalized-pareto": ("genpareto", {"c": 0.1, "loc": 0, "scale": 1.0}),
     "tukey-lambda": ("tukeylambda", {"lam": 0.14}),
+    "normal-inverse-gaussian": ("norminvgauss", {"a": 1.5, "b": 0.5, "loc": 0, "scale": 1.0}),
 }
 
 CONTENT_ALIASES: dict[str, str] = {

@@ -1,19 +1,17 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/special.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct Bingham {
-    double loc_;
-    double scale_;
-    Bingham(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double kappa_;
+    Bingham(double kappa) : kappa_(kappa) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_bingham_x(rng, kappa_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

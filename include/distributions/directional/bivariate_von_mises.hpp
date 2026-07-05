@@ -1,19 +1,18 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/special.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct BivariateVonMises {
-    double loc_;
-    double scale_;
-    BivariateVonMises(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double kappa1_;
+    double kappa2_;
+    BivariateVonMises(double kappa1, double kappa2) : kappa1_(kappa1), kappa2_(kappa2) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_bivariate_von_mises_first(rng, kappa1_, kappa2_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

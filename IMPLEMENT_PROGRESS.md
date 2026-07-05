@@ -10,12 +10,12 @@ Goal: implement all **121** heuristic placeholders as real `family` samplers; al
 |--------|------:|
 | Total distributions | 189 |
 | `hand-written` | 13 |
-| `family` | **167** |
-| `heuristic` remaining | **8** |
+| `family` | **175** |
+| `heuristic` remaining | **0** |
 | `exact` | 1 |
-| Sanity tests passing | 71 (+ 12 xfail, 2 xpass) |
+| Sanity tests passing | 73 (+ 12 xfail, 2 xpass) |
 
-Last push: batch 10 (multivariate discrete, 4 samplers).
+Last push: batch 11 (final mixed samplers, 8 distributions). **All 121 heuristics implemented.**
 
 ## Completed batches
 
@@ -119,9 +119,20 @@ New helper: `include/distributions/detail/multivariate_discrete.hpp`
 | `negative-multinomial` | Gamma–Poisson mixture | skip |
 | `ewens` | sequential Ewens partition | skip |
 
-## Next batch
+### Batch 11 — final mixed (8)
 
-**Final 8 heuristic** across mixed categories: `directional/multivariate` (2), `discrete/finite-support` (1), `continuous/whole-real-line` (1), `mixed/continuous-discrete` (1), `directional/bivariate-*` (2), `degenerate-and-singular/singular` (1).
+New helper: `include/distributions/detail/special.hpp`
+
+| vault id | algorithm | scipy sanity |
+|----------|-----------|--------------|
+| `normal-inverse-gaussian` | NIG composition (reuses `real_line.hpp`) | yes |
+| `von-misesfisher` | 3D VMF x-coordinate (scipy `_rvs_3d`) | yes |
+| `rectified-gaussian` | max(0, Normal) | skip |
+| `cantor` | base-3 Cantor set construction | skip |
+| `kent` | approximate Kent x-coordinate | skip |
+| `bingham` | approximate Bingham x-coordinate | skip |
+| `bivariate-von-mises` | von Mises first angle | skip |
+| `soliton` | uniform discrete 0..n_max | skip |
 
 ## Agent instructions
 

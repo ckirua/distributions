@@ -20,7 +20,7 @@ cdef extern from "cydist_shim.h":
     void cydist_negative_hypergeometric_sample_batch(int M, int n_, int N, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_poisson_binomial_sample_batch(const double* probs, int k, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_rademacher_sample_batch(uint64_t seed, int* out, size_t n_samples) nogil
-    void cydist_soliton_sample_batch(double loc, double scale, uint64_t seed, int* out, size_t n_samples) nogil
+    void cydist_soliton_sample_batch(int n_max, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_discrete_uniform_sample_batch(int low, int high, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_zipf_sample_batch(int N, double s, uint64_t seed, int* out, size_t n_samples) nogil
     void cydist_zipf_mandelbrot_sample_batch(int N, double q, double s, uint64_t seed, int* out, size_t n_samples) nogil
@@ -139,7 +139,7 @@ cdef extern from "cydist_shim.h":
     void cydist_logistic_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_noncentral_t_sample_batch(double df, double nc, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_normal_sample_batch(double mu, double sigma, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_normal_inverse_gaussian_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_normal_inverse_gaussian_sample_batch(double a, double b, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_skew_normal_sample_batch(double loc, double scale, double alpha, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_slash_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_stable_sample_batch(double alpha, double beta, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
@@ -194,10 +194,10 @@ cdef extern from "cydist_shim.h":
     void cydist_wrapped_exponential_sample_batch(double loc, double rate, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_wrapped_asymmetric_laplace_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_wrapped_levy_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_kent_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_bivariate_von_mises_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_von_misesfisher_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_bingham_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_kent_sample_batch(double kappa, double beta, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_bivariate_von_mises_sample_batch(double kappa1, double kappa2, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_von_misesfisher_sample_batch(double kappa, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_bingham_sample_batch(double kappa, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_dirac_delta_function_sample_batch(double x0, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_cantor_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
 
@@ -261,11 +261,11 @@ def rademacher_sample_batch(cnp.int32_t[:] out, uint64_t seed=42):
     with nogil:
         cydist_rademacher_sample_batch(seed, ptr, n_samples)
 
-def soliton_sample_batch(cnp.int32_t[:] out, double loc, double scale, uint64_t seed=42):
+def soliton_sample_batch(cnp.int32_t[:] out, int n_max, uint64_t seed=42):
     cdef int* ptr = <int*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_soliton_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_soliton_sample_batch(n_max, seed, ptr, n_samples)
 
 def discrete_uniform_sample_batch(cnp.int32_t[:] out, int low, int high, uint64_t seed=42):
     cdef int* ptr = <int*>&out[0]
@@ -987,11 +987,11 @@ def normal_sample_batch(cnp.float64_t[:] out, double mu, double sigma, uint64_t 
     with nogil:
         cydist_normal_sample_batch(mu, sigma, seed, ptr, n_samples)
 
-def normal_inverse_gaussian_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def normal_inverse_gaussian_sample_batch(cnp.float64_t[:] out, double a, double b, double loc, double scale, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_normal_inverse_gaussian_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_normal_inverse_gaussian_sample_batch(a, b, loc, scale, seed, ptr, n_samples)
 
 def skew_normal_sample_batch(cnp.float64_t[:] out, double loc, double scale, double alpha, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
@@ -1338,35 +1338,35 @@ def wrapped_levy_sample_batch(cnp.float64_t[:] out, double loc, double scale, ui
 
 # --- directional / bivariate-spherical ---
 
-def kent_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def kent_sample_batch(cnp.float64_t[:] out, double kappa, double beta, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_kent_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_kent_sample_batch(kappa, beta, seed, ptr, n_samples)
 
 
 # --- directional / bivariate-toroidal ---
 
-def bivariate_von_mises_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def bivariate_von_mises_sample_batch(cnp.float64_t[:] out, double kappa1, double kappa2, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_bivariate_von_mises_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_bivariate_von_mises_sample_batch(kappa1, kappa2, seed, ptr, n_samples)
 
 
 # --- directional / multivariate ---
 
-def von_misesfisher_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def von_misesfisher_sample_batch(cnp.float64_t[:] out, double kappa, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_von_misesfisher_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_von_misesfisher_sample_batch(kappa, seed, ptr, n_samples)
 
-def bingham_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def bingham_sample_batch(cnp.float64_t[:] out, double kappa, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_bingham_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_bingham_sample_batch(kappa, seed, ptr, n_samples)
 
 
 # --- degenerate-and-singular / degenerate ---

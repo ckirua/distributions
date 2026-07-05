@@ -110,6 +110,12 @@ SKIP_VAULT_IDS: frozenset[str] = frozenset(
         "dirichlet-multinomial",
         "negative-multinomial",
         "ewens",
+        "rectified-gaussian",
+        "cantor",
+        "kent",
+        "bingham",
+        "bivariate-von-mises",
+        "soliton",
     }
 )
 
@@ -224,6 +230,14 @@ def _sample_multinomial_first(kwargs: dict[str, Any], n: int, rng: np.random.Gen
     return np.asarray(s[:, 0], dtype=np.float64)
 
 
+def _sample_von_mises_fisher_x(kwargs: dict[str, Any], n: int, rng: np.random.Generator) -> np.ndarray:
+    from scipy import stats
+
+    kappa = float(kwargs["kappa"])
+    s = stats.vonmises_fisher(mu=[1.0, 0.0, 0.0], kappa=kappa).rvs(size=n, random_state=rng)
+    return np.asarray(s[:, 0], dtype=np.float64)
+
+
 CUSTOM_SCIPY_SAMPLERS: dict[str, Callable[[dict[str, Any], int, np.random.Generator], np.ndarray]] = {
     "categorical": _sample_categorical,
     "wishart": _sample_wishart_trace,
@@ -233,6 +247,7 @@ CUSTOM_SCIPY_SAMPLERS: dict[str, Callable[[dict[str, Any], int, np.random.Genera
     "multivariate-normal": _sample_multivariate_normal_first,
     "multivariate-t": _sample_multivariate_t_first,
     "multinomial": _sample_multinomial_first,
+    "von-misesfisher": _sample_von_mises_fisher_x,
 }
 
 

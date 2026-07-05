@@ -34,8 +34,8 @@ def poisson_binomial_sample_batch(out: np.ndarray, probs: np.ndarray, seed: int 
 def rademacher_sample_batch(out: np.ndarray, seed: int = 42) -> None:
     """Sample Rademacher into ``out`` (int32). Rademacher distribution: A discrete random variable taking finitely many values."""
 
-def soliton_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Soliton into ``out`` (int32). Soliton distribution: A discrete random variable taking finitely many values. Tier: heuristic."""
+def soliton_sample_batch(out: np.ndarray, n_max: int, seed: int = 42) -> None:
+    """Sample Soliton into ``out`` (int32). Soliton distribution: A discrete random variable taking finitely many values."""
 
 def discrete_uniform_sample_batch(out: np.ndarray, low: int, high: int, seed: int = 42) -> None:
     """Sample Discrete uniform into ``out`` (int32). Each of finitely many integers is equally likely."""
@@ -391,8 +391,8 @@ def noncentral_t_sample_batch(out: np.ndarray, df: float, nc: float, loc: float,
 def normal_sample_batch(out: np.ndarray, mu: float, sigma: float, seed: int = 42) -> None:
     """Sample Normal (Gaussian) into ``out`` (float64). The bell curve: symmetric uncertainty around a central value with controlled spread."""
 
-def normal_inverse_gaussian_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Normal-inverse Gaussian into ``out`` (float64). Normal-inverse Gaussian distribution: A continuous random variable with support on the entire rea... Tier: heuristic."""
+def normal_inverse_gaussian_sample_batch(out: np.ndarray, a: float, b: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Normal-inverse Gaussian into ``out`` (float64). Normal-inverse Gaussian distribution: A continuous random variable with support on the entire rea..."""
 
 def skew_normal_sample_batch(out: np.ndarray, loc: float, scale: float, alpha: float, seed: int = 42) -> None:
     """Sample Skew normal into ``out`` (float64). Skew normal distribution: A continuous random variable with support on the entire real line."""
@@ -458,7 +458,7 @@ def tukey_lambda_sample_batch(out: np.ndarray, lam: float, loc: float, scale: fl
     """Sample Tukey lambda into ``out`` (float64). Tukey lambda distribution: A continuous distribution whose support type changes with parameters."""
 
 def rectified_gaussian_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Rectified Gaussian into ``out`` (float64). Rectified Gaussian distribution: A distribution mixing continuous and discrete components. Tier: heuristic."""
+    """Sample Rectified Gaussian into ``out`` (float64). Rectified Gaussian distribution: A distribution mixing continuous and discrete components."""
 
 def ewens_sample_batch(out: np.ndarray, theta: float, n_: int, seed: int = 42) -> None:
     """Sample Ewens into ``out`` (float64). Ewens distribution: A joint distribution over several discrete random variables."""
@@ -556,23 +556,23 @@ def wrapped_asymmetric_laplace_sample_batch(out: np.ndarray, loc: float, scale: 
 def wrapped_levy_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Wrapped Lévy into ``out`` (float64). Wrapped Lévy distribution: A distribution for angles or directions on the circle."""
 
-def kent_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Kent into ``out`` (float64). Kent distribution: A bivariate distribution on the sphere. Tier: heuristic."""
+def kent_sample_batch(out: np.ndarray, kappa: float, beta: float, seed: int = 42) -> None:
+    """Sample Kent into ``out`` (float64). Kent distribution: A bivariate distribution on the sphere."""
 
-def bivariate_von_mises_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Bivariate von Mises into ``out`` (float64). Bivariate von Mises distribution: A bivariate distribution on a torus. Tier: heuristic."""
+def bivariate_von_mises_sample_batch(out: np.ndarray, kappa1: float, kappa2: float, seed: int = 42) -> None:
+    """Sample Bivariate von Mises into ``out`` (float64). Bivariate von Mises distribution: A bivariate distribution on a torus."""
 
-def von_misesfisher_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample von Mises–Fisher into ``out`` (float64). von Mises–Fisher distribution: A multivariate directional distribution on hyperspheres. Tier: heuristic."""
+def von_misesfisher_sample_batch(out: np.ndarray, kappa: float, seed: int = 42) -> None:
+    """Sample von Mises–Fisher into ``out`` (float64). von Mises–Fisher distribution: A multivariate directional distribution on hyperspheres."""
 
-def bingham_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Bingham into ``out`` (float64). Bingham distribution: A multivariate directional distribution on hyperspheres. Tier: heuristic."""
+def bingham_sample_batch(out: np.ndarray, kappa: float, seed: int = 42) -> None:
+    """Sample Bingham into ``out`` (float64). Bingham distribution: A multivariate directional distribution on hyperspheres."""
 
 def dirac_delta_function_sample_batch(out: np.ndarray, x0: float, seed: int = 42) -> None:
     """Sample Dirac delta function into ``out`` (float64). Dirac delta function: A distribution with all probability mass at a single point."""
 
 def cantor_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Cantor into ``out`` (float64). Cantor distribution: A singular distribution supported on a fractal or lower-dimensional set. Tier: heuristic."""
+    """Sample Cantor into ``out`` (float64). Cantor distribution: A singular distribution supported on a fractal or lower-dimensional set."""
 
 __all__: list[str] = [
     "benford_sample_batch",

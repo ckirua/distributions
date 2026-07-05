@@ -286,7 +286,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "soliton") {
-        const distributions::Soliton d(0.0, 1.0);
+        const distributions::Soliton d(10);
         out_i.resize(n);
         d.sample_batch(out_i.data(), n, rng);
         return;
@@ -1000,7 +1000,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "normal-inverse-gaussian") {
-        const distributions::NormalInverseGaussian d(0.0, 1.0);
+        const distributions::NormalInverseGaussian d(1.5, 0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1330,25 +1330,25 @@ inline void sample_cpp(
         return;
     }
     if (dist == "kent") {
-        const distributions::Kent d(0.0, 1.0);
+        const distributions::Kent d(2.0, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "bivariate-von-mises") {
-        const distributions::BivariateVonMises d(0.0, 1.0);
+        const distributions::BivariateVonMises d(2.0, 2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "von-misesfisher") {
-        const distributions::VonMisesfisher d(0.0, 1.0);
+        const distributions::VonMisesfisher d(2.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "bingham") {
-        const distributions::Bingham d(0.0, 1.0);
+        const distributions::Bingham d(-1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;

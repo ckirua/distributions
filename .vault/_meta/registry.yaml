@@ -444,7 +444,7 @@ distributions:
   tags:
   - distribution/discrete
   - support/finite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: discrete-uniform
   name: Discrete uniform
   title: Discrete uniform distribution
@@ -5181,7 +5181,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: skew-normal
   name: Skew normal
   title: Skew normal distribution
@@ -5997,7 +5997,7 @@ distributions:
   tags:
   - distribution/mixed
   - support/mixed
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: ewens
   name: Ewens
   title: Ewens distribution
@@ -7271,7 +7271,7 @@ distributions:
   tags:
   - distribution/directional
   - support/spherical
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: bivariate-von-mises
   name: Bivariate von Mises
   title: Bivariate von Mises distribution
@@ -7307,7 +7307,7 @@ distributions:
   tags:
   - distribution/directional
   - support/toroidal
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: von-misesfisher
   name: von Mises–Fisher
   title: von Mises–Fisher distribution
@@ -7349,7 +7349,7 @@ distributions:
   tags:
   - distribution/directional
   - support/multivariate
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: bingham
   name: Bingham
   title: Bingham distribution
@@ -7385,7 +7385,7 @@ distributions:
   tags:
   - distribution/directional
   - support/multivariate
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: dirac-delta-function
   name: Dirac delta function
   title: Dirac delta function
@@ -7458,7 +7458,7 @@ distributions:
   tags:
   - distribution/singular
   - support/singular
-  sampler_tier: heuristic
+  sampler_tier: family
 families:
 - id: circular
   name: Circular

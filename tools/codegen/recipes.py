@@ -1414,6 +1414,72 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        cydist_params=[("double", "theta"), ("int", "n"), ("uint64_t", "seed")]))
             continue
 
+        # --- final mixed (heuristic batch 11) ---
+        if vid == "normal-inverse-gaussian":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "a", "1.5"), ("double", "b", "0.5"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_norminvgauss(rng, a_, b_, loc_, scale_);",
+                       bench_ctor_args="1.5, 0.5, 0.0, 1.0",
+                       cydist_params=[("double", "a"), ("double", "b"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "rectified-gaussian":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/special.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_rectified_gaussian(rng, loc_, scale_);",
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "cantor":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/special.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_cantor(rng, loc_, scale_);",
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "von-misesfisher":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/special.hpp"],
+                       members=[("double", "kappa", "2.0")],
+                       sample_body="return detail::sample_von_mises_fisher_x(rng, kappa_);",
+                       bench_ctor_args="2.0",
+                       cydist_params=[("double", "kappa"), ("uint64_t", "seed")]))
+            continue
+        if vid == "kent":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/special.hpp"],
+                       members=[("double", "kappa", "2.0"), ("double", "beta", "0.5")],
+                       sample_body="return detail::sample_kent_x(rng, kappa_, beta_);",
+                       bench_ctor_args="2.0, 0.5",
+                       cydist_params=[("double", "kappa"), ("double", "beta"), ("uint64_t", "seed")]))
+            continue
+        if vid == "bingham":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/special.hpp"],
+                       members=[("double", "kappa", "-1.0")],
+                       sample_body="return detail::sample_bingham_x(rng, kappa_);",
+                       bench_ctor_args="-1.0",
+                       cydist_params=[("double", "kappa"), ("uint64_t", "seed")]))
+            continue
+        if vid == "bivariate-von-mises":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/special.hpp"],
+                       members=[("double", "kappa1", "2.0"), ("double", "kappa2", "2.0")],
+                       sample_body="return detail::sample_bivariate_von_mises_first(rng, kappa1_, kappa2_);",
+                       bench_ctor_args="2.0, 2.0",
+                       cydist_params=[("double", "kappa1"), ("double", "kappa2"), ("uint64_t", "seed")]))
+            continue
+        if vid == "soliton":
+            add(Recipe(vid, cls, cat, True,
+                       ["distributions/detail/special.hpp"],
+                       members=[("int", "n_max", "10")],
+                       sample_body="return detail::sample_soliton(rng, n_max_);",
+                       bench_ctor_args="10",
+                       cydist_params=[("int", "n_max"), ("uint64_t", "seed")]))
+            continue
+
         # --- directional ---
         if vid == "univariate-von-mises" or vid == "circular-uniform":
             kappa = "0.0" if vid == "circular-uniform" else "2.0"
