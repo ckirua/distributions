@@ -110,6 +110,8 @@ make build-simd    # separate build dir: build-simd/
 
 Phase 2 tracker: [`plan-simd.md`](plan-simd.md), [`SIMD_PROGRESS.md`](SIMD_PROGRESS.md). Baseline for SIMD comparisons: `results/baseline-v0.3.0/` (Tier B @ v0.3.0).
 
+Phase 3 (typed API + float): [`plan-api.md`](plan-api.md), [`API_PROGRESS.md`](API_PROGRESS.md) on branch `v0.5.0`.
+
 `geometric` has no Tier-B path (SplitMix regressed scipy variance). See [`tests/test_reproducibility.py`](tests/test_reproducibility.py) for Tier A vs B checks on the other 12 hand-written ids.
 
 ```bash
