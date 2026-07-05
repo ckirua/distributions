@@ -58,8 +58,7 @@ Goal: **bench-driven Tier B promotion** for selected codegen samplers + **comple
 
 - PR [#3](https://github.com/ckirua/distributions/pull/3) (`v0.7.0` → `main`)
 
-## Non-goals (deferred)
+## Next phase
 
-- Tier C SIMD for codegen (Phase 5 non-goal)
-- Parallel `batch_parallel.hpp` (deferred from Phase 1)
-- Further Tier B from remaining 20 `tier_b_candidate` ids (profile as needed)
+- **v0.8.0** → [`plan-v0.8.0.md`](plan-v0.8.0.md) (Tier B wave 3 + table CDF polish) → tag **`v1.0.0`**
+- Post-release: [`plan-post-v1.md`](plan-post-v1.md) (profile-driven loop)

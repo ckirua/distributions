@@ -38,6 +38,21 @@ WAVE2_CANDIDATES = [
     "discrete-weibull",
 ]
 
+# Wave 3 (v0.8.0): composition / transform families — bench before shipping.
+WAVE3_CANDIDATES = [
+    "chi-squared",
+    "chi",
+    "weibull",
+    "rayleigh",
+    "pareto",
+    "half-normal",
+    "inverse-gamma",
+    "scaled-inverse-chi-squared",
+    "davis",
+    "student-t",
+    "beta-prime",
+]
+
 BENCH_ALIAS = {
     "normal-gaussian": "normal",
     "students-t": "student-t",
@@ -123,6 +138,7 @@ def main() -> int:
     parser.add_argument("--quick", action="store_true", help="skip n=10M")
     parser.add_argument("--wave1", action="store_true", help="wave-1 Tier-B candidates only")
     parser.add_argument("--wave2", action="store_true", help="wave-2 Tier-B candidates only")
+    parser.add_argument("--wave3", action="store_true", help="wave-3 composition/transform candidates (v0.8.0)")
     parser.add_argument("--dist", action="append", dest="dists", help="single dist (repeatable)")
     parser.add_argument(
         "--resume",
@@ -149,6 +165,8 @@ def main() -> int:
         dists = list(WAVE1_CANDIDATES)
     elif args.wave2:
         dists = list(WAVE2_CANDIDATES)
+    elif args.wave3:
+        dists = list(WAVE3_CANDIDATES)
     else:
         dists = load_codegen_bench_ids()
 
