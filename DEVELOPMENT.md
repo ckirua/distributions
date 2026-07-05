@@ -116,7 +116,7 @@ Phase 3 (typed API + float): [`plan-api.md`](plan-api.md), [`API_PROGRESS.md`](A
 
 Phase 4 (parameter validation): [`plan-validation.md`](plan-validation.md), [`VALIDATION_PROGRESS.md`](VALIDATION_PROGRESS.md) on branch `v0.6.0`. C++ ctors use `detail/validate.hpp` asserts (compiled out in `-DNDEBUG` / Release).
 
-Phase 5 (codegen batch promotion): [`plan-v0.7.0.md`](plan-v0.7.0.md), [`V070_PROGRESS.md`](V070_PROGRESS.md) on branch `v0.7.0` — **after** `v0.6.0` PR merge.
+Phase 5 (codegen batch promotion): [`plan-v0.7.0.md`](plan-v0.7.0.md), [`V070_PROGRESS.md`](V070_PROGRESS.md) on branch `v0.7.0` (active).
 
 `geometric` has no Tier-B path (SplitMix regressed scipy variance). See [`tests/test_reproducibility.py`](tests/test_reproducibility.py) for Tier A vs B checks on the other 12 hand-written ids.
 

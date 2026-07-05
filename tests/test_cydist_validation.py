@@ -1,4 +1,4 @@
-"""cydist Python parameter validation (Phase 4 batch 3)."""
+"""cydist Python parameter validation (Phase 4–5)."""
 
 from __future__ import annotations
 
@@ -7,18 +7,50 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+import yaml
 
 import cydist
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 
-from codegen.constants import CYDIST_PYTHON_VALIDATE  # noqa: E402
+from codegen.emit import build_cydist_specs  # noqa: E402
+from codegen.recipes import build_recipes  # noqa: E402
+from codegen.validation import infer_cydist_python_checks  # noqa: E402
 
 
-@pytest.mark.parametrize("vault_id", sorted(CYDIST_PYTHON_VALIDATE))
-def test_cydist_validate_set_non_empty(vault_id: str) -> None:
-    assert vault_id
+def _parameterized_specs():
+    registry = yaml.safe_load((ROOT / ".vault" / "_meta" / "registry.yaml").read_text())[
+        "distributions"
+    ]
+    recipes = build_recipes(registry)
+    return [s for s in build_cydist_specs(registry, recipes) if s.params]
+
+
+def test_all_parameterized_cydist_have_python_checks() -> None:
+    specs = _parameterized_specs()
+    missing = [
+        s.vault_id
+        for s in specs
+        if not infer_cydist_python_checks(s.vault_id, s.params)
+    ]
+    assert not missing, f"missing python checks: {missing[:10]}"
+    assert len(specs) >= 184
+
+
+def test_cydist_pyx_emits_checks_for_parameterized() -> None:
+    pyx = (ROOT / "cydist" / "cydist.pyx").read_text()
+    specs = _parameterized_specs()
+    missing_emit: list[str] = []
+    for spec in specs:
+        marker = f"def {spec.py_func}("
+        start = pyx.find(marker)
+        assert start != -1, spec.py_func
+        chunk = pyx[start : start + 800]
+        body = chunk.split("with nogil:")[0]
+        if "_check_" not in body and "raise ValueError" not in body:
+            missing_emit.append(spec.vault_id)
+    assert not missing_emit, f"pyx missing _check_: {missing_emit[:10]}"
 
 
 def test_bernoulli_invalid_p() -> None:
@@ -73,6 +105,12 @@ def test_hypergeometric_invalid_counts() -> None:
     out = np.empty(8, dtype=np.int32)
     with pytest.raises(ValueError, match="n_success <= M"):
         cydist.hypergeometric_sample_batch(out, M=10, n_success=12, N_draws=3)
+
+
+def test_weibull_invalid_shape() -> None:
+    out = np.empty(8, dtype=np.float64)
+    with pytest.raises(ValueError, match="shape must be positive"):
+        cydist.weibull_sample_batch(out, shape=0.0, scale=1.0)
 
 
 def test_valid_params_still_sample() -> None:

@@ -32,7 +32,7 @@ Hand-written samplers expose a common shape checked by the C++20 **`Distribution
 | `double mean() const` | Closed-form mean where implemented |
 | `double variance() const` | Closed-form variance where implemented |
 
-**Sample types today:** all **13** hand-written types use `template<typename Sample>` + default aliases (`Bernoulli`, `Normal`, …). Discrete default **`int`** / **`int32_t`**; continuous default **`double`** with optional **`float`** on normal and exponential (Tier A/B/C when enabled).
+**Sample types today:** all **13** hand-written types and **171** codegen structs use `template<typename Sample>` + default aliases (`Bernoulli`, `Gamma`, `Normal`, …). Discrete default **`int`** / **`int32_t`**; continuous default **`double`** with optional **`float`** on normal and exponential (Tier B/C when enabled). Codegen Tier B fast paths remain **`double`**-only (`if constexpr` guard).
 
 **Traits:** `is_discrete_sample_v<T>`, `is_continuous_sample_v<T>`, `sample_type_t<Dist>`, `compute_type_t<Sample>` (internal math type; default **`double`** for mixed precision).
 

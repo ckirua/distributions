@@ -106,6 +106,8 @@ CYDIST_HIGH_TRAFFIC = frozenset({
     "laplace",
 })
 
+# Legacy alias: high-traffic subset (Phase 4 batch 3). Python validation now covers
+# all parameterized cydist entry points (Phase 5 batch 3).
 CYDIST_PYTHON_VALIDATE = frozenset(MANUAL.keys()) | CYDIST_HIGH_TRAFFIC
 
 # C/Cython/Python keywords that cannot be parameter names as-is.

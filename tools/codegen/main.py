@@ -16,6 +16,7 @@ from codegen.emit import (
     build_cydist_specs,
     emit_cydist,
     emit_header,
+    emit_registry_batch_fast,
     emit_registry_tiers,
     emit_tests,
 )
@@ -173,6 +174,7 @@ inline void write_samples_binary(
     (BENCH / "dispatch.hpp").write_text(dispatch)
 
     emit_registry_tiers(registry, recipes)
+    emit_registry_batch_fast(registry, recipes)
     specs = build_cydist_specs(registry, recipes)
     emit_cydist(specs)
     emit_tests(registry, recipes, specs)

@@ -1,31 +1,38 @@
 #pragma once
 
+#include <cstddef>
+#include "distributions/concepts.hpp"
 #include "distributions/detail/gamma.hpp"
 #include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
-#include <cstddef>
+#include <type_traits>
 
 namespace distributions {
 
-struct BetaPrime {
+template <typename Sample = double>
+struct BetaPrimeDistribution {
+    static_assert(is_continuous_sample_v<Sample>);
+
     double alpha_;
     double beta_;
-    BetaPrime(double alpha, double beta) : alpha_(alpha), beta_(beta) {
+    BetaPrimeDistribution(double alpha, double beta) : alpha_(alpha), beta_(beta) {
         detail::assert_strictly_positive(alpha_);
         detail::assert_strictly_positive(beta_);
     }
 
-    [[nodiscard]] double sample(Pcg32& rng) const {
+    [[nodiscard]] Sample sample(Pcg32& rng) const {
         const double x = detail::sample_gamma(rng, alpha_, 1.0);
-        const double y = detail::sample_gamma(rng, beta_, 1.0);
-        return x / y;
+                const double y = detail::sample_gamma(rng, beta_, 1.0);
+                return static_cast<Sample>(x / y);
     }
 
-    void sample_batch(double* out, std::size_t n, Pcg32& rng) const {
+    void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
         }
     }
 };
+
+using BetaPrime = BetaPrimeDistribution<double>;
 
 }  // namespace distributions

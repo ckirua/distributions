@@ -1,27 +1,34 @@
 #pragma once
 
+#include <cstddef>
+#include "distributions/concepts.hpp"
 #include "distributions/detail/semi_infinite.hpp"
 #include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
-#include <cstddef>
+#include <type_traits>
 
 namespace distributions {
 
-struct RelativisticBreitwigner {
+template <typename Sample = double>
+struct RelativisticBreitwignerDistribution {
+    static_assert(is_continuous_sample_v<Sample>);
+
     double rho_;
-    RelativisticBreitwigner(double rho) : rho_(rho) {
+    RelativisticBreitwignerDistribution(double rho) : rho_(rho) {
         detail::assert_strictly_positive(rho_);
     }
 
-    [[nodiscard]] double sample(Pcg32& rng) const {
-        return detail::sample_rel_breitwigner(rng, rho_);
+    [[nodiscard]] Sample sample(Pcg32& rng) const {
+        return static_cast<Sample>(detail::sample_rel_breitwigner(rng, rho_));
     }
 
-    void sample_batch(double* out, std::size_t n, Pcg32& rng) const {
+    void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
         }
     }
 };
+
+using RelativisticBreitwigner = RelativisticBreitwignerDistribution<double>;
 
 }  // namespace distributions

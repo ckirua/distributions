@@ -1,28 +1,35 @@
 #pragma once
 
+#include <cmath>
+#include <cstddef>
+#include "distributions/concepts.hpp"
 #include "distributions/detail/uniform.hpp"
 #include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
-#include <cmath>
-#include <cstddef>
+#include <type_traits>
 
 namespace distributions {
 
-struct Rayleigh {
+template <typename Sample = double>
+struct RayleighDistribution {
+    static_assert(is_continuous_sample_v<Sample>);
+
     double scale_;
-    Rayleigh(double scale) : scale_(scale) {
+    RayleighDistribution(double scale) : scale_(scale) {
         detail::assert_strictly_positive(scale_);
     }
 
-    [[nodiscard]] double sample(Pcg32& rng) const {
-        return scale_ * std::sqrt(-2.0 * std::log1p(-rng.next_double()));
+    [[nodiscard]] Sample sample(Pcg32& rng) const {
+        return static_cast<Sample>(scale_ * std::sqrt(-2.0 * std::log1p(-rng.next_double())));
     }
 
-    void sample_batch(double* out, std::size_t n, Pcg32& rng) const {
+    void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
         }
     }
 };
+
+using Rayleigh = RayleighDistribution<double>;
 
 }  // namespace distributions

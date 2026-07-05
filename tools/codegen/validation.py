@@ -285,6 +285,37 @@ _VAULT_PYTHON_VALIDATE: dict[str, list[str]] = {
         '_check_positive({s}, "s")',
         "if {q} <= -1.0: raise ValueError('zipf mandelbrot requires q > -1')",
     ],
+    "truncated-normal": [
+        '_check_finite({loc}, "loc")',
+        '_check_positive({scale}, "scale")',
+        "_check_double_interval({a}, {b})",
+    ],
+    "stable": [
+        '_check_positive({alpha}, "alpha")',
+        'if {beta} < -1.0 or {beta} > 1.0: raise ValueError("stable skew beta must be in [-1, 1]")',
+        '_check_finite({loc}, "loc")',
+        '_check_positive({scale}, "scale")',
+    ],
+    "geometric-stable": [
+        '_check_positive({alpha}, "alpha")',
+        'if {beta} < -1.0 or {beta} > 1.0: raise ValueError("stable skew beta must be in [-1, 1]")',
+        '_check_finite({loc}, "loc")',
+        '_check_positive({scale}, "scale")',
+    ],
+    "multivariate-stable": [
+        '_check_positive({alpha}, "alpha")',
+        'if {beta} < -1.0 or {beta} > 1.0: raise ValueError("stable skew beta must be in [-1, 1]")',
+    ],
+    "variance-gamma": [
+        '_check_positive({a}, "a")',
+        '_check_finite({b}, "b")',
+        "if not ({a} > abs({b})): raise ValueError('variance gamma requires a > |b|')",
+        '_check_finite({loc}, "loc")',
+        '_check_positive({scale}, "scale")',
+    ],
+    "bingham": [
+        '_check_finite({kappa}, "kappa")',
+    ],
 }
 
 

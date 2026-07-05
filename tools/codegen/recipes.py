@@ -228,7 +228,8 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        members=[("double", "lambda", "0.5")],
                        sample_body="return detail::sample_continuous_bernoulli(rng, lambda_);",
                        bench_ctor_args="0.5",
-                       cydist_params=[("double", "lambda"), ("uint64_t", "seed")]))
+                       cydist_params=[("double", "lambda"), ("uint64_t", "seed")],
+                       batch_fast="continuous_bernoulli"))
             continue
         if vid == "continuous-binomial":
             add(Recipe(vid, cls, cat, False,
@@ -270,7 +271,8 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        members=[("double", "alpha", "2.0"), ("double", "beta", "5.0")],
                        sample_body="return detail::sample_beta(rng, alpha_, beta_);",
                        bench_ctor_args="2.0, 5.0",
-                       cydist_params=[("double", "alpha"), ("double", "beta"), ("uint64_t", "seed")]))
+                       cydist_params=[("double", "alpha"), ("double", "beta"), ("uint64_t", "seed")],
+                       batch_fast="beta"))
             continue
         if vid == "triangular":
             add(Recipe(vid, cls, cat, False,
@@ -378,7 +380,8 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        members=[("double", "shape", "2.0"), ("double", "scale", "2.0")],
                        sample_body="return detail::sample_gamma(rng, shape_, scale_);",
                        bench_ctor_args="2.0, 2.0",
-                       cydist_params=[("double", "shape"), ("double", "scale"), ("uint64_t", "seed")]))
+                       cydist_params=[("double", "shape"), ("double", "scale"), ("uint64_t", "seed")],
+                       batch_fast="gamma"))
             continue
         if vid == "erlang":
             add(Recipe(vid, cls, cat, False,
@@ -386,7 +389,8 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        members=[("double", "a", "2.0"), ("double", "scale", "1.0")],
                        sample_body="return detail::sample_gamma(rng, a_, scale_);",
                        bench_ctor_args="2.0, 1.0",
-                       cydist_params=[("double", "a"), ("double", "scale"), ("uint64_t", "seed")]))
+                       cydist_params=[("double", "a"), ("double", "scale"), ("uint64_t", "seed")],
+                       batch_fast="erlang"))
             continue
         if vid == "chi-squared":
             add(Recipe(vid, "ChiSquared", cat, False,
@@ -598,7 +602,8 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        members=[("double", "mu", "0.0"), ("double", "sigma", "0.5")],
                        sample_body="return std::exp(detail::sample_normal(rng, mu_, sigma_));",
                        bench_ctor_args="0.0, 0.5",
-                       cydist_params=[("double", "mu"), ("double", "sigma"), ("uint64_t", "seed")]))
+                       cydist_params=[("double", "mu"), ("double", "sigma"), ("uint64_t", "seed")],
+                       batch_fast="log_normal"))
             continue
         if vid == "skew-normal":
             add(Recipe(vid, cls, cat, False,
@@ -795,7 +800,8 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        members=[("double", "c", "1.5")],
                        sample_body="return detail::sample_discrete_weibull(rng, c_);",
                        bench_ctor_args="1.5",
-                       cydist_params=[("double", "c"), ("uint64_t", "seed")]))
+                       cydist_params=[("double", "c"), ("uint64_t", "seed")],
+                       batch_fast="discrete_weibull"))
             continue
         if vid == "frechet":
             add(Recipe(vid, cls, cat, False,

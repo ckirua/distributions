@@ -1,8 +1,6 @@
 # v0.7.0 plan (Phase 5) — promote batch paths + validation completeness
 
-**Prerequisite:** [`v0.6.0`](https://github.com/ckirua/distributions/tree/v0.6.0) merged — Phase 4 validation (C++ asserts on 184/184 parameterized, Python checks on 26 core ids). Phases 1–3 on `v0.3.0`–`v0.5.0` (Tier B/C hand-written, typed API, optional AVX-512).
-
-**Branch:** `v0.7.0` from `v0.6.0` (after PR merge).
+**Prerequisite:** Phase 4 merged to `main`. **Branch:** `v0.7.0` from `main`.
 
 **Visible progress:** each batch commits and pushes to [`v0.7.0`](https://github.com/ckirua/distributions/tree/v0.7.0). Update [`V070_PROGRESS.md`](V070_PROGRESS.md) after every batch. CI runs on push.
 
@@ -205,9 +203,9 @@ Prior phases: [`OPTIMIZE_PROGRESS.md`](OPTIMIZE_PROGRESS.md), [`SIMD_PROGRESS.md
 
 ---
 
-## Merge sequence (before v0.7.0)
+## Branch setup (done)
 
-1. **PR:** `v0.6.0` → `main` (Phases 3–4: typed API, AVX-512 spike, validation)
-2. Merge PR
-3. `git checkout -b v0.7.0 main` (or from updated `v0.6.0`)
-4. Batch 0 on `v0.7.0`
+1. ~~PR `v0.6.0` → `main`~~ merged
+2. `v0.7.0` created from `main`; version branches `v0.2.0`–`v0.6.0` deleted
+3. CI active on `main` + `v0.7.0`
+4. **Next:** batch 0 on `v0.7.0`

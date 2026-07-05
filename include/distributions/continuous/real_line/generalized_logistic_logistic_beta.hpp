@@ -1,31 +1,38 @@
 #pragma once
 
+#include <cstddef>
+#include "distributions/concepts.hpp"
 #include "distributions/detail/real_line.hpp"
 #include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
-#include <cstddef>
+#include <type_traits>
 
 namespace distributions {
 
-struct GeneralizedLogisticLogisticBeta {
+template <typename Sample = double>
+struct GeneralizedLogisticLogisticBetaDistribution {
+    static_assert(is_continuous_sample_v<Sample>);
+
     double c_;
     double loc_;
     double scale_;
-    GeneralizedLogisticLogisticBeta(double c, double loc, double scale) : c_(c), loc_(loc), scale_(scale) {
+    GeneralizedLogisticLogisticBetaDistribution(double c, double loc, double scale) : c_(c), loc_(loc), scale_(scale) {
         detail::assert_strictly_positive(c_);
         detail::assert_finite(loc_);
         detail::assert_strictly_positive(scale_);
     }
 
-    [[nodiscard]] double sample(Pcg32& rng) const {
-        return detail::sample_genlogistic(rng, c_, loc_, scale_);
+    [[nodiscard]] Sample sample(Pcg32& rng) const {
+        return static_cast<Sample>(detail::sample_genlogistic(rng, c_, loc_, scale_));
     }
 
-    void sample_batch(double* out, std::size_t n, Pcg32& rng) const {
+    void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
         }
     }
 };
+
+using GeneralizedLogisticLogisticBeta = GeneralizedLogisticLogisticBetaDistribution<double>;
 
 }  // namespace distributions

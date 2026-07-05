@@ -61,6 +61,15 @@ add_dist_test(param_validate_smoke_test tests/cpp/param_validate_smoke_test.cpp)
 add_dist_test(simd_config_test tests/cpp/simd_config_test.cpp)
 add_dist_test(simd_uniform_test tests/cpp/simd_uniform_test.cpp)
 add_dist_test(smoke_all_test tests/cpp/smoke_all_test.cpp)
+
+add_executable(cydist_shim_span_test tests/cpp/cydist_shim_span_test.cpp cydist/cydist_shim.cpp)
+target_include_directories(cydist_shim_span_test PRIVATE
+    "${CMAKE_SOURCE_DIR}/include"
+    "${CMAKE_SOURCE_DIR}/cydist"
+)
+set_source_files_properties(cydist/cydist_shim.cpp PROPERTIES LANGUAGE CXX)
+apply_release_flags(cydist_shim_span_test)
+add_test(NAME cydist_shim_span_test COMMAND cydist_shim_span_test)
 if(DISTRIBUTIONS_ENABLE_SIMD)
     add_dist_test(simd_tier_repro_test tests/cpp/simd_tier_repro_test.cpp)
 endif()
