@@ -12,8 +12,10 @@ make bench-core          # 1k, 100k, 10M × 13 hand-written ids
 make bench-core-quick    # 1k, 100k only
 ```
 
-Compare after optimization:
+Compare after optimization (writes to `results/current/`, baseline stays frozen):
 
 ```bash
-python bench/compare_baseline.py
+make bench-core
+python bench/compare_baseline.py --geomean
+python bench/compare_baseline.py --n 1000 --geomean   # optional; n=1k is noisy
 ```

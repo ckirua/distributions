@@ -26,6 +26,8 @@ Root files: `rng.hpp`, `base.hpp`, `all.hpp` (generated umbrella).
 | Tier | Engine | Use |
 |------|--------|-----|
 | **A — Serial** | `Pcg32` in [`rng.hpp`](rng.hpp) | `sample()`, small batches, tests — bit-exact stream |
-| **B — Fast** | Counter RNG (`detail/counter_rng.hpp`, Philox) or SplitMix64 (`detail/fast/splitmix_stream.hpp`) for trivial discrete | Large `sample_batch` when a fast path exists (`n >= kFastThreshold`) |
+| **B — Fast** | SplitMix64 or derived-seed PCG (`detail/fast/`) | Large `sample_batch` when a fast path exists |
 
-Tier B is statistically equivalent to uniform sampling, not bit-identical to Tier A. See [`plan.md`](../../plan.md).
+**Threshold:** `detail::kFastThreshold` is **4096** (see [`detail/counter_rng.hpp`](detail/counter_rng.hpp)). When `n >= kFastThreshold` and a Tier-B implementation exists, `sample_batch` dispatches to the fast path; otherwise the serial PCG loop runs.
+
+Tier B is statistically equivalent, not bit-identical to Tier A. Repro tests: [`tests/test_reproducibility.py`](../../tests/test_reproducibility.py). See [`plan.md`](../../plan.md).

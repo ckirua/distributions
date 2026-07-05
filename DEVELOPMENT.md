@@ -83,11 +83,23 @@ Expected failures (`xfail`): approximate or mismatched samplers including `univa
 ## Benchmarks
 
 ```bash
-make bench-core            # 13 hand-written ids (optimize track)
+make bench-core            # 13 hand-written ids → results/current/
 make bench-core-quick
 make bench-all             # all 189 distributions → results/summary.csv
-python bench/compare_baseline.py   # Tier-A regression vs baseline CSVs
+python bench/compare_baseline.py --geomean              # sign-off @ 10M (max 5% regression)
+python bench/compare_baseline.py --n 1000 --geomean   # noisy Tier-A spot check
 ```
+
+Frozen Tier-A baseline CSVs live in `results/baseline-v0.2.0/` (v0.2.0 serial path). Current runs overwrite `results/current/` only.
+
+### RNG tiers (hand-written core)
+
+| Tier | When | Engine | Reproducibility |
+|------|------|--------|-----------------|
+| **A** | `sample()`, or `sample_batch` with `n < kFastThreshold` (4096) | Serial `Pcg32` | Bit-exact stream |
+| **B** | `sample_batch` with `n >= 4096` when a fast path exists | SplitMix64 or derived-seed PCG | Statistical match only |
+
+`geometric` has no Tier-B path (SplitMix regressed scipy variance). See [`tests/test_reproducibility.py`](tests/test_reproducibility.py) for Tier A vs B checks on the other 12 hand-written ids.
 
 Legacy ISPC bench (`make bench`) is **off by default**; enable with `-DDISTRIBUTIONS_ENABLE_ISPC=ON` if the local ISPC compiler is installed under `.tools/`.
 

@@ -37,6 +37,14 @@ examples/cython/*.cpp
 examples/cython/*.so
 examples/cython/build/
 
+# Benchmark outputs (gitignored except README + baseline)
+results/current/*
+!results/current/README.md
+results/*.csv
+!results/summary.csv
+!results/README.md
+!results/baseline-v0.2.0/*.csv
+
 # Cursor — keep project plans, ignore local IDE state
 .cursor/*
 !.cursor/plans/

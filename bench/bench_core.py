@@ -12,7 +12,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build"
 RUN_BENCH = BUILD / "run_bench"
-DEFAULT_OUT = ROOT / "results" / "baseline-v0.2.0"
+DEFAULT_BASELINE = ROOT / "results" / "baseline-v0.2.0"
+DEFAULT_OUT = ROOT / "results" / "current"
 
 # vault id → bench id (matches tools/codegen/constants.py BENCH_ALIAS)
 CORE_DIST = [
