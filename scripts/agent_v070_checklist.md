@@ -1,6 +1,6 @@
 # Agent v0.7.0 batch checklist (Phase 5)
 
-**Prerequisite:** [`v0.6.0`](../plan-validation.md) merged to `main`.
+**Prerequisite:** Phase 4 merged to `main` (complete). Old version branches (`v0.2.0`–`v0.6.0`) deleted.
 
 After each batch (see [`plan-v0.7.0.md`](../plan-v0.7.0.md)):
 

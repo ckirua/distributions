@@ -56,4 +56,4 @@ High-traffic codegen (13): `poisson`, `gamma`, `beta`, `hypergeometric`, `genera
 
 Phase 4 required batches complete. Follow-ups (Python 171/171, span, Tier B codegen) are in [`plan-v0.7.0.md`](plan-v0.7.0.md).
 
-**Next:** merge PR `v0.6.0` → `main`, then start Phase 5 on `v0.7.0`.
+**Next:** Phase 5 on `v0.7.0` (merged to `main`; old version branches retired).

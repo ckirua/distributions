@@ -1,8 +1,8 @@
-# v0.7.0 progress (Phase 5) — not started
+# v0.7.0 progress (Phase 5) — batch 0 next
 
 Goal: **bench-driven Tier B promotion** for selected codegen samplers + **complete cydist Python validation**. See [`plan-v0.7.0.md`](plan-v0.7.0.md).
 
-**Branch:** `v0.7.0` (create after `v0.6.0` PR merge).
+**Branch:** `v0.7.0` (active development branch).
 
 ## Status
 
@@ -14,13 +14,9 @@ Goal: **bench-driven Tier B promotion** for selected codegen samplers + **comple
 | Shim `std::span` | **no** |
 | Batches complete | **0 / 6** |
 
-## Blocked on
-
-- [ ] PR `v0.6.0` → `main` merged
-
 ## Completed batches
 
-_(none — start batch 0 after merge)_
+_(none — start batch 0)_
 
 ## Tier B candidate queue (batch 1 fills this)
 
@@ -34,4 +30,4 @@ _(none — start batch 0 after merge)_
 
 ## Agent instructions
 
-Do not start until `v0.6.0` is on `main`. Then batch 0 only.
+Continue from the next incomplete batch. Push to `v0.7.0` only.
