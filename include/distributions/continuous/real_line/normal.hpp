@@ -3,6 +3,7 @@
 #include "distributions/detail/counter_rng.hpp"
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/detail/fast/normal.hpp"
+#include "distributions/detail/simd/normal.hpp"
 #include "distributions/rng.hpp"
 
 #include <cmath>
@@ -27,7 +28,7 @@ struct Normal {
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {
         if (n >= detail::kFastThreshold) {
-            detail::fast::normal_sample_batch(out, n, mu, sigma, detail::batch_seed_from(rng));
+            detail::simd::normal_sample_batch(out, n, mu, sigma, detail::batch_seed_from(rng));
             return;
         }
         for (std::size_t i = 0; i < n; ++i) {

@@ -8,23 +8,30 @@ Goal: **AVX2 Tier-C** vector `sample_batch` for the **13 hand-written** core on 
 
 | Metric | Count |
 |--------|------:|
-| Hand-written with Tier C SIMD path | **2 / 13** |
+| Hand-written with Tier C SIMD path | **4 / 13** |
 | AVX2 build gate (`DISTRIBUTIONS_ENABLE_SIMD`) | **yes** |
-| Geomean vs v0.3.0 Tier B @10M (SIMD build) | **1.31×** |
-| Geomean vs v0.2.0 @10M (cumulative, partial) | **~1.7×** (bernoulli-led) |
-| Required batches complete | **3 / 7** |
+| Geomean vs v0.3.0 Tier B @10M (SIMD build) | **1.65×** |
+| Geomean vs v0.2.0 @10M (cumulative) | **2.12×** |
+| Required batches complete | **4 / 7** |
 
-Last push: batch 2 (bernoulli + discrete-uniform Tier C).
+Last push: batch 3 (exponential + normal Tier C via libmvec).
 
 ## Next batch
 
-**Batch 3** — AVX2 exponential + normal.
+**Batch 4** — binomial, beta-binomial, negative-binomial, poisson-binomial.
 
 ## Batch 6 decision gate
 
-Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** (currently 1.29× Tier B only). Skip batch 7 (parallel) if met after batch 6.
+Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** — **met at 2.12× after batch 3**. Batch 7 (parallel) remains optional unless further gains are needed.
 
 ## Completed batches
+
+### Batch 3 — Continuous (2)
+
+- Tier C: **single SplitMix64 stream + 256 uniform block + libmvec vector math** (4-stream SplitMix trial regressed ~1.3× on exponential — rejected)
+- `detail/simd/libmvec.hpp` — `_ZGVdN4v_log1p`, `_log`, `_cos`, `_sin`; CMake links `-lmvec` when SIMD on
+- `detail/simd/exponential.hpp`, `detail/simd/normal.hpp`
+- Speedups @10M (SIMD build): exponential **5.2×**, normal **4.2×** vs v0.3.0 Tier B
 
 ### Batch 2 — Trivial discrete (2)
 
@@ -48,9 +55,9 @@ Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** (currently 1.29× Tier B
 |----------|:---------------:|:-----------:|------:|
 | `bernoulli` | SplitMix64 | **4-stream SplitMix** | 2 |
 | `discrete-uniform` | SplitMix64 | **4-stream SplitMix** | 2 |
+| `exponential` | SplitMix64 | **libmvec log1p** | 3 |
+| `normal-gaussian` | SplitMix64 | **libmvec Box–Muller** | 3 |
 | `geometric` | Tier A only | — | — |
-| `exponential` | SplitMix64 | — | 3 |
-| `normal-gaussian` | SplitMix64 | — | 3 |
 | `binomial` | SplitMix64 | — | 4 |
 | `negative-binomial` | SplitMix64 | — | 4 |
 | `beta-binomial` | SplitMix64 | — | 4 |
@@ -62,10 +69,12 @@ Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** (currently 1.29× Tier B
 
 ## SIMD @10M vs v0.3.0 Tier B (cycles/sample)
 
-| bench id | v0.3.0 | SIMD (batch 2) | speedup |
+| bench id | v0.3.0 | SIMD (batch 3) | speedup |
 |----------|-------:|---------------:|--------:|
-| bernoulli | 0.68 | 0.07 | **9.5×** |
-| discrete-uniform | 0.86 | 0.50 | **1.7×** |
+| bernoulli | 0.68 | 0.09 | **7.7×** |
+| discrete-uniform | 0.86 | 0.47 | **1.8×** |
+| exponential | 17.75 | 3.39 | **5.2×** |
+| normal | 22.92 | 5.44 | **4.2×** |
 | *(others unchanged — Tier B)* | | | ~1.0× |
 
 Full CSVs: `results/baseline-v0.3.0/`, `results/current/` (SIMD build)

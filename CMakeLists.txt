@@ -24,6 +24,7 @@ function(apply_release_flags target)
     if(DISTRIBUTIONS_ENABLE_SIMD)
         target_compile_definitions(${target} PRIVATE DISTRIBUTIONS_HAS_AVX2=1)
         target_compile_options(${target} PRIVATE -mavx2 -mfma)
+        target_link_libraries(${target} PRIVATE mvec)
     endif()
 endfunction()
 
