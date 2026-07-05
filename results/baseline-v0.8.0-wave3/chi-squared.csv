@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+chi-squared,cpp,1000,42,30620,34170,1470.46,30.62
+chi-squared,cpp,100000,42,4.8243e+06,5.13308e+06,81882.9,48.243
+chi-squared,cpp,10000000,42,4.80807e+08,4.83931e+08,1.02389e+06,48.0807

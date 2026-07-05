@@ -2298,6 +2298,7 @@ distributions:
   - distribution/continuous
   - support/semi-infinite
   sampler_tier: family
+  batch_fast: beta_prime
 - id: burr
   name: Burr
   title: Burr distribution
@@ -3144,6 +3145,7 @@ distributions:
   - distribution/continuous
   - support/semi-infinite
   sampler_tier: family
+  batch_fast: inverse_gamma
 - id: gamma-gompertz
   name: gamma/Gompertz
   title: gamma/Gompertz distribution
@@ -3345,6 +3347,7 @@ distributions:
   - distribution/continuous
   - support/semi-infinite
   sampler_tier: family
+  batch_fast: half_normal
 - id: hotellings-t-squared
   name: Hotelling's _T_\-squared
   title: Hotelling's _T_\-squared distribution

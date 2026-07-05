@@ -38,7 +38,7 @@ Hand-written samplers expose a common shape checked by the C++20 **`Distribution
 
 **Verify:** `tests/cpp/concepts_test.cpp` — all **13** hand-written types model `Distribution` (including `int` and `int32_t` sample templates). Integration: `tests/test_typed_integration.py` (batch 8 sign-off).
 
-Generated family samplers (176) keep the same method names but are not yet concept-checked in CI. See [`plan-api.md`](../../plan-api.md) and [`API_PROGRESS.md`](../../API_PROGRESS.md).
+Generated family samplers (176) keep the same method names but are not yet concept-checked in CI.
 
 ## RNG tiers (optimization)
 
@@ -53,4 +53,4 @@ Tier-C primitives (batch 1+): `fill_uniform01_avx2` in [`detail/simd/uniform.hpp
 
 **Threshold:** `detail::kFastThreshold` is **4096** (see [`detail/counter_rng.hpp`](detail/counter_rng.hpp)). When `n >= kFastThreshold` and a fast path exists, `sample_batch` dispatches Tier B (or Tier C when enabled); otherwise the serial PCG loop runs.
 
-Tier B/C are statistically equivalent, not bit-identical to Tier A. Repro tests: [`tests/test_reproducibility.py`](../../tests/test_reproducibility.py). Phase 2: [`plan-simd.md`](../../plan-simd.md). Phase 3 typed API: [`plan-api.md`](../../plan-api.md).
+Tier B/C are statistically equivalent, not bit-identical to Tier A. Repro tests: [`tests/test_reproducibility.py`](../../tests/test_reproducibility.py).

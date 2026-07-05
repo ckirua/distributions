@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+student-t,cpp,1000,42,58000,69266,3083.14,58
+student-t,cpp,100000,42,8.76247e+06,9.26784e+06,113805,87.6247
+student-t,cpp,10000000,42,8.77677e+08,8.70243e+08,1.54604e+06,87.7677

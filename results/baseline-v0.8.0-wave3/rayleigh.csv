@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+rayleigh,cpp,1000,42,10918,13772,557.406,10.918
+rayleigh,cpp,100000,42,2.22918e+06,2.2522e+06,31297.5,22.2918
+rayleigh,cpp,10000000,42,2.18797e+08,2.44545e+08,5.65051e+06,21.8797
