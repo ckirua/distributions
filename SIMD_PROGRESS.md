@@ -9,22 +9,38 @@ Goal: **AVX2 Tier-C** vector `sample_batch` for the **13 hand-written** core on 
 | Metric | Count |
 |--------|------:|
 | Hand-written with Tier C SIMD path | **4 / 13** |
+| Hand-written Tier C skipped (bench-bound) | **4** (batch 5) |
 | AVX2 build gate (`DISTRIBUTIONS_ENABLE_SIMD`) | **yes** |
 | Geomean vs v0.3.0 Tier B @10M (SIMD build) | **1.65×** |
 | Geomean vs v0.2.0 @10M (cumulative) | **2.12×** |
-| Required batches complete | **4 / 7** |
+| Required batches complete | **5 / 7** |
 
 Last push: batch 3 (exponential + normal Tier C via libmvec).
 
 ## Next batch
 
-**Batch 4** — binomial, beta-binomial, negative-binomial, poisson-binomial.
+**Batch 4** — binomial, beta-binomial, negative-binomial, poisson-binomial (still pending).
+
+Then **Batch 6** — integration, repro tests, bench sign-off.
 
 ## Batch 6 decision gate
 
 Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** — **met at 2.12× after batch 3**. Batch 7 (parallel) remains optional unless further gains are needed.
 
 ## Completed batches
+
+### Batch 5 — Heavy discrete (evaluated; Tier C skipped)
+
+Trialed **4-stream SplitMix64** (same pattern as batch 2). CDF bisect / Knuth Poisson dominate; vector RNG alone regresses or is neutral.
+
+| vault id | v0.3.0 | SIMD trial | vs Tier B | decision |
+|----------|-------:|-----------:|----------:|----------|
+| `categorical` | 7.22 | 7.24 | 1.00× | **skip** |
+| `zipf` | 19.50 | 22.64 | 1.16× slower | **skip** |
+| `zipfmandelbrot` | 8.44 | 8.95 | 1.06× slower | **skip** |
+| `skellam` | 65.56 | 70.58 | 1.08× slower | **skip** |
+
+Tier B (derived PCG / scalar search) retained for all four.
 
 ### Batch 3 — Continuous (2)
 
@@ -57,15 +73,15 @@ Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** — **met at 2.12× afte
 | `discrete-uniform` | SplitMix64 | **4-stream SplitMix** | 2 |
 | `exponential` | SplitMix64 | **libmvec log1p** | 3 |
 | `normal-gaussian` | SplitMix64 | **libmvec Box–Muller** | 3 |
+| `categorical` | derived PCG | skip (alias bound) | 5 |
+| `zipf` | derived PCG | skip (CDF bound) | 5 |
+| `zipfmandelbrot` | derived PCG | skip (CDF bound) | 5 |
+| `skellam` | derived PCG | skip (Poisson bound) | 5 |
 | `geometric` | Tier A only | — | — |
 | `binomial` | SplitMix64 | — | 4 |
 | `negative-binomial` | SplitMix64 | — | 4 |
 | `beta-binomial` | SplitMix64 | — | 4 |
 | `poisson-binomial` | SplitMix64 | — | 4 |
-| `categorical` | derived PCG | — | 5 |
-| `zipf` | derived PCG | — | 5 |
-| `zipfmandelbrot` | derived PCG | — | 5 |
-| `skellam` | derived PCG | — | 5 |
 
 ## SIMD @10M vs v0.3.0 Tier B (cycles/sample)
 
