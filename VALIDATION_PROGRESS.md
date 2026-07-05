@@ -10,15 +10,22 @@ Goal: **debug asserts + optional Python checks** so invalid parameters fail fast
 |--------|------:|
 | Hand-written with ctor validation | **13 / 13** |
 | Codegen with `validate_body` | **171 / 171** (parameterized) |
-| cydist Python validation | **no** |
-| Batches complete | **3 / 4** |
+| cydist Python `ValueError` | **26 / 26** (hand-written + high-traffic) |
+| Batches complete | **4 / 4** |
 
 ## Optional next (not batched yet)
 
 - Two-pass batch for profiled heavy samplers (GH, etc.)
-- `std::span` at shim edges
+- `std::span` at shim edges (batch 4 optional)
+- Extend cydist Python validation to remaining codegen ids
 
 ## Completed batches
+
+### Batch 3 — cydist Python validation
+
+- `CYDIST_PYTHON_VALIDATE` — 13 hand-written + 13 high-traffic codegen ids
+- `infer_cydist_python_checks()` in `validation.py`; helpers emitted into `cydist.pyx`
+- `tests/test_cydist_validation.py` — invalid-param `ValueError` + coverage parametrize
 
 ### Batch 2 — Codegen family validation
 
@@ -39,24 +46,12 @@ Goal: **debug asserts + optional Python checks** so invalid parameters fail fast
 - Codegen `Recipe.validate_body` + emit in ctor
 - `plan-validation.md`, `VALIDATION_PROGRESS.md`, `scripts/agent_validation_checklist.md`
 
-## Hand-written tracker (13)
+## cydist Python validation (26)
 
-| vault id | validation | batch |
-|----------|:----------:|------:|
-| `bernoulli` | `p ∈ [0,1]` | 1 |
-| `discrete-uniform` | `low ≤ high` | 1 |
-| `binomial` | `n ≥ 0`, `p ∈ [0,1]` | 1 |
-| `categorical` | probs ≥ 0 | 1 |
-| `beta-binomial` | `n ≥ 0`, `α,β > 0` | 1 |
-| `poisson-binomial` | each `p ∈ [0,1]` | 1 |
-| `zipf` | `N > 0`, `s > 0` | 1 |
-| `zipfmandelbrot` | `N > 0`, `s > 0`, `q > -1` | 1 |
-| `geometric` | `p ∈ (0,1]` | 1 |
-| `negative-binomial` | `r > 0`, `p ∈ (0,1]` | 1 |
-| `skellam` | `μ₁, μ₂ ≥ 0` | 1 |
-| `normal-gaussian` | `σ > 0` | 1 |
-| `exponential` | `rate > 0` | 1 |
+Hand-written (13): all `MANUAL` vault ids.
+
+High-traffic codegen (13): `poisson`, `gamma`, `beta`, `hypergeometric`, `generalized-hyperbolic`, `students-t`, `chi-squared`, `weibull`, `log-normal`, `pareto`, `uniform`, `cauchy`, `laplace`.
 
 ## Agent instructions
 
-Next batch: **3** — cydist Python `ValueError` for hand-written + high-traffic ids.
+Phase 4 required batches complete. Optional: extend Python validation to all parameterized codegen, or batch 4 `std::span` at shim.

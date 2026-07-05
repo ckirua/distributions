@@ -16,6 +16,7 @@ from codegen.constants import (
     BENCH_ALIAS,
     C_FUNC_ALIASES,
     CYDIST,
+    CYDIST_PYTHON_VALIDATE,
     FUSED_CONTINUOUS_VAULT_IDS,
     FUSED_FLOAT_CPP_CLASS,
     INCLUDE,
@@ -25,6 +26,7 @@ from codegen.constants import (
 )
 from codegen.models import CydistSpec, Recipe
 from codegen.utils import safe_param_name, slug_to_class
+from codegen.validation import CYDIST_PYVALIDATE_HELPERS, infer_cydist_python_checks
 
 def emit_header(r: Recipe) -> str:
     ctor_params = ", ".join(f"{t} {n}" for t, n, _ in r.members)
@@ -246,6 +248,7 @@ def emit_cydist(specs: list[CydistSpec]) -> None:
     pyi_lines: list[str] = [CYDIST_MODULE_DOC, "", "import numpy as np", ""]
 
     prev_category: str | None = None
+    needs_pyvalidate = False
     for spec in specs:
         if spec.category_path != prev_category:
             if prev_category is not None:
@@ -342,6 +345,12 @@ def emit_cydist(specs: list[CydistSpec]) -> None:
                 call_args.append(safe)
 
         pyx_funcs.append(f"def {spec.py_func}({', '.join(pyx_sig_params)}):")
+        if spec.vault_id in CYDIST_PYTHON_VALIDATE and spec.params:
+            py_checks = infer_cydist_python_checks(spec.vault_id, spec.params)
+            if py_checks:
+                needs_pyvalidate = True
+                for check in py_checks:
+                    pyx_funcs.append(f"    {check}")
         if fused_continuous:
             setup.extend(
                 [
@@ -397,7 +406,8 @@ def emit_cydist(specs: list[CydistSpec]) -> None:
         "# cython: language_level=3\n"
         + CYDIST_PYX_MODULE_DOC
         + "\n"
-        "cimport numpy as cnp\n"
+        + (CYDIST_PYVALIDATE_HELPERS + "\n" if needs_pyvalidate else "")
+        + "cimport numpy as cnp\n"
         "from libc.stddef cimport size_t\n"
         "from libc.stdint cimport uint64_t\n\n"
         "cnp.import_array()\n\n"

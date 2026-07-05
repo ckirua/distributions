@@ -89,6 +89,25 @@ MANUAL_CPP_CLASS = {
     "normal-gaussian": "Normal",
 }
 
+# cydist Python ValueError checks (batch 3): hand-written + common MC / stats ids.
+CYDIST_HIGH_TRAFFIC = frozenset({
+    "poisson",
+    "gamma",
+    "beta",
+    "hypergeometric",
+    "generalized-hyperbolic",
+    "students-t",
+    "chi-squared",
+    "weibull",
+    "log-normal",
+    "pareto",
+    "uniform",
+    "cauchy",
+    "laplace",
+})
+
+CYDIST_PYTHON_VALIDATE = frozenset(MANUAL.keys()) | CYDIST_HIGH_TRAFFIC
+
 # C/Cython/Python keywords that cannot be parameter names as-is.
 RESERVED_NAMES = frozenset({
     "lambda", "class", "def", "return", "import", "global", "yield", "raise",

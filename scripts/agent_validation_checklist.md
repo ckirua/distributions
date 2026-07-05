@@ -7,8 +7,12 @@ After each batch (see [`plan-validation.md`](../plan-validation.md)):
    ```bash
    make codegen && make build && make test && make test-sanity
    ```
-3. Update [`VALIDATION_PROGRESS.md`](../VALIDATION_PROGRESS.md).
-4. Commit on `v0.6.0`:
+3. If batch touches cydist validation:
+   ```bash
+   make codegen && make install && pytest tests/test_cydist_validation.py -q
+   ```
+4. Update [`VALIDATION_PROGRESS.md`](../VALIDATION_PROGRESS.md).
+5. Commit on `v0.6.0`:
    ```bash
    git add -A
    git commit -m "Validation batch N: <short summary>"

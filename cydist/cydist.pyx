@@ -5,6 +5,57 @@ Pre-allocated NumPy ``out`` is filled in-place; GIL released per call.
 Discrete → int32; continuous → float64 (or float32 for normal/exponential via FusedType).
 RNG: PCG32 (``seed``, default 42).
 """
+
+import numpy as np
+
+
+def _check_probability(x, name):
+    if x < 0.0 or x > 1.0:
+        raise ValueError(f"{name} must be in [0, 1], got {x}")
+
+
+def _check_open_unit(x, name):
+    if x <= 0.0 or x > 1.0:
+        raise ValueError(f"{name} must be in (0, 1], got {x}")
+
+
+def _check_positive(x, name):
+    if x <= 0.0:
+        raise ValueError(f"{name} must be positive, got {x}")
+
+
+def _check_nonneg(x, name):
+    if x < 0.0:
+        raise ValueError(f"{name} must be non-negative, got {x}")
+
+
+def _check_finite(x, name):
+    if not np.isfinite(x):
+        raise ValueError(f"{name} must be finite, got {x}")
+
+
+def _check_positive_int(x, name):
+    if x <= 0:
+        raise ValueError(f"{name} must be positive, got {x}")
+
+
+def _check_nonneg_int(x, name):
+    if x < 0:
+        raise ValueError(f"{name} must be non-negative, got {x}")
+
+
+def _check_double_interval(lo, hi):
+    if lo >= hi:
+        raise ValueError(f"requires lo < hi, got {lo} >= {hi}")
+
+
+def _check_probs(probs):
+    if probs.shape[0] == 0:
+        raise ValueError("probs must be non-empty")
+    arr = np.asarray(probs, dtype=np.float64)
+    if np.any(arr < 0.0):
+        raise ValueError("probs must be non-negative")
+
 cimport numpy as cnp
 from libc.stddef cimport size_t
 from libc.stdint cimport uint64_t
@@ -217,24 +268,31 @@ def benford_sample_batch(cnp.int32_t[:] out, uint64_t seed=42):
         cydist_benford_sample_batch(seed, ptr, n_samples)
 
 def bernoulli_sample_batch(cnp.int32_t[:] out, double p, uint64_t seed=42):
+    _check_probability(p, "p")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef int* ptr = <int*>&out[0]
     with nogil:
         cydist_bernoulli_sample_batch(p, seed, ptr, n_samples)
 
 def beta_binomial_sample_batch(cnp.int32_t[:] out, int trials, double alpha, double beta, uint64_t seed=42):
+    _check_nonneg_int(trials, "trials")
+    _check_positive(alpha, "alpha")
+    _check_positive(beta, "beta")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef int* ptr = <int*>&out[0]
     with nogil:
         cydist_beta_binomial_sample_batch(trials, alpha, beta, seed, ptr, n_samples)
 
 def binomial_sample_batch(cnp.int32_t[:] out, int trials, double p, uint64_t seed=42):
+    _check_nonneg_int(trials, "trials")
+    _check_probability(p, "p")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef int* ptr = <int*>&out[0]
     with nogil:
         cydist_binomial_sample_batch(trials, p, seed, ptr, n_samples)
 
 def categorical_sample_batch(cnp.int32_t[:] out, cnp.float64_t[:] probs, uint64_t seed=42):
+    _check_probs(probs)
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef const double* probs_ptr = <const double*>&probs[0]
     cdef int k = <int>probs.shape[0]
@@ -243,6 +301,11 @@ def categorical_sample_batch(cnp.int32_t[:] out, cnp.float64_t[:] probs, uint64_
         cydist_categorical_sample_batch(probs_ptr, k, seed, ptr, n_samples)
 
 def hypergeometric_sample_batch(cnp.int32_t[:] out, int M, int n_success, int N_draws, uint64_t seed=42):
+    _check_nonneg_int(M, "M")
+    _check_nonneg_int(n_success, "n_success")
+    _check_nonneg_int(N_draws, "N_draws")
+    if n_success > M: raise ValueError('requires n_success <= M')
+    if N_draws > M: raise ValueError('requires N_draws <= M')
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef int* ptr = <int*>&out[0]
     with nogil:
@@ -255,6 +318,7 @@ def negative_hypergeometric_sample_batch(cnp.int32_t[:] out, int M, int n_, int 
         cydist_negative_hypergeometric_sample_batch(M, n_, N, seed, ptr, n_samples)
 
 def poisson_binomial_sample_batch(cnp.int32_t[:] out, cnp.float64_t[:] probs, uint64_t seed=42):
+    _check_probs(probs)
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef const double* probs_ptr = <const double*>&probs[0]
     cdef int k = <int>probs.shape[0]
@@ -275,18 +339,24 @@ def soliton_sample_batch(cnp.int32_t[:] out, int n_max, uint64_t seed=42):
         cydist_soliton_sample_batch(n_max, seed, ptr, n_samples)
 
 def discrete_uniform_sample_batch(cnp.int32_t[:] out, int low, int high, uint64_t seed=42):
+    if low > high: raise ValueError('requires low <= high')
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef int* ptr = <int*>&out[0]
     with nogil:
         cydist_discrete_uniform_sample_batch(low, high, seed, ptr, n_samples)
 
 def zipf_sample_batch(cnp.int32_t[:] out, int N, double s, uint64_t seed=42):
+    _check_positive_int(N, "N")
+    _check_positive(s, "s")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef int* ptr = <int*>&out[0]
     with nogil:
         cydist_zipf_sample_batch(N, s, seed, ptr, n_samples)
 
 def zipf_mandelbrot_sample_batch(cnp.int32_t[:] out, int N, double q, double s, uint64_t seed=42):
+    _check_positive_int(N, "N")
+    _check_positive(s, "s")
+    if q <= -1.0: raise ValueError('zipf mandelbrot requires q > -1')
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef int* ptr = <int*>&out[0]
     with nogil:
@@ -344,6 +414,7 @@ def gausskuzmin_sample_batch(cnp.int32_t[:] out, uint64_t seed=42):
         cydist_gausskuzmin_sample_batch(seed, ptr, n_samples)
 
 def geometric_sample_batch(cnp.int32_t[:] out, double p, uint64_t seed=42):
+    _check_open_unit(p, "p")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef int* ptr = <int*>&out[0]
     with nogil:
@@ -362,6 +433,8 @@ def mixed_poisson_sample_batch(cnp.int32_t[:] out, double shape, double scale, u
         cydist_mixed_poisson_sample_batch(shape, scale, seed, ptr, n_samples)
 
 def negative_binomial_sample_batch(cnp.int32_t[:] out, int r, double p, uint64_t seed=42):
+    _check_nonneg_int(r, "r")
+    _check_open_unit(p, "p")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef int* ptr = <int*>&out[0]
     with nogil:
@@ -380,12 +453,15 @@ def parabolic_fractal_sample_batch(cnp.int32_t[:] out, double b, double c, uint6
         cydist_parabolic_fractal_sample_batch(b, c, seed, ptr, n_samples)
 
 def poisson_sample_batch(cnp.int32_t[:] out, double mu, uint64_t seed=42):
+    _check_nonneg(mu, "mu")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef int* ptr = <int*>&out[0]
     with nogil:
         cydist_poisson_sample_batch(mu, seed, ptr, n_samples)
 
 def skellam_sample_batch(cnp.int32_t[:] out, double mu1, double mu2, uint64_t seed=42):
+    _check_nonneg(mu1, "mu1")
+    _check_nonneg(mu2, "mu2")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef int* ptr = <int*>&out[0]
     with nogil:
@@ -431,6 +507,8 @@ def bates_sample_batch(cnp.float64_t[:] out, int n_, double lo, double hi, uint6
         cydist_bates_sample_batch(n_, lo, hi, seed, ptr, n_samples)
 
 def beta_sample_batch(cnp.float64_t[:] out, double alpha, double beta, uint64_t seed=42):
+    _check_positive(alpha, "alpha")
+    _check_positive(beta, "beta")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef double* ptr = <double*>&out[0]
     with nogil:
@@ -515,6 +593,7 @@ def u_quadratic_sample_batch(cnp.float64_t[:] out, double a, double b, uint64_t 
         cydist_u_quadratic_sample_batch(a, b, seed, ptr, n_samples)
 
 def uniform_sample_batch(cnp.float64_t[:] out, double lo, double hi, uint64_t seed=42):
+    _check_double_interval(lo, hi)
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef double* ptr = <double*>&out[0]
     with nogil:
@@ -566,6 +645,7 @@ def chi_sample_batch(cnp.float64_t[:] out, double df, uint64_t seed=42):
         cydist_chi_sample_batch(df, seed, ptr, n_samples)
 
 def chi_squared_sample_batch(cnp.float64_t[:] out, double df, uint64_t seed=42):
+    _check_positive(df, "df")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef double* ptr = <double*>&out[0]
     with nogil:
@@ -614,6 +694,7 @@ def hyper_sample_batch(cnp.float64_t[:] out, double lambda1, double lambda2, dou
         cydist_hyper_sample_batch(lambda1, lambda2, w1, seed, ptr, n_samples)
 
 def exponential_sample_batch(ContinuousOut[:] out, double rate, uint64_t seed=42):
+    _check_positive(rate, "rate")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef float* ptr_f32
     cdef double* ptr_f64
@@ -669,6 +750,8 @@ def frechet_sample_batch(cnp.float64_t[:] out, double c, double scale, uint64_t 
         cydist_frechet_sample_batch(c, scale, seed, ptr, n_samples)
 
 def gamma_sample_batch(cnp.float64_t[:] out, double shape, double scale, uint64_t seed=42):
+    _check_positive(shape, "shape")
+    _check_positive(scale, "scale")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef double* ptr = <double*>&out[0]
     with nogil:
@@ -771,6 +854,8 @@ def log_logistic_sample_batch(cnp.float64_t[:] out, double c, double scale, uint
         cydist_log_logistic_sample_batch(c, scale, seed, ptr, n_samples)
 
 def log_normal_sample_batch(cnp.float64_t[:] out, double mu, double sigma, uint64_t seed=42):
+    _check_finite(mu, "mu")
+    _check_positive(sigma, "sigma")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef double* ptr = <double*>&out[0]
     with nogil:
@@ -819,6 +904,8 @@ def nakagami_sample_batch(cnp.float64_t[:] out, double nu, double scale, uint64_
         cydist_nakagami_sample_batch(nu, scale, seed, ptr, n_samples)
 
 def pareto_sample_batch(cnp.float64_t[:] out, double alpha, double scale, uint64_t seed=42):
+    _check_positive(alpha, "alpha")
+    _check_positive(scale, "scale")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef double* ptr = <double*>&out[0]
     with nogil:
@@ -867,6 +954,8 @@ def type_2_gumbel_sample_batch(cnp.float64_t[:] out, double shape, double scale,
         cydist_type_2_gumbel_sample_batch(shape, scale, seed, ptr, n_samples)
 
 def weibull_sample_batch(cnp.float64_t[:] out, double shape, double scale, uint64_t seed=42):
+    _check_positive(shape, "shape")
+    _check_positive(scale, "scale")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef double* ptr = <double*>&out[0]
     with nogil:
@@ -888,6 +977,8 @@ def wilkss_lambda_sample_batch(cnp.float64_t[:] out, double a, double b, uint64_
 # --- continuous / whole-real-line ---
 
 def cauchy_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+    _check_finite(loc, "loc")
+    _check_positive(scale, "scale")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef double* ptr = <double*>&out[0]
     with nogil:
@@ -918,6 +1009,8 @@ def gaussian_q_sample_batch(cnp.float64_t[:] out, double q, double loc, double s
         cydist_gaussian_q_sample_batch(q, loc, scale, seed, ptr, n_samples)
 
 def generalized_hyperbolic_sample_batch(cnp.float64_t[:] out, double p, double a, double b, uint64_t seed=42):
+    _check_finite(p, "p")
+    if not (a > abs(b)): raise ValueError('generalized hyperbolic requires a > |b|')
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef double* ptr = <double*>&out[0]
     with nogil:
@@ -972,6 +1065,8 @@ def landau_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t
         cydist_landau_sample_batch(loc, scale, seed, ptr, n_samples)
 
 def laplace_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+    _check_finite(loc, "loc")
+    _check_positive(scale, "scale")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef double* ptr = <double*>&out[0]
     with nogil:
@@ -996,6 +1091,8 @@ def noncentral_t_sample_batch(cnp.float64_t[:] out, double df, double nc, double
         cydist_noncentral_t_sample_batch(df, nc, loc, scale, seed, ptr, n_samples)
 
 def normal_sample_batch(ContinuousOut[:] out, double mu, double sigma, uint64_t seed=42):
+    _check_finite(mu, "mu")
+    _check_positive(sigma, "sigma")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef float* ptr_f32
     cdef double* ptr_f64
@@ -1033,6 +1130,7 @@ def stable_sample_batch(cnp.float64_t[:] out, double alpha, double beta, double 
         cydist_stable_sample_batch(alpha, beta, loc, scale, seed, ptr, n_samples)
 
 def students_t_sample_batch(cnp.float64_t[:] out, double df, uint64_t seed=42):
+    _check_positive(df, "df")
     cdef size_t n_samples = <size_t>out.shape[0]
     cdef double* ptr = <double*>&out[0]
     with nogil:
