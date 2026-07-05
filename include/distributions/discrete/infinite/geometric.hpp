@@ -3,6 +3,7 @@
 #include "distributions/base.hpp"
 #include "distributions/concepts.hpp"
 #include "distributions/detail/math.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cmath>
@@ -17,7 +18,7 @@ struct GeometricDistribution : DistributionBase<GeometricDistribution<Sample>, S
 
     double p;
 
-    explicit GeometricDistribution(double p = 0.5) : p(p) {}
+    explicit GeometricDistribution(double p = 0.5) : p(p) { detail::assert_open_unit_interval(p); }
 
     [[nodiscard]] Sample sample(Pcg32& rng) const {
         const double u = rng.next_double();

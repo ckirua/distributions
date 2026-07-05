@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/real_line.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -10,7 +11,10 @@ struct GeneralizedHyperbolic {
     double p_;
     double a_;
     double b_;
-    GeneralizedHyperbolic(double p, double a, double b) : p_(p), a_(a), b_(b) {}
+    GeneralizedHyperbolic(double p, double a, double b) : p_(p), a_(a), b_(b) {
+        detail::assert_finite(p_);
+        detail::assert_gh_support(a_, b_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_genhyperbolic(rng, p_, a_, b_);

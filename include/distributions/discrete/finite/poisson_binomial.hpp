@@ -4,6 +4,7 @@
 #include "distributions/detail/counter_rng.hpp"
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/detail/fast/poisson_binomial.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cstddef>
@@ -18,7 +19,11 @@ struct PoissonBinomialDistribution {
 
     std::vector<double> probs;
 
-    explicit PoissonBinomialDistribution(std::vector<double> probs) : probs(std::move(probs)) {}
+    explicit PoissonBinomialDistribution(std::vector<double> probs) : probs(std::move(probs)) {
+        for (double p : this->probs) {
+            detail::assert_probability(p);
+        }
+    }
 
     [[nodiscard]] Sample sample(Pcg32& rng) const {
         int sum = 0;

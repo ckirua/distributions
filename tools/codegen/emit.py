@@ -30,6 +30,8 @@ def emit_header(r: Recipe) -> str:
     ctor_params = ", ".join(f"{t} {n}" for t, n, _ in r.members)
     init_list = ", ".join(f"{n}_({n})" for _, n, _ in r.members) if r.members else ""
     includes = sorted(set(["distributions/rng.hpp", *r.includes]))
+    if r.validate_body:
+        includes = sorted(set([*includes, "distributions/detail/validate.hpp"]))
     inc_lines = "\n".join(f'#include "{h}"' for h in includes)
     out_type = "int" if r.discrete else "double"
     extra = "#include <numbers>\n" if "std::numbers" in r.sample_body else ""
@@ -41,7 +43,11 @@ def emit_header(r: Recipe) -> str:
     extra += "#include <cstddef>\n"
 
     if init_list:
-        ctor = f"    {r.cpp_class}({ctor_params}) : {init_list} {{}}\n"
+        if r.validate_body:
+            validate_lines = "\n        ".join(line.strip() for line in r.validate_body.split("\n") if line.strip())
+            ctor = f"    {r.cpp_class}({ctor_params}) : {init_list} {{\n        {validate_lines}\n    }}\n"
+        else:
+            ctor = f"    {r.cpp_class}({ctor_params}) : {init_list} {{}}\n"
         members_decl = "\n".join(f"    {t} {n}_;" for t, n, _ in r.members)
     else:
         ctor = f"    {r.cpp_class}() = default;\n"

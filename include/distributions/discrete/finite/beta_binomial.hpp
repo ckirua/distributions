@@ -7,6 +7,7 @@
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/detail/simd/beta_binomial.hpp"
 #include "distributions/detail/gamma.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cstddef>
@@ -23,7 +24,11 @@ struct BetaBinomialDistribution {
     double beta;
 
     BetaBinomialDistribution(int n = 1, double alpha = 1.0, double beta = 1.0)
-        : n(n), alpha(alpha), beta(beta) {}
+        : n(n), alpha(alpha), beta(beta) {
+        detail::assert_nonnegative_int(n);
+        detail::assert_strictly_positive(alpha);
+        detail::assert_strictly_positive(beta);
+    }
 
     [[nodiscard]] Sample sample(Pcg32& rng) const {
         const double p = detail::sample_beta(rng, alpha, beta);

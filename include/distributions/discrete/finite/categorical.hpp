@@ -4,6 +4,7 @@
 #include "distributions/detail/counter_rng.hpp"
 #include "distributions/detail/fast/categorical.hpp"
 #include "distributions/detail/fast/common.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cstddef>
@@ -63,6 +64,7 @@ private:
         }
         double sum = 0.0;
         for (double p : probs) {
+            detail::assert_nonnegative(p);
             sum += p;
         }
         const int k = static_cast<int>(probs.size());

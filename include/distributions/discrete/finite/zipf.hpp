@@ -4,6 +4,7 @@
 #include "distributions/detail/counter_rng.hpp"
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/detail/fast/zipf.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cmath>
@@ -20,7 +21,11 @@ struct ZipfDistribution {
     int n;
     double s;
 
-    ZipfDistribution(int n = 10, double s = 2.0) : n(n), s(s) { rebuild(); }
+    ZipfDistribution(int n = 10, double s = 2.0) : n(n), s(s) {
+        detail::assert_positive_int(n);
+        detail::assert_strictly_positive(s);
+        rebuild();
+    }
 
     [[nodiscard]] Sample sample(Pcg32& rng) const {
         const double u = rng.next_double() * cdf_n_;
@@ -86,6 +91,10 @@ struct ZipfMandelbrotDistribution {
     double s;
 
     ZipfMandelbrotDistribution(int n = 10, double q = 1.0, double s = 2.0) : n(n), q(q), s(s) {
+        detail::assert_positive_int(n);
+        detail::assert_strictly_positive(s);
+        detail::assert_finite(q);
+        detail::assert_zipf_mandelbrot_q(q);
         rebuild();
     }
 

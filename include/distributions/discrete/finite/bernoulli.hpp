@@ -6,6 +6,7 @@
 #include "distributions/detail/fast/bernoulli.hpp"
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/detail/simd/bernoulli.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cstddef>
@@ -20,7 +21,7 @@ struct BernoulliDistribution : DistributionBase<BernoulliDistribution<Sample>, S
 
     double p;
 
-    explicit BernoulliDistribution(double p = 0.5) : p(p) {}
+    explicit BernoulliDistribution(double p = 0.5) : p(p) { detail::assert_probability(p); }
 
     [[nodiscard]] Sample sample(Pcg32& rng) const {
         return static_cast<Sample>(rng.next_double() < p ? 1 : 0);

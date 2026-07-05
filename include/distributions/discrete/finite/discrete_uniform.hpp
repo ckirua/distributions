@@ -5,6 +5,7 @@
 #include "distributions/detail/counter_rng.hpp"
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/detail/simd/discrete_uniform.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cstddef>
@@ -21,7 +22,9 @@ struct DiscreteUniformDistribution
     int low;
     int high;
 
-    DiscreteUniformDistribution(int low = 0, int high = 1) : low(low), high(high) {}
+    DiscreteUniformDistribution(int low = 0, int high = 1) : low(low), high(high) {
+        detail::assert_int_interval(low, high);
+    }
 
     [[nodiscard]] Sample sample(Pcg32& rng) const {
         const int span = high - low + 1;

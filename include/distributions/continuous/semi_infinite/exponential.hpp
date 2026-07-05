@@ -5,6 +5,7 @@
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/detail/fast/exponential.hpp"
 #include "distributions/detail/simd/exponential.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cmath>
@@ -19,7 +20,9 @@ struct ExponentialDistribution {
 
     double rate;
 
-    explicit ExponentialDistribution(double rate = 1.0) : rate(rate) {}
+    explicit ExponentialDistribution(double rate = 1.0) : rate(rate) {
+        detail::assert_strictly_positive(rate);
+    }
 
     [[nodiscard]] Sample sample(Pcg32& rng) const {
         using Real = compute_type_t<Sample>;

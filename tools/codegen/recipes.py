@@ -987,6 +987,7 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        ["distributions/detail/real_line.hpp"],
                        members=[("double", "p", "0.0"), ("double", "a", "1.5"), ("double", "b", "0.5")],
                        sample_body="return detail::sample_genhyperbolic(rng, p_, a_, b_);",
+                       validate_body="detail::assert_finite(p_);\n        detail::assert_gh_support(a_, b_);",
                        bench_ctor_args="0.0, 1.5, 0.5",
                        cydist_params=[("double", "p"), ("double", "a"), ("double", "b"), ("uint64_t", "seed")]))
             continue

@@ -5,6 +5,7 @@
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/detail/fast/skellam.hpp"
 #include "distributions/detail/poisson.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cstddef>
@@ -19,7 +20,10 @@ struct SkellamDistribution {
     double mu1;
     double mu2;
 
-    SkellamDistribution(double mu1 = 1.0, double mu2 = 1.0) : mu1(mu1), mu2(mu2) {}
+    SkellamDistribution(double mu1 = 1.0, double mu2 = 1.0) : mu1(mu1), mu2(mu2) {
+        detail::assert_nonnegative(mu1);
+        detail::assert_nonnegative(mu2);
+    }
 
     [[nodiscard]] Sample sample(Pcg32& rng) const {
         return static_cast<Sample>(

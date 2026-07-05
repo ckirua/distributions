@@ -5,6 +5,7 @@
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/detail/fast/normal.hpp"
 #include "distributions/detail/simd/normal.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cmath>
@@ -21,7 +22,10 @@ struct NormalDistribution {
     double mu;
     double sigma;
 
-    NormalDistribution(double mu = 0.0, double sigma = 1.0) : mu(mu), sigma(sigma) {}
+    NormalDistribution(double mu = 0.0, double sigma = 1.0) : mu(mu), sigma(sigma) {
+        detail::assert_finite(mu);
+        detail::assert_strictly_positive(sigma);
+    }
 
     [[nodiscard]] Sample sample(Pcg32& rng) const {
         using Real = compute_type_t<Sample>;

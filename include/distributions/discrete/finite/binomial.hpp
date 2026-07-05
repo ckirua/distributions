@@ -6,6 +6,7 @@
 #include "distributions/detail/fast/binomial.hpp"
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/detail/simd/binomial.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cmath>
@@ -21,7 +22,10 @@ struct BinomialDistribution : DistributionBase<BinomialDistribution<Sample>, Sam
     int n;
     double p;
 
-    BinomialDistribution(int n = 1, double p = 0.5) : n(n), p(p) {}
+    BinomialDistribution(int n = 1, double p = 0.5) : n(n), p(p) {
+        detail::assert_nonnegative_int(n);
+        detail::assert_probability(p);
+    }
 
     [[nodiscard]] Sample sample(Pcg32& rng) const {
         double cumulative = 0.0;

@@ -6,6 +6,7 @@
 #include "distributions/detail/fast/negative_binomial.hpp"
 #include "distributions/detail/gamma.hpp"
 #include "distributions/detail/poisson.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 
 #include <cstddef>
@@ -20,7 +21,10 @@ struct NegativeBinomialDistribution {
     int r;
     double p;
 
-    NegativeBinomialDistribution(int r = 1, double p = 0.5) : r(r), p(p) {}
+    NegativeBinomialDistribution(int r = 1, double p = 0.5) : r(r), p(p) {
+        detail::assert_positive_int(r);
+        detail::assert_open_unit_interval(p);
+    }
 
     [[nodiscard]] Sample sample(Pcg32& rng) const {
         const double lambda = detail::sample_gamma(rng, static_cast<double>(r), 1.0);
