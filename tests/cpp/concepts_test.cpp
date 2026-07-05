@@ -46,14 +46,23 @@ int main() {
     static_assert(models_distribution<distributions::DiscreteUniformDistribution<int>, int>());
     static_assert(models_distribution<distributions::DiscreteUniformDistribution<std::int32_t>, std::int32_t>());
     static_assert(models_distribution<distributions::Binomial, int>());
+    static_assert(models_distribution<distributions::BinomialDistribution<int>, int>());
     static_assert(models_distribution<distributions::Categorical, int>());
+    static_assert(models_distribution<distributions::CategoricalDistribution<int>, int>());
     static_assert(models_distribution<distributions::BetaBinomial, int>());
+    static_assert(models_distribution<distributions::BetaBinomialDistribution<int>, int>());
     static_assert(models_distribution<distributions::PoissonBinomial, int>());
+    static_assert(models_distribution<distributions::PoissonBinomialDistribution<int>, int>());
     static_assert(models_distribution<distributions::Zipf, int>());
+    static_assert(models_distribution<distributions::ZipfDistribution<int>, int>());
     static_assert(models_distribution<distributions::ZipfMandelbrot, int>());
+    static_assert(models_distribution<distributions::ZipfMandelbrotDistribution<int>, int>());
     static_assert(models_distribution<distributions::Geometric, int>());
+    static_assert(models_distribution<distributions::GeometricDistribution<int>, int>());
     static_assert(models_distribution<distributions::NegativeBinomial, int>());
+    static_assert(models_distribution<distributions::NegativeBinomialDistribution<int>, int>());
     static_assert(models_distribution<distributions::Skellam, int>());
+    static_assert(models_distribution<distributions::SkellamDistribution<int>, int>());
     static_assert(models_distribution<distributions::Exponential, double>());
     static_assert(models_distribution<distributions::Normal, double>());
     static_assert(models_distribution<distributions::ExponentialDistribution<float>, float>());
@@ -64,6 +73,19 @@ int main() {
     static_assert(std::is_same_v<distributions::Bernoulli, distributions::BernoulliDistribution<int>>);
     static_assert(
         std::is_same_v<distributions::DiscreteUniform, distributions::DiscreteUniformDistribution<int>>);
+    static_assert(std::is_same_v<distributions::Binomial, distributions::BinomialDistribution<int>>);
+    static_assert(std::is_same_v<distributions::Categorical, distributions::CategoricalDistribution<int>>);
+    static_assert(
+        std::is_same_v<distributions::BetaBinomial, distributions::BetaBinomialDistribution<int>>);
+    static_assert(
+        std::is_same_v<distributions::PoissonBinomial, distributions::PoissonBinomialDistribution<int>>);
+    static_assert(std::is_same_v<distributions::Zipf, distributions::ZipfDistribution<int>>);
+    static_assert(
+        std::is_same_v<distributions::ZipfMandelbrot, distributions::ZipfMandelbrotDistribution<int>>);
+    static_assert(std::is_same_v<distributions::Geometric, distributions::GeometricDistribution<int>>);
+    static_assert(
+        std::is_same_v<distributions::NegativeBinomial, distributions::NegativeBinomialDistribution<int>>);
+    static_assert(std::is_same_v<distributions::Skellam, distributions::SkellamDistribution<int>>);
     static_assert(std::is_same_v<distributions::Normal, distributions::NormalDistribution<double>>);
     static_assert(
         std::is_same_v<distributions::Exponential, distributions::ExponentialDistribution<double>>);

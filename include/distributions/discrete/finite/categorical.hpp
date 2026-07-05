@@ -1,38 +1,47 @@
 #pragma once
 
+#include "distributions/concepts.hpp"
 #include "distributions/detail/counter_rng.hpp"
 #include "distributions/detail/fast/categorical.hpp"
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/rng.hpp"
 
 #include <cstddef>
+#include <cstdint>
 #include <stdexcept>
+#include <type_traits>
 #include <vector>
 
 namespace distributions {
 
-struct Categorical {
-    explicit Categorical(std::vector<double> probs) { set_probs(std::move(probs)); }
+template <typename Sample = int>
+struct CategoricalDistribution {
+    static_assert(is_discrete_sample_v<Sample>);
 
-    [[nodiscard]] int sample(Pcg32& rng) const {
+    explicit CategoricalDistribution(std::vector<double> probs) { set_probs(std::move(probs)); }
+
+    [[nodiscard]] Sample sample(Pcg32& rng) const {
         const int k = static_cast<int>(probs_.size());
         const int col = static_cast<int>(rng.next_u32() % static_cast<std::uint32_t>(k));
         const double u = rng.next_double();
-        return u < prob_[static_cast<std::size_t>(col)]
-                   ? col
-                   : alias_[static_cast<std::size_t>(col)];
+        const int idx = u < prob_[static_cast<std::size_t>(col)]
+                            ? col
+                            : alias_[static_cast<std::size_t>(col)];
+        return static_cast<Sample>(idx);
     }
 
-    void sample_batch(int* out, std::size_t n, Pcg32& rng) const {
-        if (n >= detail::kFastThreshold) {
-            detail::fast::categorical_sample_batch(
-                out,
-                n,
-                static_cast<int>(prob_.size()),
-                alias_.data(),
-                prob_.data(),
-                detail::batch_seed_from(rng));
-            return;
+    void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {
+        if constexpr (is_discrete_sample_v<Sample>) {
+            if (n >= detail::kFastThreshold) {
+                detail::fast::categorical_sample_batch(
+                    reinterpret_cast<int*>(out),
+                    n,
+                    static_cast<int>(prob_.size()),
+                    alias_.data(),
+                    prob_.data(),
+                    detail::batch_seed_from(rng));
+                return;
+            }
         }
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
@@ -89,5 +98,7 @@ private:
         }
     }
 };
+
+using Categorical = CategoricalDistribution<int>;
 
 }  // namespace distributions

@@ -1,25 +1,31 @@
 #pragma once
 
 #include "distributions/base.hpp"
+#include "distributions/concepts.hpp"
 #include "distributions/detail/math.hpp"
 #include "distributions/rng.hpp"
 
 #include <cmath>
 #include <cstddef>
+#include <type_traits>
 
 namespace distributions {
 
-struct Geometric : DistributionBase<Geometric, int, Pcg32> {
+template <typename Sample = int>
+struct GeometricDistribution : DistributionBase<GeometricDistribution<Sample>, Sample, Pcg32> {
+    static_assert(is_discrete_sample_v<Sample>);
+
     double p;
 
-    explicit Geometric(double p = 0.5) : p(p) {}
+    explicit GeometricDistribution(double p = 0.5) : p(p) {}
 
-    [[nodiscard]] int sample(Pcg32& rng) const {
+    [[nodiscard]] Sample sample(Pcg32& rng) const {
         const double u = rng.next_double();
-        return static_cast<int>(std::floor(std::log1p(-u) / detail::log1p_neg(p))) + 1;
+        return static_cast<Sample>(
+            static_cast<int>(std::floor(std::log1p(-u) / detail::log1p_neg(p))) + 1);
     }
 
-    void sample_batch(int* out, std::size_t n, Pcg32& rng) const {
+    void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
         }
@@ -29,5 +35,7 @@ struct Geometric : DistributionBase<Geometric, int, Pcg32> {
 
     [[nodiscard]] double variance() const { return (1.0 - p) / (p * p); }
 };
+
+using Geometric = GeometricDistribution<int>;
 
 }  // namespace distributions

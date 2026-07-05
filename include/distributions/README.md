@@ -32,7 +32,7 @@ Hand-written samplers expose a common shape checked by the C++20 **`Distribution
 | `double mean() const` | Closed-form mean where implemented |
 | `double variance() const` | Closed-form variance where implemented |
 
-**Sample types today:** discrete types use **`int`** / **`int32_t`** (`BernoulliDistribution`, `DiscreteUniformDistribution` + aliases). Continuous types use **`NormalDistribution<Sample>`** / **`ExponentialDistribution<Sample>`** with default **`double`** aliases (`Normal`, `Exponential`). **`float`** Tier A + **Tier B/C** on normal and exponential when `n >= kFastThreshold` (float Tier C: 8-wide AVX2 via libmvec); internal math uses **`compute_type_t<Sample>`** = `double`.
+**Sample types today:** all **13** hand-written types use `template<typename Sample>` + default aliases (`Bernoulli`, `Normal`, …). Discrete default **`int`** / **`int32_t`**; continuous default **`double`** with optional **`float`** on normal and exponential (Tier A/B/C when enabled).
 
 **Traits:** `is_discrete_sample_v<T>`, `is_continuous_sample_v<T>`, `sample_type_t<Dist>`, `compute_type_t<Sample>` (internal math type; default **`double`** for mixed precision).
 

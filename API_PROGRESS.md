@@ -9,19 +9,25 @@ Goal: **C++20 `Distribution` concept**, **`template<typename Sample>` + type ali
 | Metric | Count |
 |--------|------:|
 | Hand-written modeling `Distribution` concept (verified) | **13 / 13** |
-| Hand-written with `template<typename Sample>` + alias | **4 / 13** |
+| Hand-written with `template<typename Sample>` + alias | **13 / 13** |
 | Hand-written with float Tier A | **2 / 13** |
 | Hand-written with float Tier B | **2 / 13** |
 | Hand-written with float Tier C | **2 / 13** |
-| Required batches complete | **7 / 9** |
+| Required batches complete | **8 / 9** |
 
-Last push: batch 6 (float Tier C AVX2 for normal/exponential).
+Last push: batch 7 (templated remaining 9 hand-written types).
 
 ## Next batch
 
-**Batch 7** — Remaining hand-written templates (9 dists).
+**Batch 8** — Integration sign-off (typed repro tests, final tracker).
 
 ## Completed batches
+
+### Batch 7 — Templated hand-written remainder (9)
+
+- `BinomialDistribution`, `CategoricalDistribution`, `BetaBinomialDistribution`, `PoissonBinomialDistribution`
+- `ZipfDistribution`, `ZipfMandelbrotDistribution`, `GeometricDistribution`, `NegativeBinomialDistribution`, `SkellamDistribution`
+- Default aliases unchanged (`Binomial`, `Categorical`, …); Tier B/C dispatch via `is_discrete_sample_v` + `int32_t` buffer cast
 
 ### Batch 6 — Float Tier C SIMD
 
@@ -58,13 +64,21 @@ Last push: batch 6 (float Tier C AVX2 for normal/exponential).
 
 ## Hand-written tracker (13)
 
-| vault id | C++ template | alias | float Tier A | float Tier B | float Tier C | batch |
-|----------|--------------|-------|:------------:|:------------:|:------------:|------:|
-| `bernoulli` | `BernoulliDistribution<Sample>` | `Bernoulli` | — | int32 Tier B/C | int32 | 2, 5 |
-| `discrete-uniform` | `DiscreteUniformDistribution<Sample>` | `DiscreteUniform` | — | int32 Tier B/C | int32 | 2, 5 |
-| `normal-gaussian` | `NormalDistribution<Sample>` | `Normal` | yes | yes | yes | 3, 5, 6 |
-| `exponential` | `ExponentialDistribution<Sample>` | `Exponential` | yes | yes | yes | 3, 5, 6 |
-| *(others)* | — | — | — | — |
+| vault id | C++ template | alias | float paths | batch |
+|----------|--------------|-------|-------------|------:|
+| `bernoulli` | `BernoulliDistribution<Sample>` | `Bernoulli` | int32 Tier B/C | 2, 5 |
+| `discrete-uniform` | `DiscreteUniformDistribution<Sample>` | `DiscreteUniform` | int32 Tier B/C | 2, 5 |
+| `binomial` | `BinomialDistribution<Sample>` | `Binomial` | int Tier B/C | 7 |
+| `categorical` | `CategoricalDistribution<Sample>` | `Categorical` | int Tier B | 7 |
+| `beta-binomial` | `BetaBinomialDistribution<Sample>` | `BetaBinomial` | int Tier B/C | 7 |
+| `poisson-binomial` | `PoissonBinomialDistribution<Sample>` | `PoissonBinomial` | int Tier B | 7 |
+| `zipf` | `ZipfDistribution<Sample>` | `Zipf` | int Tier B | 7 |
+| `zipfmandelbrot` | `ZipfMandelbrotDistribution<Sample>` | `ZipfMandelbrot` | int Tier B | 7 |
+| `geometric` | `GeometricDistribution<Sample>` | `Geometric` | Tier A only | 7 |
+| `negative-binomial` | `NegativeBinomialDistribution<Sample>` | `NegativeBinomial` | int Tier B | 7 |
+| `skellam` | `SkellamDistribution<Sample>` | `Skellam` | int Tier B | 7 |
+| `normal-gaussian` | `NormalDistribution<Sample>` | `Normal` | float Tier A/B/C | 3, 5, 6 |
+| `exponential` | `ExponentialDistribution<Sample>` | `Exponential` | float Tier A/B/C | 3, 5, 6 |
 
 ## Agent instructions
 
