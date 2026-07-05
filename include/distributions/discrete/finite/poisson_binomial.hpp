@@ -1,5 +1,8 @@
 #pragma once
 
+#include "distributions/detail/counter_rng.hpp"
+#include "distributions/detail/fast/common.hpp"
+#include "distributions/detail/fast/poisson_binomial.hpp"
 #include "distributions/rng.hpp"
 
 #include <cstddef>
@@ -23,6 +26,11 @@ struct PoissonBinomial {
     }
 
     void sample_batch(int* out, std::size_t n, Pcg32& rng) const {
+        if (n >= detail::kFastThreshold) {
+            detail::fast::poisson_binomial_sample_batch(
+                out, n, probs.data(), probs.size(), detail::batch_seed_from(rng));
+            return;
+        }
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
         }

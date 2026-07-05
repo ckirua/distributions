@@ -8,19 +8,19 @@ Goal: **single-thread** counter-RNG fast paths for the **13 hand-written** core 
 
 | Metric | Count |
 |--------|------:|
-| Hand-written with Tier B fast path | **5 / 13** |
+| Hand-written with Tier B fast path | **9 / 13** |
 | Hand-written with counter-RNG inner loop | **0 / 13** (SplitMix64 for Tier B) |
-| `bench-core` geomean speedup @ 10M (1 core) | **~1.5×** on batch-2/3 subset |
+| `bench-core` geomean speedup @ 10M (1 core) | **~1.5×** on optimized subset |
 | Parallel enabled (`batch_parallel.hpp`) | **no** |
 | Family with parallel wrapper | **0 / 175** (optional batch 8) |
 | Dead ISPC stub removed | **no** (gated OFF by default) |
-| Required batches complete | **4 / 8** (0–3 done; 9 pending) |
+| Required batches complete | **5 / 8** (0–4 done; 9 pending) |
 
-Last push: batch 3 (exponential + normal Tier-B fast paths).
+Last push: batch 4 (counting discrete Tier-B fast paths).
 
 ## Next batch
 
-**Batch 4** — Counting discrete: `binomial`, `negative-binomial`, `beta-binomial`, `poisson-binomial`.
+**Batch 5** — Heavy discrete: `categorical`, `zipf`, `zipfmandelbrot`, `skellam`.
 
 ## Batch 6 decision gate
 
@@ -41,15 +41,21 @@ After batch 6, record geomean speedup @10M on 1 core. **Skip batches 7–8** unl
 
 ### Batch 2 — Trivial discrete (3)
 
-- SplitMix64 fast paths: bernoulli, discrete-uniform, geometric
+- SplitMix64 fast paths: bernoulli, discrete-uniform
 - Speedups @10M: bernoulli **1.8×**, discrete-uniform **1.8×**
-- `geometric`: Tier A only (SplitMix path failed scipy variance check; log-bound ~1.1×)
+- `geometric`: Tier A only (SplitMix path failed scipy variance check)
 
 ### Batch 3 — Transform continuous (2)
 
-- `detail/fast/exponential.hpp` — blocked SplitMix64 + `log1p`
-- `detail/fast/normal.hpp` — batched Box–Muller (2 normals per transform pair)
+- Blocked SplitMix64 + `log1p` (exponential); batched Box–Muller 2-up (normal)
 - Speedups @10M: exponential **1.2×**, normal **1.7×**
+
+### Batch 4 — Counting discrete (4)
+
+- Binomial / beta-binomial: Bernoulli-sum with SplitMix64 (`n ≤ 256` trials)
+- Negative-binomial: direct success-counting (replaces gamma–Poisson on fast path)
+- Poisson-binomial: batched trial compares
+- Speedups @10M: binomial **1.6×**, beta-binomial **1.3×**, poisson-binomial **1.7×**, negative-binomial **1.1×**
 
 ## Hand-written tracker (13)
 
@@ -60,10 +66,10 @@ After batch 6, record geomean speedup @10M on 1 core. **Skip batches 7–8** unl
 | `geometric` | — | Tier A | 2 |
 | `exponential` | yes | SplitMix64 | 3 |
 | `normal-gaussian` | yes | SplitMix64 + Box–Muller 2-up | 3 |
-| `binomial` | — | — | 4 |
-| `negative-binomial` | — | — | 4 |
-| `beta-binomial` | — | — | 4 |
-| `poisson-binomial` | — | — | 4 |
+| `binomial` | yes | SplitMix64 Bernoulli-sum | 4 |
+| `negative-binomial` | yes | SplitMix64 counting | 4 |
+| `beta-binomial` | yes | SplitMix64 + beta/gamma | 4 |
+| `poisson-binomial` | yes | SplitMix64 | 4 |
 | `categorical` | — | — | 5 |
 | `zipf` | — | — | 5 |
 | `zipfmandelbrot` | — | — | 5 |
@@ -75,9 +81,12 @@ After batch 6, record geomean speedup @10M on 1 core. **Skip batches 7–8** unl
 |----------|----------:|--------:|--------:|
 | bernoulli | 1.21 | 0.67 | 1.8× |
 | discrete-uniform | 1.57 | 0.87 | 1.8× |
-| geometric | 21.23 | 18.52 | 1.1× |
 | exponential | 20.97 | 17.77 | 1.2× |
 | normal | 39.35 | 22.94 | 1.7× |
+| binomial | 44.44 | 28.14 | 1.6× |
+| negative-binomial | 112.52 | 102.68 | 1.1× |
+| beta-binomial | 198.01 | 147.05 | 1.3× |
+| poisson-binomial | 8.21 | 4.77 | 1.7× |
 
 Full CSVs: `results/baseline-v0.2.0/*.csv`
 

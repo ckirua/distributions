@@ -1,6 +1,9 @@
 #pragma once
 
 #include "distributions/base.hpp"
+#include "distributions/detail/counter_rng.hpp"
+#include "distributions/detail/fast/binomial.hpp"
+#include "distributions/detail/fast/common.hpp"
 #include "distributions/rng.hpp"
 
 #include <cmath>
@@ -15,7 +18,6 @@ struct Binomial : DistributionBase<Binomial, int, Pcg32> {
     Binomial(int n = 1, double p = 0.5) : n(n), p(p) {}
 
     [[nodiscard]] int sample(Pcg32& rng) const {
-        // Inversion method (fixed n).
         double cumulative = 0.0;
         const double q = std::pow(1.0 - p, static_cast<double>(n));
         double prob = q;
@@ -35,6 +37,10 @@ struct Binomial : DistributionBase<Binomial, int, Pcg32> {
     }
 
     void sample_batch(int* out, std::size_t n_out, Pcg32& rng) const {
+        if (n_out >= detail::kFastThreshold && n <= detail::fast::kMaxBernoulliSumTrials) {
+            detail::fast::binomial_sample_batch(out, n_out, n, p, detail::batch_seed_from(rng));
+            return;
+        }
         for (std::size_t i = 0; i < n_out; ++i) {
             out[i] = sample(rng);
         }
