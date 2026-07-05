@@ -1657,6 +1657,7 @@ distributions:
   - support/bounded
   sampler_tier: family
   tier_b_candidate: true
+  batch_fast: continuous_bernoulli
 - id: continuous-binomial
   name: Continuous binomial
   title: Continuous binomial distribution
@@ -2652,6 +2653,7 @@ distributions:
   - distribution/continuous
   - support/semi-infinite
   sampler_tier: family
+  batch_fast: erlang
 - id: hyper
   name: Hyper
   title: Hyper distribution
@@ -3720,6 +3722,7 @@ distributions:
   - distribution/continuous
   - support/semi-infinite
   sampler_tier: family
+  batch_fast: log_normal
 - id: log-t
   name: Log-t
   title: Log-t distribution
@@ -4379,6 +4382,7 @@ distributions:
   - support/semi-infinite
   sampler_tier: family
   tier_b_candidate: true
+  batch_fast: discrete_weibull
 - id: wilkss-lambda
   name: Wilks's lambda
   title: Wilks's lambda distribution

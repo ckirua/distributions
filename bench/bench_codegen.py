@@ -30,6 +30,14 @@ WAVE1_CANDIDATES = [
     "student-t",
 ]
 
+WAVE2_CANDIDATES = [
+    "chi-squared",
+    "student-t",
+    "generalized-hyperbolic",
+    "continuous-bernoulli",
+    "discrete-weibull",
+]
+
 BENCH_ALIAS = {
     "normal-gaussian": "normal",
     "students-t": "student-t",
@@ -114,6 +122,7 @@ def main() -> int:
     parser.add_argument("--run-bench", type=Path, default=RUN_BENCH)
     parser.add_argument("--quick", action="store_true", help="skip n=10M")
     parser.add_argument("--wave1", action="store_true", help="wave-1 Tier-B candidates only")
+    parser.add_argument("--wave2", action="store_true", help="wave-2 Tier-B candidates only")
     parser.add_argument("--dist", action="append", dest="dists", help="single dist (repeatable)")
     parser.add_argument(
         "--resume",
@@ -138,6 +147,8 @@ def main() -> int:
         dists = args.dists
     elif args.wave1:
         dists = list(WAVE1_CANDIDATES)
+    elif args.wave2:
+        dists = list(WAVE2_CANDIDATES)
     else:
         dists = load_codegen_bench_ids()
 

@@ -39,6 +39,39 @@ BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
             "out, n, alpha_, beta_, detail::batch_seed_from(rng));"
         ),
     ),
+    "continuous_bernoulli": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/continuous_bernoulli.hpp",
+        ),
+        call=(
+            "detail::fast::continuous_bernoulli_sample_batch("
+            "out, n, lambda_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "discrete_weibull": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/discrete_weibull.hpp",
+        ),
+        call=(
+            "detail::fast::discrete_weibull_sample_batch("
+            "out, n, c_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "erlang": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/gamma.hpp",
+        ),
+        call=(
+            "detail::fast::gamma_sample_batch("
+            "out, n, a_, scale_, detail::batch_seed_from(rng));"
+        ),
+    ),
     "exponential": BatchFastHook(
         includes=(
             "distributions/detail/counter_rng.hpp",
@@ -59,6 +92,17 @@ BATCH_FAST_HOOKS: dict[str, BatchFastHook] = {
         call=(
             "detail::fast::gamma_sample_batch("
             "out, n, shape_, scale_, detail::batch_seed_from(rng));"
+        ),
+    ),
+    "log_normal": BatchFastHook(
+        includes=(
+            "distributions/detail/counter_rng.hpp",
+            "distributions/detail/fast/common.hpp",
+            "distributions/detail/fast/log_normal.hpp",
+        ),
+        call=(
+            "detail::fast::log_normal_sample_batch("
+            "out, n, mu_, sigma_, detail::batch_seed_from(rng));"
         ),
     ),
     "normal": BatchFastHook(

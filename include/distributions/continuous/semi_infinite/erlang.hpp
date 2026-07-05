@@ -1,5 +1,8 @@
 #pragma once
 
+#include "distributions/detail/counter_rng.hpp"
+#include "distributions/detail/fast/common.hpp"
+#include "distributions/detail/fast/gamma.hpp"
 #include "distributions/detail/gamma.hpp"
 #include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
@@ -20,6 +23,10 @@ struct Erlang {
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {
+        if (n >= detail::kFastThreshold) {
+            detail::fast::gamma_sample_batch(out, n, a_, scale_, detail::batch_seed_from(rng));
+            return;
+        }
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
         }
