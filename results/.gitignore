@@ -4,3 +4,4 @@
 !baseline-v0.2.0/*.csv
 !baseline-v0.3.0/*.csv
 !baseline-v0.6.0/*.csv
+!codegen-tier-a/README.md

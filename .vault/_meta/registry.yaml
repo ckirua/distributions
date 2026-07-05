@@ -83,6 +83,7 @@ distributions:
   - distribution/discrete
   - support/finite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: beta-binomial
   name: Beta-binomial
   title: Beta-binomial distribution
@@ -137,6 +138,7 @@ distributions:
   - distribution/discrete
   - support/finite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: binomial
   name: Binomial
   title: Binomial distribution
@@ -190,6 +192,7 @@ distributions:
   - distribution/discrete
   - support/finite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: categorical
   name: Categorical
   title: Categorical distribution
@@ -241,6 +244,7 @@ distributions:
   - distribution/discrete
   - support/finite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: hypergeometric
   name: Hypergeometric
   title: Hypergeometric distribution
@@ -371,6 +375,7 @@ distributions:
   - distribution/discrete
   - support/finite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: rademacher
   name: Rademacher
   title: Rademacher distribution
@@ -498,6 +503,7 @@ distributions:
   - distribution/discrete
   - support/finite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: zipf
   name: Zipf
   title: Zipf distribution
@@ -550,6 +556,7 @@ distributions:
   - distribution/discrete
   - support/finite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: zipfmandelbrot
   name: Zipf–Mandelbrot
   title: Zipf–Mandelbrot distribution
@@ -598,6 +605,7 @@ distributions:
   - distribution/discrete
   - support/finite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: beta-negative-binomial
   name: Beta negative binomial
   title: Beta negative binomial distribution
@@ -641,6 +649,7 @@ distributions:
   - distribution/discrete
   - support/infinite
   sampler_tier: family
+  tier_b_candidate: true
 - id: borel
   name: Borel
   title: Borel distribution
@@ -677,6 +686,7 @@ distributions:
   - distribution/discrete
   - support/infinite
   sampler_tier: family
+  tier_b_candidate: true
 - id: conwaymaxwellpoisson
   name: Conway–Maxwell–Poisson
   title: Conway–Maxwell–Poisson distribution
@@ -952,6 +962,7 @@ distributions:
   - distribution/discrete
   - support/infinite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: logarithmic
   name: Logarithmic
   title: Logarithmic distribution
@@ -1079,6 +1090,7 @@ distributions:
   - distribution/discrete
   - support/infinite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: panjer
   name: Panjer
   title: Panjer (a,b,0) class
@@ -1251,6 +1263,7 @@ distributions:
   - distribution/discrete
   - support/infinite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: yulesimon
   name: Yule–Simon
   title: Yule–Simon distribution
@@ -1324,6 +1337,7 @@ distributions:
   - distribution/discrete
   - support/infinite
   sampler_tier: family
+  tier_b_candidate: true
 - id: arcsine
   name: Arcsine
   title: Arcsine distribution
@@ -1525,6 +1539,7 @@ distributions:
   - distribution/continuous
   - support/bounded
   sampler_tier: family
+  tier_b_candidate: true
 - id: generalized-beta
   name: Generalized beta
   title: Generalized beta distribution
@@ -1640,6 +1655,7 @@ distributions:
   - distribution/continuous
   - support/bounded
   sampler_tier: family
+  tier_b_candidate: true
 - id: continuous-binomial
   name: Continuous binomial
   title: Continuous binomial distribution
@@ -2406,6 +2422,7 @@ distributions:
   - distribution/continuous
   - support/semi-infinite
   sampler_tier: family
+  tier_b_candidate: true
 - id: noncentral-chi-squared
   name: Noncentral chi-squared
   title: Noncentral chi-squared distribution
@@ -2721,6 +2738,7 @@ distributions:
   - distribution/continuous
   - support/semi-infinite
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: hyperexponential
   name: Hyperexponential
   title: Hyperexponential distribution
@@ -2957,6 +2975,7 @@ distributions:
   - distribution/continuous
   - support/semi-infinite
   sampler_tier: family
+  tier_b_candidate: true
 - id: frechet
   name: Fréchet
   title: Fréchet distribution
@@ -3040,6 +3059,7 @@ distributions:
   - distribution/continuous
   - support/semi-infinite
   sampler_tier: family
+  tier_b_candidate: true
 - id: generalized-gamma
   name: Generalized gamma
   title: Generalized gamma distribution
@@ -4356,6 +4376,7 @@ distributions:
   - distribution/continuous
   - support/semi-infinite
   sampler_tier: family
+  tier_b_candidate: true
 - id: wilkss-lambda
   name: Wilks's lambda
   title: Wilks's lambda distribution
@@ -4628,6 +4649,7 @@ distributions:
   - distribution/continuous
   - support/real-line
   sampler_tier: family
+  tier_b_candidate: true
 - id: generalized-logistic-logistic-beta
   name: Generalized logistic (logistic-beta)
   title: Generalized logistic (logistic-beta) distribution
@@ -5145,6 +5167,7 @@ distributions:
   - distribution/continuous
   - support/real-line
   sampler_tier: hand-written
+  tier_b_skip_reason: hand-written (separate Tier B track)
 - id: normal-inverse-gaussian
   name: Normal-inverse Gaussian
   title: Normal-inverse Gaussian distribution
@@ -5333,6 +5356,7 @@ distributions:
   - distribution/continuous
   - support/real-line
   sampler_tier: family
+  tier_b_candidate: true
 - id: tracywidom
   name: Tracy–Widom
   title: Tracy–Widom distribution
@@ -6117,6 +6141,7 @@ distributions:
   - distribution/multivariate
   - support/discrete
   sampler_tier: family
+  tier_b_candidate: true
 - id: negative-multinomial
   name: Negative multinomial
   title: Negative multinomial distribution
@@ -6191,6 +6216,7 @@ distributions:
   - distribution/multivariate
   - support/continuous
   sampler_tier: family
+  tier_b_candidate: true
 - id: generalized-dirichlet
   name: Generalized Dirichlet
   title: Generalized Dirichlet distribution
@@ -6228,6 +6254,7 @@ distributions:
   - distribution/multivariate
   - support/continuous
   sampler_tier: family
+  tier_b_candidate: true
 - id: multivariate-laplace
   name: Multivariate Laplace
   title: Multivariate Laplace distribution
@@ -6560,6 +6587,7 @@ distributions:
   - distribution/multivariate
   - support/matrix
   sampler_tier: family
+  tier_b_candidate: true
 - id: matrix-normal
   name: Matrix normal
   title: Matrix normal distribution
@@ -6767,6 +6795,7 @@ distributions:
   - distribution/multivariate
   - support/matrix
   sampler_tier: family
+  tier_b_candidate: true
 - id: normal-wishart
   name: Normal-Wishart
   title: Normal-Wishart distribution
@@ -6804,6 +6833,7 @@ distributions:
   - distribution/multivariate
   - support/matrix
   sampler_tier: family
+  tier_b_candidate: true
 - id: inverse-wishart
   name: Inverse-Wishart
   title: Inverse-Wishart distribution
@@ -6847,6 +6877,7 @@ distributions:
   - distribution/multivariate
   - support/matrix
   sampler_tier: family
+  tier_b_candidate: true
 - id: normal-inverse
   name: Normal-inverse
   title: Normal-inverse distribution
@@ -6884,6 +6915,7 @@ distributions:
   - distribution/multivariate
   - support/matrix
   sampler_tier: family
+  tier_b_candidate: true
 - id: complex
   name: Complex
   title: Complex distribution
@@ -7423,6 +7455,7 @@ distributions:
   - distribution/degenerate
   - support/degenerate
   sampler_tier: exact
+  tier_b_skip_reason: exact special-function path (profile before Tier B)
 - id: cantor
   name: Cantor
   title: Cantor distribution
@@ -7459,6 +7492,7 @@ distributions:
   - distribution/singular
   - support/singular
   sampler_tier: family
+  tier_b_candidate: true
 families:
 - id: circular
   name: Circular

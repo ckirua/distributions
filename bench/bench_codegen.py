@@ -16,6 +16,7 @@ BUILD = ROOT / "build"
 RUN_BENCH = BUILD / "run_bench"
 REGISTRY = ROOT / ".vault" / "_meta" / "registry.yaml"
 DEFAULT_OUT = ROOT / "results" / "current"
+SWEEP_OUT = ROOT / "results" / "codegen-tier-a"
 
 BATCH_SIZES = [1_000, 100_000, 10_000_000]
 QUICK_BATCH_SIZES = [1_000, 100_000]
@@ -97,6 +98,16 @@ def bench_dist(run_bench: Path, dist: str, sizes: list[int], seed: int = 42) -> 
     return rows
 
 
+def csv_has_10m(path: Path) -> bool:
+    if not path.is_file():
+        return False
+    with path.open(newline="") as f:
+        for row in csv.DictReader(f):
+            if int(row["n"]) == 10_000_000:
+                return True
+    return False
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
@@ -104,8 +115,19 @@ def main() -> int:
     parser.add_argument("--quick", action="store_true", help="skip n=10M")
     parser.add_argument("--wave1", action="store_true", help="wave-1 Tier-B candidates only")
     parser.add_argument("--dist", action="append", dest="dists", help="single dist (repeatable)")
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="skip dist if CSV already has n=10M row",
+    )
+    parser.add_argument(
+        "--sweep",
+        action="store_true",
+        help=f"write all codegen CSVs to {SWEEP_OUT.name}/",
+    )
     args = parser.parse_args()
 
+    out_dir = SWEEP_OUT if args.sweep else args.out
     run_bench = args.run_bench
     if not run_bench.is_file():
         print(f"run_bench not found at {run_bench}; run make build first", file=sys.stderr)
@@ -119,13 +141,20 @@ def main() -> int:
     else:
         dists = load_codegen_bench_ids()
 
+    done = 0
     for dist in dists:
+        out_path = out_dir / f"{dist}.csv"
+        if args.resume and csv_has_10m(out_path):
+            print(f"{dist}: skipped (resume)")
+            done += 1
+            continue
         rows = bench_dist(run_bench, dist, sizes)
-        write_dist_csv(args.out / f"{dist}.csv", rows)
+        write_dist_csv(out_path, rows)
         per = next((r for r in rows if r["n"] == "10000000"), rows[-1])
         print(f"{dist}: per_sample={per['per_sample']} @ n={per['n']}")
+        done += 1
 
-    print(f"wrote {len(dists)} csv(s) under {args.out}")
+    print(f"wrote/kept {done} csv(s) under {out_dir}")
     return 0
 
 
