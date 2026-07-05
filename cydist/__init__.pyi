@@ -460,17 +460,17 @@ def tukey_lambda_sample_batch(out: np.ndarray, lam: float, loc: float, scale: fl
 def rectified_gaussian_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Rectified Gaussian into ``out`` (float64). Rectified Gaussian distribution: A distribution mixing continuous and discrete components. Tier: heuristic."""
 
-def ewens_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Ewens into ``out`` (float64). Ewens distribution: A joint distribution over several discrete random variables. Tier: heuristic."""
+def ewens_sample_batch(out: np.ndarray, theta: float, n_: int, seed: int = 42) -> None:
+    """Sample Ewens into ``out`` (float64). Ewens distribution: A joint distribution over several discrete random variables."""
 
-def multinomial_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Multinomial into ``out`` (float64). Multinomial distribution: A joint distribution over several discrete random variables. Tier: heuristic."""
+def multinomial_sample_batch(out: np.ndarray, n_: int, p0: float, seed: int = 42) -> None:
+    """Sample Multinomial into ``out`` (float64). Multinomial distribution: A joint distribution over several discrete random variables."""
 
-def dirichlet_multinomial_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Dirichlet-multinomial into ``out`` (float64). Dirichlet-multinomial distribution: A joint distribution over several discrete random variables. Tier: heuristic."""
+def dirichlet_multinomial_sample_batch(out: np.ndarray, n_: int, a0: float, a1: float, a2: float, seed: int = 42) -> None:
+    """Sample Dirichlet-multinomial into ``out`` (float64). Dirichlet-multinomial distribution: A joint distribution over several discrete random variables."""
 
-def negative_multinomial_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Negative multinomial into ``out`` (float64). Negative multinomial distribution: A joint distribution over several discrete random variables. Tier: heuristic."""
+def negative_multinomial_sample_batch(out: np.ndarray, r: float, p0: float, p1: float, p2: float, seed: int = 42) -> None:
+    """Sample Negative multinomial into ``out`` (float64). Negative multinomial distribution: A joint distribution over several discrete random variables."""
 
 def dirichlet_sample_batch(out: np.ndarray, a0: float, a1: float, a2: float, seed: int = 42) -> None:
     """Sample Dirichlet into ``out`` (float64). Dirichlet distribution: A joint distribution over several continuous random variables."""

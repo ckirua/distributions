@@ -162,10 +162,10 @@ cdef extern from "cydist_shim.h":
     void cydist_shifted_log_logistic_sample_batch(double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_tukey_lambda_sample_batch(double lam, double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_rectified_gaussian_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_ewens_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_multinomial_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_dirichlet_multinomial_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
-    void cydist_negative_multinomial_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_ewens_sample_batch(double theta, int n_, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_multinomial_sample_batch(int n_, double p0, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_dirichlet_multinomial_sample_batch(int n_, double a0, double a1, double a2, uint64_t seed, double* out, size_t n_samples) nogil
+    void cydist_negative_multinomial_sample_batch(double r, double p0, double p1, double p2, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_dirichlet_sample_batch(double a0, double a1, double a2, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_generalized_dirichlet_sample_batch(double a1, double b1, double a2, double b2, uint64_t seed, double* out, size_t n_samples) nogil
     void cydist_multivariate_laplace_sample_batch(double scale, uint64_t seed, double* out, size_t n_samples) nogil
@@ -1134,29 +1134,29 @@ def rectified_gaussian_sample_batch(cnp.float64_t[:] out, double loc, double sca
 
 # --- multivariate / discrete ---
 
-def ewens_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def ewens_sample_batch(cnp.float64_t[:] out, double theta, int n_, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_ewens_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_ewens_sample_batch(theta, n_, seed, ptr, n_samples)
 
-def multinomial_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def multinomial_sample_batch(cnp.float64_t[:] out, int n_, double p0, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_multinomial_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_multinomial_sample_batch(n_, p0, seed, ptr, n_samples)
 
-def dirichlet_multinomial_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def dirichlet_multinomial_sample_batch(cnp.float64_t[:] out, int n_, double a0, double a1, double a2, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_dirichlet_multinomial_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_dirichlet_multinomial_sample_batch(n_, a0, a1, a2, seed, ptr, n_samples)
 
-def negative_multinomial_sample_batch(cnp.float64_t[:] out, double loc, double scale, uint64_t seed=42):
+def negative_multinomial_sample_batch(cnp.float64_t[:] out, double r, double p0, double p1, double p2, uint64_t seed=42):
     cdef double* ptr = <double*>&out[0]
     cdef size_t n_samples = <size_t>out.shape[0]
     with nogil:
-        cydist_negative_multinomial_sample_batch(loc, scale, seed, ptr, n_samples)
+        cydist_negative_multinomial_sample_batch(r, p0, p1, p2, seed, ptr, n_samples)
 
 
 # --- multivariate / continuous ---

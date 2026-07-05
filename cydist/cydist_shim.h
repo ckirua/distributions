@@ -159,10 +159,10 @@ void cydist_q_weibull_sample_batch(double q, double shape, double scale, uint64_
 void cydist_shifted_log_logistic_sample_batch(double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_tukey_lambda_sample_batch(double lam, double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_rectified_gaussian_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_ewens_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_multinomial_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_dirichlet_multinomial_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_negative_multinomial_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
+void cydist_ewens_sample_batch(double theta, int n_, uint64_t seed, double* out, size_t n_samples);
+void cydist_multinomial_sample_batch(int n_, double p0, uint64_t seed, double* out, size_t n_samples);
+void cydist_dirichlet_multinomial_sample_batch(int n_, double a0, double a1, double a2, uint64_t seed, double* out, size_t n_samples);
+void cydist_negative_multinomial_sample_batch(double r, double p0, double p1, double p2, uint64_t seed, double* out, size_t n_samples);
 void cydist_dirichlet_sample_batch(double a0, double a1, double a2, uint64_t seed, double* out, size_t n_samples);
 void cydist_generalized_dirichlet_sample_batch(double a1, double b1, double a2, double b2, uint64_t seed, double* out, size_t n_samples);
 void cydist_multivariate_laplace_sample_batch(double scale, uint64_t seed, double* out, size_t n_samples);

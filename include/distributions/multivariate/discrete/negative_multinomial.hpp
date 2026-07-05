@@ -1,19 +1,20 @@
 #pragma once
 
-#include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
+#include "distributions/detail/multivariate_discrete.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
 namespace distributions {
 
 struct NegativeMultinomial {
-    double loc_;
-    double scale_;
-    NegativeMultinomial(double loc, double scale) : loc_(loc), scale_(scale) {}
+    double r_;
+    double p0_;
+    double p1_;
+    double p2_;
+    NegativeMultinomial(double r, double p0, double p1, double p2) : r_(r), p0_(p0), p1_(p1), p2_(p2) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        return detail::sample_negative_multinomial_first(rng, r_, p0_, p1_, p2_);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

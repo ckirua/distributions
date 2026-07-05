@@ -1380,6 +1380,40 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        cydist_params=[("double", "shape"), ("double", "scale"), ("uint64_t", "seed")]))
             continue
 
+        # --- multivariate discrete (heuristic batch 10) ---
+        if vid == "multinomial":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate_discrete.hpp"],
+                       members=[("int", "n", "10"), ("double", "p0", "0.4")],
+                       sample_body="return detail::sample_multinomial_first(rng, n_, p0_);",
+                       bench_ctor_args="10, 0.4",
+                       cydist_params=[("int", "n"), ("double", "p0"), ("uint64_t", "seed")]))
+            continue
+        if vid == "dirichlet-multinomial":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate_discrete.hpp"],
+                       members=[("int", "n", "10"), ("double", "a0", "2.0"), ("double", "a1", "3.0"), ("double", "a2", "5.0")],
+                       sample_body="return detail::sample_dirichlet_multinomial_first(rng, n_, a0_, a1_, a2_);",
+                       bench_ctor_args="10, 2.0, 3.0, 5.0",
+                       cydist_params=[("int", "n"), ("double", "a0"), ("double", "a1"), ("double", "a2"), ("uint64_t", "seed")]))
+            continue
+        if vid == "negative-multinomial":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate_discrete.hpp"],
+                       members=[("double", "r", "2.0"), ("double", "p0", "0.4"), ("double", "p1", "0.3"), ("double", "p2", "0.3")],
+                       sample_body="return detail::sample_negative_multinomial_first(rng, r_, p0_, p1_, p2_);",
+                       bench_ctor_args="2.0, 0.4, 0.3, 0.3",
+                       cydist_params=[("double", "r"), ("double", "p0"), ("double", "p1"), ("double", "p2"), ("uint64_t", "seed")]))
+            continue
+        if vid == "ewens":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/multivariate_discrete.hpp"],
+                       members=[("double", "theta", "2.0"), ("int", "n", "10")],
+                       sample_body="return detail::sample_ewens_first(rng, theta_, n_);",
+                       bench_ctor_args="2.0, 10",
+                       cydist_params=[("double", "theta"), ("int", "n"), ("uint64_t", "seed")]))
+            continue
+
         # --- directional ---
         if vid == "univariate-von-mises" or vid == "circular-uniform":
             kappa = "0.0" if vid == "circular-uniform" else "2.0"

@@ -10,12 +10,12 @@ Goal: implement all **121** heuristic placeholders as real `family` samplers; al
 |--------|------:|
 | Total distributions | 189 |
 | `hand-written` | 13 |
-| `family` | **163** |
-| `heuristic` remaining | **12** |
+| `family` | **167** |
+| `heuristic` remaining | **8** |
 | `exact` | 1 |
-| Sanity tests passing | 70 (+ 12 xfail, 2 xpass) |
+| Sanity tests passing | 71 (+ 12 xfail, 2 xpass) |
 
-Last push: batch 9 (multivariate continuous, 8 samplers).
+Last push: batch 10 (multivariate discrete, 4 samplers).
 
 ## Completed batches
 
@@ -108,9 +108,20 @@ New helper: `include/distributions/detail/multivariate.hpp`
 | `multivariate-t` | first component (= Student t) | yes |
 | `generalized-dirichlet`, `multivariate-laplace`, `multivariate-stable`, `normal-gamma`, `normal-inverse-gamma-distribution` | approximate / compound | skip |
 
+### Batch 10 — `multivariate/discrete` (4)
+
+New helper: `include/distributions/detail/multivariate_discrete.hpp`
+
+| vault id | algorithm | scipy sanity |
+|----------|-----------|--------------|
+| `multinomial` | Binomial(n, p₀) first count | yes |
+| `dirichlet-multinomial` | Beta–Binomial compound | skip |
+| `negative-multinomial` | Gamma–Poisson mixture | skip |
+| `ewens` | sequential Ewens partition | skip |
+
 ## Next batch
 
-**`multivariate/discrete`** (4 heuristic) + remaining categories — **12** heuristic left total.
+**Final 8 heuristic** across mixed categories: `directional/multivariate` (2), `discrete/finite-support` (1), `continuous/whole-real-line` (1), `mixed/continuous-discrete` (1), `directional/bivariate-*` (2), `degenerate-and-singular/singular` (1).
 
 ## Agent instructions
 

@@ -1138,25 +1138,25 @@ inline void sample_cpp(
         return;
     }
     if (dist == "ewens") {
-        const distributions::Ewens d(0.0, 1.0);
+        const distributions::Ewens d(2.0, 10);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "multinomial") {
-        const distributions::Multinomial d(0.0, 1.0);
+        const distributions::Multinomial d(10, 0.4);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "dirichlet-multinomial") {
-        const distributions::DirichletMultinomial d(0.0, 1.0);
+        const distributions::DirichletMultinomial d(10, 2.0, 3.0, 5.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "negative-multinomial") {
-        const distributions::NegativeMultinomial d(0.0, 1.0);
+        const distributions::NegativeMultinomial d(2.0, 0.4, 0.3, 0.3);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;

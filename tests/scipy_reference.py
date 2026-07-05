@@ -107,6 +107,9 @@ SKIP_VAULT_IDS: frozenset[str] = frozenset(
         "multivariate-stable",
         "normal-gamma",
         "normal-inverse-gamma-distribution",
+        "dirichlet-multinomial",
+        "negative-multinomial",
+        "ewens",
     }
 )
 
@@ -210,6 +213,17 @@ def _sample_multivariate_t_first(kwargs: dict[str, Any], n: int, rng: np.random.
     return np.asarray(s[:, 0], dtype=np.float64)
 
 
+def _sample_multinomial_first(kwargs: dict[str, Any], n: int, rng: np.random.Generator) -> np.ndarray:
+    from scipy import stats
+
+    n_trials = int(kwargs["n_"])
+    p0 = float(kwargs["p0"])
+    p1 = (1.0 - p0) * 0.5
+    p2 = 1.0 - p0 - p1
+    s = stats.multinomial(n_trials, [p0, p1, p2]).rvs(size=n, random_state=rng)
+    return np.asarray(s[:, 0], dtype=np.float64)
+
+
 CUSTOM_SCIPY_SAMPLERS: dict[str, Callable[[dict[str, Any], int, np.random.Generator], np.ndarray]] = {
     "categorical": _sample_categorical,
     "wishart": _sample_wishart_trace,
@@ -218,6 +232,7 @@ CUSTOM_SCIPY_SAMPLERS: dict[str, Callable[[dict[str, Any], int, np.random.Genera
     "dirichlet": _sample_dirichlet_first,
     "multivariate-normal": _sample_multivariate_normal_first,
     "multivariate-t": _sample_multivariate_t_first,
+    "multinomial": _sample_multinomial_first,
 }
 
 
