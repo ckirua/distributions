@@ -1,29 +1,36 @@
 #pragma once
 
+#include <cstddef>
+#include "distributions/concepts.hpp"
 #include "distributions/detail/normal.hpp"
 #include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
-#include <cstddef>
+#include <type_traits>
 
 namespace distributions {
 
-struct HalfNormal {
+template <typename Sample = double>
+struct HalfNormalDistribution {
+    static_assert(is_continuous_sample_v<Sample>);
+
     double loc_;
     double scale_;
-    HalfNormal(double loc, double scale) : loc_(loc), scale_(scale) {
+    HalfNormalDistribution(double loc, double scale) : loc_(loc), scale_(scale) {
         detail::assert_finite(loc_);
         detail::assert_strictly_positive(scale_);
     }
 
-    [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * std::abs(detail::sample_standard_normal(rng));
+    [[nodiscard]] Sample sample(Pcg32& rng) const {
+        return static_cast<Sample>(loc_ + scale_ * std::abs(detail::sample_standard_normal(rng)));
     }
 
-    void sample_batch(double* out, std::size_t n, Pcg32& rng) const {
+    void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
         }
     }
 };
+
+using HalfNormal = HalfNormalDistribution<double>;
 
 }  // namespace distributions

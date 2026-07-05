@@ -1,6 +1,7 @@
 #include "distributions/concepts.hpp"
 #include "distributions/continuous/real_line/normal.hpp"
 #include "distributions/continuous/semi_infinite/exponential.hpp"
+#include "distributions/continuous/semi_infinite/gamma.hpp"
 #include "distributions/discrete/finite/bernoulli.hpp"
 #include "distributions/discrete/finite/beta_binomial.hpp"
 #include "distributions/discrete/finite/binomial.hpp"
@@ -80,6 +81,11 @@ int main() {
     static_assert(models_distribution<distributions::ExponentialDistribution<double>, double>());
     static_assert(models_distribution<distributions::NormalDistribution<float>, float>());
     static_assert(models_distribution<distributions::NormalDistribution<double>, double>());
+
+    static_assert(distributions::Sampler<distributions::Gamma, double>);
+    static_assert(distributions::Sampler<distributions::GammaDistribution<float>, float>);
+    static_assert(
+        std::is_same_v<distributions::Gamma, distributions::GammaDistribution<double>>);
 
     static_assert(std::is_same_v<distributions::Bernoulli, distributions::BernoulliDistribution<int>>);
     static_assert(

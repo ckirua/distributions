@@ -1,36 +1,43 @@
 #pragma once
 
+#include <cmath>
+#include <cstddef>
+#include "distributions/concepts.hpp"
 #include "distributions/detail/normal.hpp"
 #include "distributions/detail/uniform.hpp"
 #include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <numbers>
-#include <cmath>
-#include <cstddef>
+#include <type_traits>
 
 namespace distributions {
 
-struct UnivariateVonMises {
+template <typename Sample = double>
+struct UnivariateVonMisesDistribution {
+    static_assert(is_continuous_sample_v<Sample>);
+
     double mu_;
     double kappa_;
-    UnivariateVonMises(double mu, double kappa) : mu_(mu), kappa_(kappa) {
+    UnivariateVonMisesDistribution(double mu, double kappa) : mu_(mu), kappa_(kappa) {
         detail::assert_nonnegative(mu_);
         detail::assert_nonnegative(kappa_);
     }
 
-    [[nodiscard]] double sample(Pcg32& rng) const {
-        if (kappa_ <= 1e-12) { return detail::sample_uniform(rng, -std::numbers::pi, std::numbers::pi); }
-        const double z = detail::sample_standard_normal(rng);
-        const double theta = mu_ + z / std::sqrt(kappa_);
-        const double two_pi = 2.0 * std::numbers::pi;
-        return std::fmod(theta + std::numbers::pi, two_pi) - std::numbers::pi;
+    [[nodiscard]] Sample sample(Pcg32& rng) const {
+        if (kappa_ <= 1e-12) { return static_cast<Sample>(detail::sample_uniform(rng, -std::numbers::pi, std::numbers::pi)); }
+                const double z = detail::sample_standard_normal(rng);
+                const double theta = mu_ + z / std::sqrt(kappa_);
+                const double two_pi = 2.0 * std::numbers::pi;
+                return static_cast<Sample>(std::fmod(theta + std::numbers::pi, two_pi) - std::numbers::pi);
     }
 
-    void sample_batch(double* out, std::size_t n, Pcg32& rng) const {
+    void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
         }
     }
 };
+
+using UnivariateVonMises = UnivariateVonMisesDistribution<double>;
 
 }  // namespace distributions

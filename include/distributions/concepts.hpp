@@ -48,4 +48,11 @@ concept Distribution = requires(const Dist& dist, Sample* out, std::size_t n, RN
 template <typename Dist, typename RNG = Pcg32>
 using sample_type_t = decltype(std::declval<const Dist&>().sample(std::declval<RNG&>()));
 
+/// Codegen + hand-written sampling interface (no ``mean`` / ``variance`` required).
+template <typename Dist, typename Sample, typename RNG = Pcg32>
+concept Sampler = requires(const Dist& dist, Sample* out, std::size_t n, RNG& rng) {
+    { dist.sample(rng) } -> std::convertible_to<Sample>;
+    { dist.sample_batch(out, n, rng) } -> std::same_as<void>;
+};
+
 }  // namespace distributions

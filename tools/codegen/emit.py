@@ -25,52 +25,85 @@ from codegen.constants import (
 )
 from codegen.batch_fast import emit_sample_batch
 from codegen.models import CydistSpec, Recipe
-from codegen.utils import safe_param_name, slug_to_class
+from codegen.utils import (
+    distribution_template_name,
+    emit_templated_sample_body,
+    safe_param_name,
+    slug_to_class,
+)
 from codegen.validation import CYDIST_PYVALIDATE_HELPERS, infer_cydist_python_checks
 
 def emit_header(r: Recipe) -> str:
     ctor_params = ", ".join(f"{t} {n}" for t, n, _ in r.members)
     init_list = ", ".join(f"{n}_({n})" for _, n, _ in r.members) if r.members else ""
     sample_batch_body, batch_fast_includes = emit_sample_batch(r)
-    includes = sorted(set(["distributions/rng.hpp", *r.includes, *batch_fast_includes]))
+    includes = sorted(
+        set(
+            [
+                "distributions/concepts.hpp",
+                "distributions/rng.hpp",
+                *r.includes,
+                *batch_fast_includes,
+            ]
+        )
+    )
     if r.validate_body:
         includes = sorted(set([*includes, "distributions/detail/validate.hpp"]))
-    inc_lines = "\n".join(f'#include "{h}"' for h in includes)
-    out_type = "int" if r.discrete else "double"
-    extra = "#include <numbers>\n" if "std::numbers" in r.sample_body else ""
+    stdlib_includes = {"cstddef", "type_traits"}
+    if "std::numbers" in r.sample_body:
+        stdlib_includes.add("numbers")
     if any(
         tok in r.sample_body
         for tok in ("std::log", "std::pow", "std::sqrt", "std::fmod", "std::acos", "std::cos")
     ):
-        extra += "#include <cmath>\n"
-    extra += "#include <cstddef>\n"
+        stdlib_includes.add("cmath")
+    inc_lines = "\n".join(
+        f"#include <{h}>"
+        if h in stdlib_includes
+        else f'#include "{h}"'
+        for h in sorted([*includes, *stdlib_includes])
+    )
+    default_sample = "int" if r.discrete else "double"
+    template_struct = distribution_template_name(r.cpp_class)
+    alias_name = r.cpp_class
+    sample_impl = emit_templated_sample_body(r.sample_body)
+    sample_assert = (
+        "static_assert(is_discrete_sample_v<Sample>);"
+        if r.discrete
+        else "static_assert(is_continuous_sample_v<Sample>);"
+    )
 
     if init_list:
         if r.validate_body:
             validate_lines = "\n        ".join(line.strip() for line in r.validate_body.split("\n") if line.strip())
-            ctor = f"    {r.cpp_class}({ctor_params}) : {init_list} {{\n        {validate_lines}\n    }}\n"
+            ctor = f"    {template_struct}({ctor_params}) : {init_list} {{\n        {validate_lines}\n    }}\n"
         else:
-            ctor = f"    {r.cpp_class}({ctor_params}) : {init_list} {{}}\n"
+            ctor = f"    {template_struct}({ctor_params}) : {init_list} {{}}\n"
         members_decl = "\n".join(f"    {t} {n}_;" for t, n, _ in r.members)
     else:
-        ctor = f"    {r.cpp_class}() = default;\n"
+        ctor = f"    {template_struct}() = default;\n"
         members_decl = ""
 
     return f"""#pragma once
 
 {inc_lines}
-{extra}
+
 namespace distributions {{
 
-struct {r.cpp_class} {{
+template <typename Sample = {default_sample}>
+struct {template_struct} {{
+    {sample_assert}
+
 {members_decl}
 {ctor}
-    [[nodiscard]] {out_type} sample(Pcg32& rng) const {{
-        {r.sample_body}
+    [[nodiscard]] Sample sample(Pcg32& rng) const {{
+        {sample_impl}
     }}
 
     {sample_batch_body}
 }};
+
+using {alias_name} = {template_struct}<{default_sample}>;
 
 }}  // namespace distributions
 """

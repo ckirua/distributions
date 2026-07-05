@@ -18,7 +18,7 @@ Goal: **Tier B wave 3** (composition/transform) + **table sampler CDF polish** â
 
 - Tier B: gamma, beta, continuous-bernoulli, discrete-weibull, erlang, log-normal
 - cydist validation 184/184, shim `std::span`
-- Codegen `template<typename Sample>` + default aliases (pending merge if uncommitted)
+- Codegen `template<typename Sample>` + default aliases on 171 structs
 
 ## Planned batches
 

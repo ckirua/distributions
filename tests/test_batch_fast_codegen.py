@@ -25,7 +25,7 @@ def test_tier_a_sample_batch_without_hook() -> None:
     )
     body, includes = emit_sample_batch(recipe)
     assert "kFastThreshold" not in body
-    assert "for (std::size_t i = 0; i < n; ++i)" in body
+    assert "void sample_batch(Sample* out" in body
     assert includes == ()
 
 

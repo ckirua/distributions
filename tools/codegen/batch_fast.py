@@ -167,7 +167,6 @@ def resolve_batch_fast(recipe: Recipe) -> BatchFastHook | None:
 
 def emit_sample_batch(recipe: Recipe) -> tuple[str, tuple[str, ...]]:
     """Return (sample_batch method body, extra includes)."""
-    out_type = "int" if recipe.discrete else "double"
     loop = (
         "for (std::size_t i = 0; i < n; ++i) {\n"
         "            out[i] = sample(rng);\n"
@@ -176,17 +175,20 @@ def emit_sample_batch(recipe: Recipe) -> tuple[str, tuple[str, ...]]:
     hook = resolve_batch_fast(recipe)
     if hook is None:
         return (
-            f"""void sample_batch({out_type}* out, std::size_t n, Pcg32& rng) const {{
+            f"""void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {{
         {loop}
     }}""",
             (),
         )
+    fast_path = f"""if constexpr (std::is_same_v<Sample, double>) {{
+            if (n >= detail::kFastThreshold) {{
+                {hook.call}
+                return;
+            }}
+        }}"""
     return (
-        f"""void sample_batch({out_type}* out, std::size_t n, Pcg32& rng) const {{
-        if (n >= detail::kFastThreshold) {{
-            {hook.call}
-            return;
-        }}
+        f"""void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {{
+        {fast_path}
         {loop}
     }}""",
         hook.includes,
