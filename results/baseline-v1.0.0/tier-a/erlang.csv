@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+erlang,cpp,1000,42,30424,37352,1924.91,30.424
+erlang,cpp,100000,42,4.85979e+06,5.15169e+06,69458.4,48.5979
+erlang,cpp,10000000,42,4.8478e+08,5.02686e+08,4.11283e+06,48.478

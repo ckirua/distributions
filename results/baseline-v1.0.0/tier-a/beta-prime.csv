@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+beta-prime,cpp,1000,42,65844,73008,1993.38,65.844
+beta-prime,cpp,100000,42,9.78316e+06,1.27423e+07,532892,97.8316
+beta-prime,cpp,10000000,42,9.74037e+08,9.77011e+08,1.10672e+06,97.4037

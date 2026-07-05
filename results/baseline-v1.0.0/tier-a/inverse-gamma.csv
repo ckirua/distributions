@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+inverse-gamma,cpp,1000,42,29438,34004,1428.51,29.438
+inverse-gamma,cpp,100000,42,4.64115e+06,4.68326e+06,19167.4,46.4115
+inverse-gamma,cpp,10000000,42,4.66037e+08,4.82636e+08,4.84135e+06,46.6037
