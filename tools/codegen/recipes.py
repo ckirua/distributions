@@ -957,6 +957,152 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        cydist_params=[("double", "a"), ("double", "b"), ("uint64_t", "seed")]))
             continue
 
+        # --- whole real line (heuristic batch 6) ---
+        if vid == "asymmetric":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "kappa", "2.0"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_asymmetric_laplace(rng, kappa_, loc_, scale_);",
+                       bench_ctor_args="2.0, 0.0, 1.0",
+                       cydist_params=[("double", "kappa"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "fishers-z":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "n", "10.0"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_fisher_z(rng, n_, loc_, scale_);",
+                       bench_ctor_args="10.0, 0.0, 1.0",
+                       cydist_params=[("double", "n"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "gaussian-q":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "q", "1.5"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_gaussian_q(rng, q_, loc_, scale_);",
+                       bench_ctor_args="1.5, 0.0, 1.0",
+                       cydist_params=[("double", "q"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "generalized-hyperbolic":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "p", "0.0"), ("double", "a", "1.5"), ("double", "b", "0.5")],
+                       sample_body="return detail::sample_genhyperbolic(rng, p_, a_, b_);",
+                       bench_ctor_args="0.0, 1.5, 0.5",
+                       cydist_params=[("double", "p"), ("double", "a"), ("double", "b"), ("uint64_t", "seed")]))
+            continue
+        if vid == "generalized-logistic-logistic-beta":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "c", "1.0"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_genlogistic(rng, c_, loc_, scale_);",
+                       bench_ctor_args="1.0, 0.0, 1.0",
+                       cydist_params=[("double", "c"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "generalized-normal":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "beta", "1.5"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_gennorm(rng, beta_, loc_, scale_);",
+                       bench_ctor_args="1.5, 0.0, 1.0",
+                       cydist_params=[("double", "beta"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "geometric-stable":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "alpha", "1.5"), ("double", "beta", "0.0"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_stable(rng, alpha_, beta_, loc_, scale_);",
+                       bench_ctor_args="1.5, 0.0, 0.0, 1.0",
+                       cydist_params=[("double", "alpha"), ("double", "beta"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "holtsmark":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_holtsmark(rng, loc_, scale_);",
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "hyperbolic-secant":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_hyperbolic_secant(rng, loc_, scale_);",
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "johnsons-su":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "a", "0.5"), ("double", "b", "1.5"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_johnson_su(rng, a_, b_, loc_, scale_);",
+                       bench_ctor_args="0.5, 1.5, 0.0, 1.0",
+                       cydist_params=[("double", "a"), ("double", "b"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "kaniadakis-gaussian":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "kappa", "0.5"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_kaniadakis_gaussian(rng, kappa_, loc_, scale_);",
+                       bench_ctor_args="0.5, 0.0, 1.0",
+                       cydist_params=[("double", "kappa"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "landau":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_landau(rng, loc_, scale_);",
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "noncentral-t":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "df", "5.0"), ("double", "nc", "2.0"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_nct(rng, df_, nc_, loc_, scale_);",
+                       bench_ctor_args="5.0, 2.0, 0.0, 1.0",
+                       cydist_params=[("double", "df"), ("double", "nc"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "slash":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_slash(rng, loc_, scale_);",
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "stable":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "alpha", "1.5"), ("double", "beta", "0.0"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_stable(rng, alpha_, beta_, loc_, scale_);",
+                       bench_ctor_args="1.5, 0.0, 0.0, 1.0",
+                       cydist_params=[("double", "alpha"), ("double", "beta"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "tracywidom":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_tracywidom(rng, loc_, scale_);",
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "variance-gamma":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "a", "1.0"), ("double", "b", "0.0"), ("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body="return detail::sample_norminvgauss(rng, a_, b_, loc_, scale_);",
+                       bench_ctor_args="1.0, 0.0, 0.0, 1.0",
+                       cydist_params=[("double", "a"), ("double", "b"), ("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "voigt":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/real_line.hpp"],
+                       members=[("double", "sigma", "1.0"), ("double", "gamma_width", "1.0"), ("double", "loc", "0.0")],
+                       sample_body="return detail::sample_voigt(rng, sigma_, gamma_width_, loc_);",
+                       bench_ctor_args="1.0, 1.0, 0.0",
+                       cydist_params=[("double", "sigma"), ("double", "gamma_width"), ("double", "loc"), ("uint64_t", "seed")]))
+            continue
+
         # --- directional ---
         if vid == "univariate-von-mises" or vid == "circular-uniform":
             kappa = "0.0" if vid == "circular-uniform" else "2.0"

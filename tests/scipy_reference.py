@@ -72,6 +72,15 @@ SKIP_VAULT_IDS: frozenset[str] = frozenset(
         "poly-weibull",
         "wilkss-lambda",
         "relativistic-breitwigner",
+        "fishers-z",
+        "gaussian-q",
+        "generalized-hyperbolic",
+        "geometric-stable",
+        "hyperbolic-secant",
+        "kaniadakis-gaussian",
+        "slash",
+        "tracywidom",
+        "voigt",
     }
 )
 

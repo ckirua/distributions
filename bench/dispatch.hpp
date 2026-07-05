@@ -898,43 +898,43 @@ inline void sample_cpp(
         return;
     }
     if (dist == "fishers-z") {
-        const distributions::FishersZ d(0.0, 1.0);
+        const distributions::FishersZ d(10.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "kaniadakis-gaussian") {
-        const distributions::KaniadakisGaussian d(0.0, 1.0);
+        const distributions::KaniadakisGaussian d(0.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "gaussian-q") {
-        const distributions::GaussianQ d(0.0, 1.0);
+        const distributions::GaussianQ d(1.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-hyperbolic") {
-        const distributions::GeneralizedHyperbolic d(0.0, 1.0);
+        const distributions::GeneralizedHyperbolic d(0.0, 1.5, 0.5);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-logistic-logistic-beta") {
-        const distributions::GeneralizedLogisticLogisticBeta d(0.0, 1.0);
+        const distributions::GeneralizedLogisticLogisticBeta d(1.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "generalized-normal") {
-        const distributions::GeneralizedNormal d(0.0, 1.0);
+        const distributions::GeneralizedNormal d(1.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "geometric-stable") {
-        const distributions::GeometricStable d(0.0, 1.0);
+        const distributions::GeometricStable d(1.5, 0.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -958,7 +958,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "johnsons-su") {
-        const distributions::JohnsonsSu d(0.0, 1.0);
+        const distributions::JohnsonsSu d(0.5, 1.5, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -976,7 +976,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "asymmetric") {
-        const distributions::Asymmetric d(0.0, 1.0);
+        const distributions::Asymmetric d(2.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -988,7 +988,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "noncentral-t") {
-        const distributions::NoncentralT d(0.0, 1.0);
+        const distributions::NoncentralT d(5.0, 2.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1018,7 +1018,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "stable") {
-        const distributions::Stable d(0.0, 1.0);
+        const distributions::Stable d(1.5, 0.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -1036,13 +1036,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "variance-gamma") {
-        const distributions::VarianceGamma d(0.0, 1.0);
+        const distributions::VarianceGamma d(1.0, 0.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "voigt") {
-        const distributions::Voigt d(0.0, 1.0);
+        const distributions::Voigt d(1.0, 1.0, 0.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;

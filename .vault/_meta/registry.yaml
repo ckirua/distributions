@@ -4516,7 +4516,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: kaniadakis-gaussian
   name: Kaniadakis κ-Gaussian
   title: Kaniadakis κ-Gaussian distribution
@@ -4553,7 +4553,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: gaussian-q
   name: Gaussian _q_
   title: Gaussian _q_ distribution
@@ -4590,7 +4590,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-hyperbolic
   name: Generalized hyperbolic
   title: Generalized hyperbolic distribution
@@ -4627,7 +4627,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-logistic-logistic-beta
   name: Generalized logistic (logistic-beta)
   title: Generalized logistic (logistic-beta) distribution
@@ -4664,7 +4664,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-normal
   name: Generalized normal
   title: Generalized normal distribution
@@ -4701,7 +4701,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: geometric-stable
   name: Geometric stable
   title: Geometric stable distribution
@@ -4742,7 +4742,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: gumbel
   name: Gumbel
   title: Gumbel distribution
@@ -4821,7 +4821,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: hyperbolic-secant
   name: Hyperbolic secant
   title: Hyperbolic secant distribution
@@ -4858,7 +4858,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: johnsons-su
   name: Johnson's _SU_
   title: Johnson's _SU_ distribution
@@ -4895,7 +4895,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: landau
   name: Landau
   title: Landau distribution
@@ -4931,7 +4931,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: laplace
   name: Laplace
   title: Laplace distribution
@@ -5011,7 +5011,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: logistic
   name: Logistic
   title: Logistic distribution
@@ -5091,7 +5091,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: normal-gaussian
   name: Normal (Gaussian)
   title: Normal (Gaussian) distribution
@@ -5254,7 +5254,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: stable
   name: Stable
   title: Stable distribution
@@ -5290,7 +5290,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: students-t
   name: Student's _t_
   title: Student's _t_ distribution
@@ -5369,7 +5369,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: variance-gamma
   name: Variance-gamma
   title: Variance-gamma distribution
@@ -5406,7 +5406,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: voigt
   name: Voigt
   title: Voigt distribution
@@ -5442,7 +5442,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/real-line
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: generalized-chi-squared
   name: Generalized chi-squared
   title: Generalized chi-squared distribution

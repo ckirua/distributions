@@ -87,6 +87,15 @@ SCIPY_SPECS: dict[str, tuple[str, dict]] = {
     "shifted": ("expon", {"loc": 1, "scale": 1.0}),
     "relativistic-breitwigner": ("rel_breitwigner", {"rho": 1.0}),
     "hotellings-t-squared": ("f", {"dfn": 5, "dfd": 10}),
+    "asymmetric": ("laplace_asymmetric", {"kappa": 2.0, "loc": 0, "scale": 1.0}),
+    "generalized-normal": ("gennorm", {"beta": 1.5, "loc": 0, "scale": 1.0}),
+    "generalized-logistic-logistic-beta": ("genlogistic", {"c": 1.0, "loc": 0, "scale": 1.0}),
+    "johnsons-su": ("johnsonsu", {"a": 0.5, "b": 1.5, "loc": 0, "scale": 1.0}),
+    "noncentral-t": ("nct", {"df": 5, "nc": 2, "loc": 0, "scale": 1.0}),
+    "landau": ("landau", {}),
+    "stable": ("levy_stable", {"alpha": 1.5, "beta": 0, "loc": 0, "scale": 1.0}),
+    "holtsmark": ("levy_stable", {"alpha": 1.5, "beta": 0, "loc": 0, "scale": 1.0}),
+    "variance-gamma": ("norminvgauss", {"a": 1.0, "b": 0.0, "loc": 0, "scale": 1.0}),
 }
 
 CONTENT_ALIASES: dict[str, str] = {

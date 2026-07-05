@@ -10,12 +10,12 @@ Goal: implement all **121** heuristic placeholders as real `family` samplers; al
 |--------|------:|
 | Total distributions | 189 |
 | `hand-written` | 13 |
-| `family` | **110** |
-| `heuristic` remaining | **65** |
+| `family` | **129** |
+| `heuristic` remaining | **46** |
 | `exact` | 1 |
-| Sanity tests passing | 53 (+ 12 xfail, 2 xpass) |
+| Sanity tests passing | 62 (+ 12 xfail, 2 xpass) |
 
-Last push: batch 5 (semi-infinite continuous, 25 samplers).
+Last push: batch 6 (whole real line, 19 samplers).
 
 ## Completed batches
 
@@ -60,9 +60,25 @@ New helper: `include/distributions/detail/semi_infinite.hpp`
 | `hypoexponential` | sum of exponentials | skip |
 | `benini`, `benktander-*`, `davis`, `discrete-weibull`, `hartmanwatson`, `hyper`, `kolmogorov`, `log-cauchy`, `log-t`, `matrix-exponential`, `maxwelljuttner`, `mittag-leffler`, `phase-type`, `poly-weibull`, `relativistic-breitwigner`, `wilkss-lambda` | specialized / approximate | skip |
 
+### Batch 6 — `continuous/whole-real-line` (19)
+
+New helper: `include/distributions/detail/real_line.hpp`
+
+| vault id | algorithm | scipy sanity |
+|----------|-----------|--------------|
+| `asymmetric` | asymmetric Laplace (ppf) | yes |
+| `generalized-normal` | generalized normal (gamma) | yes |
+| `generalized-logistic-logistic-beta` | genlogistic | yes |
+| `johnsons-su` | Johnson SU (sinh transform) | yes |
+| `noncentral-t` | nct ratio | yes |
+| `landau` | Chambers–Mallows–Stuck | yes |
+| `stable`, `holtsmark` | Nolan stable (α=1.5, β=0) | yes |
+| `variance-gamma` | NIG composition | yes |
+| `fishers-z`, `gaussian-q`, `generalized-hyperbolic`, `geometric-stable`, `hyperbolic-secant`, `kaniadakis-gaussian`, `slash`, `tracywidom`, `voigt` | specialized / approximate | skip |
+
 ## Next batch
 
-**`continuous/whole-real-line`** (19 heuristic): `asymmetric-laplace`, `cauchy` done, `exponential-power`, …
+**`continuous/variable-support`** (19 heuristic): `kaniadakis-exponential`, `kaniadakis-gamma`, …
 
 ## Agent instructions
 

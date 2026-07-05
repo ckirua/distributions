@@ -340,53 +340,53 @@ def cauchy_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 4
 def exponential_power_sample_batch(out: np.ndarray, scale: float, seed: int = 42) -> None:
     """Sample Exponential power into ``out`` (float64). Exponential power distribution: A continuous random variable with support on the entire real line."""
 
-def fishers_z_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Fisher's _z_ into ``out`` (float64). Fisher's _z_ distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+def fishers_z_sample_batch(out: np.ndarray, n_: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Fisher's _z_ into ``out`` (float64). Fisher's _z_ distribution: A continuous random variable with support on the entire real line."""
 
-def kaniadakis_gaussian_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Kaniadakis κ-Gaussian into ``out`` (float64). Kaniadakis κ-Gaussian distribution: A continuous random variable with support on the entire real... Tier: heuristic."""
+def kaniadakis_gaussian_sample_batch(out: np.ndarray, kappa: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Kaniadakis κ-Gaussian into ``out`` (float64). Kaniadakis κ-Gaussian distribution: A continuous random variable with support on the entire real..."""
 
-def gaussian_q_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Gaussian _q_ into ``out`` (float64). Gaussian _q_ distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+def gaussian_q_sample_batch(out: np.ndarray, q: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Gaussian _q_ into ``out`` (float64). Gaussian _q_ distribution: A continuous random variable with support on the entire real line."""
 
-def generalized_hyperbolic_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Generalized hyperbolic into ``out`` (float64). Generalized hyperbolic distribution: A continuous random variable with support on the entire real... Tier: heuristic."""
+def generalized_hyperbolic_sample_batch(out: np.ndarray, p: float, a: float, b: float, seed: int = 42) -> None:
+    """Sample Generalized hyperbolic into ``out`` (float64). Generalized hyperbolic distribution: A continuous random variable with support on the entire real..."""
 
-def generalized_logistic_logistic_beta_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Generalized logistic (logistic-beta) into ``out`` (float64). Generalized logistic (logistic-beta) distribution: A continuous random variable with support on t... Tier: heuristic."""
+def generalized_logistic_logistic_beta_sample_batch(out: np.ndarray, c: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Generalized logistic (logistic-beta) into ``out`` (float64). Generalized logistic (logistic-beta) distribution: A continuous random variable with support on t..."""
 
-def generalized_normal_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Generalized normal into ``out`` (float64). Generalized normal distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+def generalized_normal_sample_batch(out: np.ndarray, beta: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Generalized normal into ``out`` (float64). Generalized normal distribution: A continuous random variable with support on the entire real line."""
 
-def geometric_stable_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Geometric stable into ``out`` (float64). Geometric stable distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+def geometric_stable_sample_batch(out: np.ndarray, alpha: float, beta: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Geometric stable into ``out`` (float64). Geometric stable distribution: A continuous random variable with support on the entire real line."""
 
 def gumbel_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Gumbel into ``out`` (float64). Gumbel distribution: A continuous random variable with support on the entire real line."""
 
 def holtsmark_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Holtsmark into ``out`` (float64). Holtsmark distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+    """Sample Holtsmark into ``out`` (float64). Holtsmark distribution: A continuous random variable with support on the entire real line."""
 
 def hyperbolic_secant_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Hyperbolic secant into ``out`` (float64). Hyperbolic secant distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+    """Sample Hyperbolic secant into ``out`` (float64). Hyperbolic secant distribution: A continuous random variable with support on the entire real line."""
 
-def johnsons_su_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Johnson's _SU_ into ``out`` (float64). Johnson's _SU_ distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+def johnsons_su_sample_batch(out: np.ndarray, a: float, b: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Johnson's _SU_ into ``out`` (float64). Johnson's _SU_ distribution: A continuous random variable with support on the entire real line."""
 
 def landau_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Landau into ``out`` (float64). Landau distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+    """Sample Landau into ``out`` (float64). Landau distribution: A continuous random variable with support on the entire real line."""
 
 def laplace_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Laplace into ``out`` (float64). Laplace distribution: A continuous random variable with support on the entire real line."""
 
-def asymmetric_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Asymmetric into ``out`` (float64). Asymmetric distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+def asymmetric_sample_batch(out: np.ndarray, kappa: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Asymmetric into ``out`` (float64). Asymmetric distribution: A continuous random variable with support on the entire real line."""
 
 def logistic_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Logistic into ``out`` (float64). Logistic distribution: A continuous random variable with support on the entire real line."""
 
-def noncentral_t_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Noncentral _t_ into ``out`` (float64). Noncentral _t_ distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+def noncentral_t_sample_batch(out: np.ndarray, df: float, nc: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Noncentral _t_ into ``out`` (float64). Noncentral _t_ distribution: A continuous random variable with support on the entire real line."""
 
 def normal_sample_batch(out: np.ndarray, mu: float, sigma: float, seed: int = 42) -> None:
     """Sample Normal (Gaussian) into ``out`` (float64). The bell curve: symmetric uncertainty around a central value with controlled spread."""
@@ -398,22 +398,22 @@ def skew_normal_sample_batch(out: np.ndarray, loc: float, scale: float, alpha: f
     """Sample Skew normal into ``out`` (float64). Skew normal distribution: A continuous random variable with support on the entire real line."""
 
 def slash_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Slash into ``out`` (float64). Slash distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+    """Sample Slash into ``out`` (float64). Slash distribution: A continuous random variable with support on the entire real line."""
 
-def stable_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Stable into ``out`` (float64). Stable distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+def stable_sample_batch(out: np.ndarray, alpha: float, beta: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Stable into ``out`` (float64). Stable distribution: A continuous random variable with support on the entire real line."""
 
 def students_t_sample_batch(out: np.ndarray, df: float, seed: int = 42) -> None:
     """Sample Student's _t_ into ``out`` (float64). Student's _t_ distribution: A continuous random variable with support on the entire real line."""
 
 def tracywidom_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Tracy–Widom into ``out`` (float64). Tracy–Widom distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+    """Sample Tracy–Widom into ``out`` (float64). Tracy–Widom distribution: A continuous random variable with support on the entire real line."""
 
-def variance_gamma_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Variance-gamma into ``out`` (float64). Variance-gamma distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+def variance_gamma_sample_batch(out: np.ndarray, a: float, b: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Variance-gamma into ``out`` (float64). Variance-gamma distribution: A continuous random variable with support on the entire real line."""
 
-def voigt_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Voigt into ``out`` (float64). Voigt distribution: A continuous random variable with support on the entire real line. Tier: heuristic."""
+def voigt_sample_batch(out: np.ndarray, sigma: float, gamma_width: float, loc: float, seed: int = 42) -> None:
+    """Sample Voigt into ``out`` (float64). Voigt distribution: A continuous random variable with support on the entire real line."""
 
 def generalized_chi_squared_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Generalized chi-squared into ``out`` (float64). Generalized chi-squared distribution: A continuous distribution whose support type changes with p... Tier: heuristic."""
