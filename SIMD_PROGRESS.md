@@ -8,58 +8,55 @@ Goal: **AVX2 Tier-C** vector `sample_batch` for the **13 hand-written** core on 
 
 | Metric | Count |
 |--------|------:|
-| Hand-written with Tier C SIMD path | **4 / 13** |
-| Hand-written Tier C skipped (bench-bound) | **4** (batch 5) |
+| Hand-written with Tier C SIMD path | **7 / 13** |
+| Hand-written Tier C skipped (bench-bound) | **5** |
 | AVX2 build gate (`DISTRIBUTIONS_ENABLE_SIMD`) | **yes** |
-| Geomean vs v0.3.0 Tier B @10M (SIMD build) | **1.65×** |
-| Geomean vs v0.2.0 @10M (cumulative) | **2.12×** |
-| Required batches complete | **5 / 7** |
+| Geomean vs v0.3.0 Tier B @10M (SIMD build) | **1.64×** |
+| Geomean vs v0.2.0 @10M (cumulative) | **~2.1×** |
+| Required batches complete | **6 / 7** |
 
-Last push: batch 3 (exponential + normal Tier C via libmvec).
+Last push: batch 4 (binomial, beta-binomial, poisson-binomial Tier C).
 
 ## Next batch
 
-**Batch 4** — binomial, beta-binomial, negative-binomial, poisson-binomial (still pending).
-
-Then **Batch 6** — integration, repro tests, bench sign-off.
+**Batch 6** — integration, Tier B vs Tier C repro tests, bench sign-off.
 
 ## Batch 6 decision gate
 
-Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** — **met at 2.12× after batch 3**. Batch 7 (parallel) remains optional unless further gains are needed.
+Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** — **met at ~2.1× after batch 3**. Batch 7 (parallel) remains optional.
 
 ## Completed batches
 
 ### Batch 5 — Heavy discrete (evaluated; Tier C skipped)
 
-Trialed **4-stream SplitMix64** (same pattern as batch 2). CDF bisect / Knuth Poisson dominate; vector RNG alone regresses or is neutral.
+Trialed **4-stream SplitMix64**. CDF bisect / Knuth Poisson dominate; vector RNG alone regresses or is neutral. Tier B retained for categorical, zipf, zipfmandelbrot, skellam.
 
-| vault id | v0.3.0 | SIMD trial | vs Tier B | decision |
-|----------|-------:|-----------:|----------:|----------|
-| `categorical` | 7.22 | 7.24 | 1.00× | **skip** |
-| `zipf` | 19.50 | 22.64 | 1.16× slower | **skip** |
-| `zipfmandelbrot` | 8.44 | 8.95 | 1.06× slower | **skip** |
-| `skellam` | 65.56 | 70.58 | 1.08× slower | **skip** |
+### Batch 4 — Counting discrete (3 shipped, 1 skipped)
 
-Tier B (derived PCG / scalar search) retained for all four.
+- Tier C: **AVX2 4-wide Bernoulli trial compares** + **4 parallel output streams**
+- `detail/simd/binomial.hpp`, `detail/simd/beta_binomial.hpp`, `detail/simd/poisson_binomial.hpp`
+- `negative-binomial`: 4-stream trial regressed ~1.03× — **skip** (variable-length loop bound)
+
+| vault id | v0.3.0 | SIMD | speedup | decision |
+|----------|-------:|-----:|--------:|----------|
+| `binomial` | 28.66 | 19.50 | **1.47×** | ship |
+| `beta-binomial` | 148.86 | 121.94 | **1.22×** | ship |
+| `poisson-binomial` | 4.75 | 3.43 | **1.38×** | ship |
+| `negative-binomial` | 102.89 | 106.19 | 1.03× slower | skip |
 
 ### Batch 3 — Continuous (2)
 
-- Tier C: **single SplitMix64 stream + 256 uniform block + libmvec vector math** (4-stream SplitMix trial regressed ~1.3× on exponential — rejected)
-- `detail/simd/libmvec.hpp` — `_ZGVdN4v_log1p`, `_log`, `_cos`, `_sin`; CMake links `-lmvec` when SIMD on
-- `detail/simd/exponential.hpp`, `detail/simd/normal.hpp`
-- Speedups @10M (SIMD build): exponential **5.2×**, normal **4.2×** vs v0.3.0 Tier B
+- Tier C: **single SplitMix64 + libmvec** (4-stream SplitMix trial regressed on exponential)
+- Speedups @10M: exponential **5.2×**, normal **4.2×** vs v0.3.0 Tier B
 
 ### Batch 2 — Trivial discrete (2)
 
-- Tier C: **4 parallel SplitMix64 streams** (Philox trial regressed ~5× — rejected)
-- `detail/simd/bernoulli.hpp`, `detail/simd/discrete_uniform.hpp`
-- `make bench-core-simd` + compare vs `baseline-v0.3.0`
-- Speedups @10M (SIMD build): bernoulli **9.5×**, discrete-uniform **1.7×** vs v0.3.0 Tier B
+- Tier C: **4 parallel SplitMix64 streams**
+- Speedups @10M: bernoulli **7.7×**, discrete-uniform **1.8×** vs v0.3.0 Tier B
 
 ### Batch 1 — Vector counter-RNG + uniforms
 
-- `detail/simd/philox4x32_avx2.hpp`, `fill_uniform01_avx2` (infra for later batches)
-- `tests/cpp/simd_uniform_test.cpp`
+- `detail/simd/philox4x32_avx2.hpp`, `fill_uniform01_avx2` (infra)
 
 ### Batch 0 — Infrastructure
 
@@ -73,25 +70,28 @@ Tier B (derived PCG / scalar search) retained for all four.
 | `discrete-uniform` | SplitMix64 | **4-stream SplitMix** | 2 |
 | `exponential` | SplitMix64 | **libmvec log1p** | 3 |
 | `normal-gaussian` | SplitMix64 | **libmvec Box–Muller** | 3 |
+| `binomial` | SplitMix64 | **AVX2 trial sum** | 4 |
+| `beta-binomial` | SplitMix64 | **AVX2 trial sum** | 4 |
+| `poisson-binomial` | SplitMix64 | **AVX2 k=4 trials** | 4 |
+| `negative-binomial` | SplitMix64 | skip (trial loop bound) | 4 |
 | `categorical` | derived PCG | skip (alias bound) | 5 |
 | `zipf` | derived PCG | skip (CDF bound) | 5 |
 | `zipfmandelbrot` | derived PCG | skip (CDF bound) | 5 |
 | `skellam` | derived PCG | skip (Poisson bound) | 5 |
 | `geometric` | Tier A only | — | — |
-| `binomial` | SplitMix64 | — | 4 |
-| `negative-binomial` | SplitMix64 | — | 4 |
-| `beta-binomial` | SplitMix64 | — | 4 |
-| `poisson-binomial` | SplitMix64 | — | 4 |
 
 ## SIMD @10M vs v0.3.0 Tier B (cycles/sample)
 
-| bench id | v0.3.0 | SIMD (batch 3) | speedup |
-|----------|-------:|---------------:|--------:|
+| bench id | v0.3.0 | SIMD | speedup |
+|----------|-------:|-----:|--------:|
 | bernoulli | 0.68 | 0.09 | **7.7×** |
 | discrete-uniform | 0.86 | 0.47 | **1.8×** |
 | exponential | 17.75 | 3.39 | **5.2×** |
 | normal | 22.92 | 5.44 | **4.2×** |
-| *(others unchanged — Tier B)* | | | ~1.0× |
+| binomial | 28.66 | 19.50 | **1.47×** |
+| beta-binomial | 148.86 | 121.94 | **1.22×** |
+| poisson-binomial | 4.75 | 3.43 | **1.38×** |
+| *(others — Tier B)* | | | ~1.0× |
 
 Full CSVs: `results/baseline-v0.3.0/`, `results/current/` (SIMD build)
 

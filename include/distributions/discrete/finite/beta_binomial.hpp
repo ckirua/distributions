@@ -4,6 +4,7 @@
 #include "distributions/detail/counter_rng.hpp"
 #include "distributions/detail/fast/beta_binomial.hpp"
 #include "distributions/detail/fast/common.hpp"
+#include "distributions/detail/simd/beta_binomial.hpp"
 #include "distributions/detail/gamma.hpp"
 #include "distributions/rng.hpp"
 
@@ -27,7 +28,7 @@ struct BetaBinomial {
 
     void sample_batch(int* out, std::size_t n_out, Pcg32& rng) const {
         if (n_out >= detail::kFastThreshold && n <= detail::fast::kMaxBernoulliSumTrials) {
-            detail::fast::beta_binomial_sample_batch(
+            detail::simd::beta_binomial_sample_batch(
                 out, n_out, n, alpha, beta, detail::batch_seed_from(rng));
             return;
         }
