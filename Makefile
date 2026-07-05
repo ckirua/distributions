@@ -10,7 +10,7 @@ CMAKE_SIMD := cmake -S . -B $(BUILD_SIMD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX
 BUILD_SIMD512 := build-simd512
 CMAKE_SIMD512 := cmake -S . -B $(BUILD_SIMD512) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14 -DDISTRIBUTIONS_ENABLE_SIMD=ON -DDISTRIBUTIONS_ENABLE_AVX512=ON
 
-.PHONY: help clean codegen configure configure-simd configure-simd512 build build-simd build-simd512 test test-simd test-simd512 test-sanity test-all bench bench-core bench-core-simd bench-core-baseline bench-core-quick bench-all vault install
+.PHONY: help clean codegen configure configure-simd configure-simd512 build build-simd build-simd512 test test-simd test-simd512 test-sanity test-all bench bench-core bench-core-simd bench-core-baseline bench-core-quick bench-codegen bench-codegen-baseline bench-all vault install
 
 help:
 	@echo "Targets: clean codegen configure build test bench vault install"
@@ -28,6 +28,8 @@ help:
 	@echo "  make bench-core-simd — bench-core using build-simd/ (Tier C when enabled)"
 	@echo "  make bench-core-quick — hand-written ids at 1k/100k only"
 	@echo "  make bench-all — benchmark all 189 distributions (C++ timings)"
+	@echo "  make bench-codegen — parameterized codegen ids → results/current/"
+	@echo "  make bench-codegen-baseline — wave-1 codegen Tier-A → results/baseline-v0.6.0/"
 	@echo "  make vault     — rebuild Obsidian vault notes"
 	@echo "  make install   — editable pip install of cydist"
 
@@ -85,6 +87,12 @@ bench-core: build
 
 bench-core-baseline: build
 	$(PYTHON) bench/bench_core.py --out $(CURDIR)/results/baseline-v0.3.0
+
+bench-codegen: build
+	$(PYTHON) bench/bench_codegen.py --out $(CURDIR)/results/current
+
+bench-codegen-baseline: build
+	$(PYTHON) bench/bench_codegen.py --wave1 --out $(CURDIR)/results/baseline-v0.6.0
 
 bench-core-simd: build-simd
 	$(PYTHON) bench/bench_core.py --run-bench $(BUILD_SIMD)/run_bench --out $(CURDIR)/results/current

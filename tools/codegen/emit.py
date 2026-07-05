@@ -24,6 +24,7 @@ from codegen.constants import (
     MANUAL_CPP_CLASS,
     PY_FUNC_ALIASES,
 )
+from codegen.batch_fast import emit_sample_batch
 from codegen.models import CydistSpec, Recipe
 from codegen.utils import safe_param_name, slug_to_class
 from codegen.validation import CYDIST_PYVALIDATE_HELPERS, infer_cydist_python_checks
@@ -31,7 +32,8 @@ from codegen.validation import CYDIST_PYVALIDATE_HELPERS, infer_cydist_python_ch
 def emit_header(r: Recipe) -> str:
     ctor_params = ", ".join(f"{t} {n}" for t, n, _ in r.members)
     init_list = ", ".join(f"{n}_({n})" for _, n, _ in r.members) if r.members else ""
-    includes = sorted(set(["distributions/rng.hpp", *r.includes]))
+    sample_batch_body, batch_fast_includes = emit_sample_batch(r)
+    includes = sorted(set(["distributions/rng.hpp", *r.includes, *batch_fast_includes]))
     if r.validate_body:
         includes = sorted(set([*includes, "distributions/detail/validate.hpp"]))
     inc_lines = "\n".join(f'#include "{h}"' for h in includes)
@@ -68,11 +70,7 @@ struct {r.cpp_class} {{
         {r.sample_body}
     }}
 
-    void sample_batch({out_type}* out, std::size_t n, Pcg32& rng) const {{
-        for (std::size_t i = 0; i < n; ++i) {{
-            out[i] = sample(rng);
-        }}
-    }}
+    {sample_batch_body}
 }};
 
 }}  // namespace distributions
@@ -464,6 +462,24 @@ def emit_registry_tiers(registry: list[dict], recipes: dict[str, Recipe]) -> Non
     path.write_text(yaml.dump(data, sort_keys=False, allow_unicode=True, default_flow_style=False))
     tiers = {e["sampler_tier"] for e in data["distributions"]}
     print(f"  registry: sampler_tier updated ({', '.join(sorted(tiers))})")
+
+
+def emit_registry_batch_fast(registry: list[dict], recipes: dict[str, Recipe]) -> None:
+    """Sync optional batch_fast field into registry.yaml."""
+    path = ROOT / ".vault" / "_meta" / "registry.yaml"
+    data = yaml.safe_load(path.read_text())
+    tagged = 0
+    for entry in data["distributions"]:
+        vid = entry["id"]
+        recipe = recipes.get(vid)
+        if recipe and recipe.batch_fast:
+            entry["batch_fast"] = recipe.batch_fast
+            tagged += 1
+        elif "batch_fast" in entry and not entry.get("batch_fast"):
+            del entry["batch_fast"]
+    path.write_text(yaml.dump(data, sort_keys=False, allow_unicode=True, default_flow_style=False))
+    if tagged:
+        print(f"  registry: batch_fast tagged on {tagged} distribution(s)")
 
 
 MANUAL_PY_KWARGS: dict[str, str] = {

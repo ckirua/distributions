@@ -1,4 +1,4 @@
-# v0.7.0 progress (Phase 5) — batch 0 next
+# v0.7.0 progress (Phase 5) — batch 1 next
 
 Goal: **bench-driven Tier B promotion** for selected codegen samplers + **complete cydist Python validation**. See [`plan-v0.7.0.md`](plan-v0.7.0.md).
 
@@ -12,22 +12,27 @@ Goal: **bench-driven Tier B promotion** for selected codegen samplers + **comple
 | Tier B wave 1 shipped | **0 / 5** (target) |
 | cydist Python validation | **26 / 171** (inherited from v0.6.0) |
 | Shim `std::span` | **no** |
-| Batches complete | **0 / 6** |
+| Batches complete | **1 / 6** |
 
 ## Completed batches
 
-_(none — start batch 0)_
+### Batch 0 — tier registry scaffold + baseline
 
-## Tier B candidate queue (batch 1 fills this)
+- `Recipe.batch_fast` + `tools/codegen/batch_fast.py` hook registry (emit Tier B dispatch when set)
+- Registry YAML supports optional `batch_fast` field (sync on codegen)
+- `bench/bench_codegen.py`, `make bench-codegen`, `make bench-codegen-baseline`
+- Frozen wave-1 Tier-A CSVs in `results/baseline-v0.6.0/` (poisson, gamma, beta, uniform, student-t @10M)
+
+## Tier B candidate queue (batch 1 fills bench columns)
 
 | vault id | bench @10M | batch_fast hook | shipped | batch |
 |----------|----------:|-----------------|:-------:|------:|
-| `poisson` | | | | |
-| `gamma` | | | | |
-| `beta` | | | | |
-| `uniform` | | | | |
-| `students-t` | | | | |
+| `poisson` | 39.47 | | | |
+| `gamma` | 48.40 | | | |
+| `beta` | 97.26 | | | |
+| `uniform` | 1.18 | | | |
+| `students-t` | 87.75 | | | |
 
 ## Agent instructions
 
-Continue from the next incomplete batch. Push to `v0.7.0` only.
+Continue from batch 1 (full codegen bench sweep + tier registry). Push to `v0.7.0` only.

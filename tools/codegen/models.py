@@ -34,3 +34,4 @@ class Recipe:
     cydist_params: list[tuple[str, str]] = field(default_factory=list)  # c_type, name
     cydist_skip: bool = False
     sampler_tier: str = "family"  # hand-written | family | heuristic | exact
+    batch_fast: str | None = None  # optional Tier-B hook id (registry + codegen)

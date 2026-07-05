@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+poisson,cpp,1000,42,15856,48342,7560.22,15.856
+poisson,cpp,100000,42,3.87679e+06,4.21103e+06,82667.2,38.7679
+poisson,cpp,10000000,42,3.94666e+08,3.9625e+08,610514,39.4666

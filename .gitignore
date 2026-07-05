@@ -49,6 +49,8 @@ results/*.csv
 !results/baseline-v0.2.0/*.csv
 !results/baseline-v0.3.0/
 !results/baseline-v0.3.0/*.csv
+!results/baseline-v0.6.0/
+!results/baseline-v0.6.0/*.csv
 
 # Cursor — keep project plans, ignore local IDE state
 .cursor/*
