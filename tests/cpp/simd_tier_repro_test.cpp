@@ -51,6 +51,18 @@ Stats compute_stats(const double* data, std::size_t n) {
     return Stats{mean, (sum_sq / static_cast<double>(n)) - mean * mean};
 }
 
+Stats compute_stats(const float* data, std::size_t n) {
+    double sum = 0.0;
+    double sum_sq = 0.0;
+    for (std::size_t i = 0; i < n; ++i) {
+        const double x = static_cast<double>(data[i]);
+        sum += x;
+        sum_sq += x * x;
+    }
+    const double mean = sum / static_cast<double>(n);
+    return Stats{mean, (sum_sq / static_cast<double>(n)) - mean * mean};
+}
+
 bool check_moments(const Stats& a, const Stats& b, std::size_t n, double alpha) {
     const double z = 3.0;  // ~99.7% for large n
     const double se_mean = std::sqrt(std::max(a.var, b.var) / static_cast<double>(n));
@@ -129,6 +141,17 @@ bool check_continuous_pair(
     return true;
 }
 
+bool check_continuous_pair(
+    const float* tier_b, const float* tier_c, std::size_t n, const std::string& name) {
+    const Stats sb = compute_stats(tier_b, n);
+    const Stats sc = compute_stats(tier_c, n);
+    if (!check_moments(sb, sc, n, 0.01)) {
+        std::cerr << name << ": moment check failed\n";
+        return false;
+    }
+    return true;
+}
+
 template <typename TierB, typename TierC>
 bool run_discrete_case(
     const std::string& name, TierB tier_b_fn, TierC tier_c_fn, std::uint64_t seed_b,
@@ -152,6 +175,22 @@ bool run_continuous_case(
     constexpr std::size_t n = 100'000;
     std::vector<double> b(n);
     std::vector<double> c(n);
+    tier_b_fn(b.data(), n, seed_b);
+    tier_c_fn(c.data(), n, seed_c);
+    if (!check_continuous_pair(b.data(), c.data(), n, name)) {
+        return false;
+    }
+    std::cout << name << ": Tier B vs Tier C ok\n";
+    return true;
+}
+
+template <typename TierB, typename TierC>
+bool run_continuous_float_case(
+    const std::string& name, TierB tier_b_fn, TierC tier_c_fn, std::uint64_t seed_b,
+    std::uint64_t seed_c) {
+    constexpr std::size_t n = 100'000;
+    std::vector<float> b(n);
+    std::vector<float> c(n);
     tier_b_fn(b.data(), n, seed_b);
     tier_c_fn(c.data(), n, seed_c);
     if (!check_continuous_pair(b.data(), c.data(), n, name)) {
@@ -223,6 +262,30 @@ int main() {
                 distributions::detail::fast::normal_sample_batch(out, n, 1.0, 0.5, seed);
             },
             [](double* out, std::size_t n, std::uint64_t seed) {
+                distributions::detail::simd::normal_sample_batch(out, n, 1.0, 0.5, seed);
+            },
+            seed_b, seed_c)) {
+        return EXIT_FAILURE;
+    }
+
+    if (!run_continuous_float_case(
+            "exponential-f32",
+            [](float* out, std::size_t n, std::uint64_t seed) {
+                distributions::detail::fast::exponential_sample_batch(out, n, 1.5, seed);
+            },
+            [](float* out, std::size_t n, std::uint64_t seed) {
+                distributions::detail::simd::exponential_sample_batch(out, n, 1.5, seed);
+            },
+            seed_b, seed_c)) {
+        return EXIT_FAILURE;
+    }
+
+    if (!run_continuous_float_case(
+            "normal-f32",
+            [](float* out, std::size_t n, std::uint64_t seed) {
+                distributions::detail::fast::normal_sample_batch(out, n, 1.0, 0.5, seed);
+            },
+            [](float* out, std::size_t n, std::uint64_t seed) {
                 distributions::detail::simd::normal_sample_batch(out, n, 1.0, 0.5, seed);
             },
             seed_b, seed_c)) {
