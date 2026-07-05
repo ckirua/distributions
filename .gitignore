@@ -1,0 +1,57 @@
+# CMake / C++
+build/
+build/verify_tmp/
+cmake-build-*/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+compile_commands.json
+
+# ISPC (downloaded locally; see CMakeLists.txt)
+.tools/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+pip-wheel-metadata/
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Cython / extension build artifacts (keep .pyx / .pxd)
+cydist/*.c
+cydist/*.cpp
+cydist/_native*.so
+examples/cython/*.c
+examples/cython/*.cpp
+examples/cython/*.so
+examples/cython/build/
+
+# Cursor — keep project plans, ignore local IDE state
+.cursor/*
+!.cursor/plans/
+!.cursor/plans/**
+
+# Obsidian — local UI state (vault content stays tracked)
+.vault/.obsidian/workspace.json
+.vault/.obsidian/workspace-mobile.json
+.vault/.obsidian/plugins/
+.vault/.trash/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db

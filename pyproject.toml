@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68", "numpy>=1.26", "Cython>=3.0", "picobuild"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cydist"
+version = "0.1.0"
+description = "Fast C++/Python probability distribution samplers"
+requires-python = ">=3.10"
+dependencies = ["numpy"]
+
+[project.optional-dependencies]
+dev = ["scipy", "pytest", "PyYAML"]
