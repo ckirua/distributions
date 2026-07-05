@@ -36,7 +36,7 @@ Hand-written samplers expose a common shape checked by the C++20 **`Distribution
 
 **Traits:** `is_discrete_sample_v<T>`, `is_continuous_sample_v<T>`, `sample_type_t<Dist>`, `compute_type_t<Sample>` (internal math type; default **`double`** for mixed precision).
 
-**Verify:** `tests/cpp/concepts_test.cpp` — all **13** hand-written vault types model `Distribution` (including `Zipf` and `ZipfMandelbrot` from [`zipf.hpp`](discrete/finite/zipf.hpp)).
+**Verify:** `tests/cpp/concepts_test.cpp` — all **13** hand-written types model `Distribution` (including `int` and `int32_t` sample templates). Integration: `tests/test_typed_integration.py` (batch 8 sign-off).
 
 Generated family samplers (176) keep the same method names but are not yet concept-checked in CI. See [`plan-api.md`](../../plan-api.md) and [`API_PROGRESS.md`](../../API_PROGRESS.md).
 

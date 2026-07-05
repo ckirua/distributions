@@ -1,4 +1,4 @@
-# Typed API progress (Phase 3)
+# Typed API progress (Phase 3) — complete
 
 Goal: **C++20 `Distribution` concept**, **`template<typename Sample>` + type aliases**, and **`float` paths** for ML/sim on the hand-written core. See [`plan-api.md`](plan-api.md).
 
@@ -13,15 +13,21 @@ Goal: **C++20 `Distribution` concept**, **`template<typename Sample>` + type ali
 | Hand-written with float Tier A | **2 / 13** |
 | Hand-written with float Tier B | **2 / 13** |
 | Hand-written with float Tier C | **2 / 13** |
-| Required batches complete | **8 / 9** |
+| Required batches complete | **9 / 9** |
 
-Last push: batch 7 (templated remaining 9 hand-written types).
+Last push: batch 8 (integration sign-off). **Phase 3 required batches done.**
 
-## Next batch
+## Optional next
 
-**Batch 8** — Integration sign-off (typed repro tests, final tracker).
+**Batch 9** — AVX-512 spike (Intel HPC only; see [`plan-api.md`](plan-api.md)).
 
 ## Completed batches
+
+### Batch 8 — Integration sign-off
+
+- `tests/test_typed_integration.py` — all 13 hand-written cydist smoke (int32 / float64 / float32), int32 Tier A vs Tier B repro, float64/float32 Tier repro
+- `concepts_test.cpp` — `int32_t` `Distribution` static asserts for all discrete templates; Binomial `int32_t` Tier B runtime smoke
+- README integration test pointer
 
 ### Batch 7 — Templated hand-written remainder (9)
 
@@ -37,22 +43,17 @@ Last push: batch 7 (templated remaining 9 hand-written types).
 
 ### Batch 5 — Float Tier B (4 hot dists)
 
-- `detail::fast::normal_sample_batch(float*)` and `exponential_sample_batch(float*)` — compute in `double`, store `float`
-- `NormalDistribution<float>` / `ExponentialDistribution<float>` dispatch Tier B at `kFastThreshold`
-- `BernoulliDistribution<int32_t>` / `DiscreteUniformDistribution<int32_t>` now use Tier B/C (same as `int`)
-- `tests/test_reproducibility_float.py` — Tier A vs Tier B for float32 normal/exponential
+- `detail::fast::normal_sample_batch(float*)` and `exponential_sample_batch(float*)`
+- `BernoulliDistribution<int32_t>` / `DiscreteUniformDistribution<int32_t>` Tier B/C
+- `tests/test_reproducibility_float.py`
 
 ### Batch 4 — cydist float32 (FusedType)
 
-- Cython `ContinuousOut` fused type (`float32` | `float64`) for `normal_sample_batch` and `exponential_sample_batch`
-- Shim `*_f32` entry points call `NormalDistribution<float>` / `ExponentialDistribution<float>`
-- Discrete batch entry points (bernoulli, discrete-uniform) remain `int32` only
+- Cython `ContinuousOut` fused type for `normal_sample_batch` and `exponential_sample_batch`
 
 ### Batch 3 — Templated continuous (2)
 
-- `NormalDistribution<Sample>` + `using Normal = NormalDistribution<double>`
-- `ExponentialDistribution<Sample>` + `using Exponential = ExponentialDistribution<double>`
-- **`float`** Tier A (Box–Muller / log1p in `compute_type_t` = `double`); **`double`** keeps Tier B/C
+- `NormalDistribution<Sample>`, `ExponentialDistribution<Sample>` + float Tier A
 
 ### Batch 2 — Templated discrete (2)
 
@@ -82,6 +83,6 @@ Last push: batch 7 (templated remaining 9 hand-written types).
 
 ## Agent instructions
 
-Read [`scripts/agent_api_checklist.md`](scripts/agent_api_checklist.md). One batch per session; push to `v0.5.0` after tests pass.
+Phase 3 required work is complete. Optional batch 9 only if requested.
 
 Prior phases: [`OPTIMIZE_PROGRESS.md`](OPTIMIZE_PROGRESS.md), [`SIMD_PROGRESS.md`](SIMD_PROGRESS.md).

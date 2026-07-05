@@ -63,6 +63,17 @@ int main() {
     static_assert(models_distribution<distributions::NegativeBinomialDistribution<int>, int>());
     static_assert(models_distribution<distributions::Skellam, int>());
     static_assert(models_distribution<distributions::SkellamDistribution<int>, int>());
+    static_assert(models_distribution<distributions::SkellamDistribution<std::int32_t>, std::int32_t>());
+    static_assert(models_distribution<distributions::BinomialDistribution<std::int32_t>, std::int32_t>());
+    static_assert(models_distribution<distributions::CategoricalDistribution<std::int32_t>, std::int32_t>());
+    static_assert(models_distribution<distributions::BetaBinomialDistribution<std::int32_t>, std::int32_t>());
+    static_assert(models_distribution<distributions::PoissonBinomialDistribution<std::int32_t>, std::int32_t>());
+    static_assert(models_distribution<distributions::ZipfDistribution<std::int32_t>, std::int32_t>());
+    static_assert(
+        models_distribution<distributions::ZipfMandelbrotDistribution<std::int32_t>, std::int32_t>());
+    static_assert(models_distribution<distributions::GeometricDistribution<std::int32_t>, std::int32_t>());
+    static_assert(
+        models_distribution<distributions::NegativeBinomialDistribution<std::int32_t>, std::int32_t>());
     static_assert(models_distribution<distributions::Exponential, double>());
     static_assert(models_distribution<distributions::Normal, double>());
     static_assert(models_distribution<distributions::ExponentialDistribution<float>, float>());
@@ -204,6 +215,19 @@ int main() {
     }
     if (std::abs(bern_i32_mean / 5000.0 - bern_i32_fast.mean()) > 0.05) {
         std::cerr << "BernoulliDistribution<int32_t> Tier B mean drift\n";
+        return EXIT_FAILURE;
+    }
+
+    const distributions::BinomialDistribution<std::int32_t> binom_i32(20, 0.4);
+    std::int32_t binom_i32_out[5000];
+    distributions::Pcg32 binom_rng(888);
+    binom_i32.sample_batch(binom_i32_out, 5000, binom_rng);
+    double binom_i32_mean = 0.0;
+    for (std::size_t i = 0; i < 5000; ++i) {
+        binom_i32_mean += static_cast<double>(binom_i32_out[i]);
+    }
+    if (std::abs(binom_i32_mean / 5000.0 - binom_i32.mean()) > 0.15) {
+        std::cerr << "BinomialDistribution<int32_t> Tier B mean drift\n";
         return EXIT_FAILURE;
     }
 
