@@ -39,7 +39,11 @@ int main() {
     static_assert(!distributions::is_continuous_sample_v<int>);
 
     static_assert(models_distribution<distributions::Bernoulli, int>());
+    static_assert(models_distribution<distributions::BernoulliDistribution<int>, int>());
+    static_assert(models_distribution<distributions::BernoulliDistribution<std::int32_t>, std::int32_t>());
     static_assert(models_distribution<distributions::DiscreteUniform, int>());
+    static_assert(models_distribution<distributions::DiscreteUniformDistribution<int>, int>());
+    static_assert(models_distribution<distributions::DiscreteUniformDistribution<std::int32_t>, std::int32_t>());
     static_assert(models_distribution<distributions::Binomial, int>());
     static_assert(models_distribution<distributions::Categorical, int>());
     static_assert(models_distribution<distributions::BetaBinomial, int>());
@@ -52,6 +56,9 @@ int main() {
     static_assert(models_distribution<distributions::Exponential, double>());
     static_assert(models_distribution<distributions::Normal, double>());
 
+    static_assert(std::is_same_v<distributions::Bernoulli, distributions::BernoulliDistribution<int>>);
+    static_assert(
+        std::is_same_v<distributions::DiscreteUniform, distributions::DiscreteUniformDistribution<int>>);
     static_assert(std::is_same_v<distributions::sample_type_t<distributions::Bernoulli>, int>);
     static_assert(std::is_same_v<distributions::sample_type_t<distributions::Normal>, double>);
     static_assert(std::is_same_v<distributions::sample_type_t<distributions::Exponential>, double>);
@@ -120,6 +127,13 @@ int main() {
     }
     if (!runtime_models_distribution<distributions::Normal, double>(normal)) {
         std::cerr << "Normal failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+
+    const distributions::BernoulliDistribution<std::int32_t> bern_i32(0.5);
+    if (!runtime_models_distribution<distributions::BernoulliDistribution<std::int32_t>, std::int32_t>(
+            bern_i32)) {
+        std::cerr << "BernoulliDistribution<int32_t> failed runtime concept check\n";
         return EXIT_FAILURE;
     }
 

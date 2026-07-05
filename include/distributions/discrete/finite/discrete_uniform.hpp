@@ -1,31 +1,41 @@
 #pragma once
 
 #include "distributions/base.hpp"
+#include "distributions/concepts.hpp"
 #include "distributions/detail/counter_rng.hpp"
 #include "distributions/detail/fast/common.hpp"
 #include "distributions/detail/simd/discrete_uniform.hpp"
 #include "distributions/rng.hpp"
 
 #include <cstddef>
+#include <cstdint>
+#include <type_traits>
 
 namespace distributions {
 
-struct DiscreteUniform : DistributionBase<DiscreteUniform, int, Pcg32> {
+template <typename Sample = int>
+struct DiscreteUniformDistribution
+    : DistributionBase<DiscreteUniformDistribution<Sample>, Sample, Pcg32> {
+    static_assert(is_discrete_sample_v<Sample>);
+
     int low;
     int high;
 
-    DiscreteUniform(int low = 0, int high = 1) : low(low), high(high) {}
+    DiscreteUniformDistribution(int low = 0, int high = 1) : low(low), high(high) {}
 
-    [[nodiscard]] int sample(Pcg32& rng) const {
+    [[nodiscard]] Sample sample(Pcg32& rng) const {
         const int span = high - low + 1;
-        return low + static_cast<int>(rng.next_u32() % static_cast<std::uint32_t>(span));
+        return static_cast<Sample>(
+            low + static_cast<int>(rng.next_u32() % static_cast<std::uint32_t>(span)));
     }
 
-    void sample_batch(int* out, std::size_t n, Pcg32& rng) const {
-        if (n >= detail::kFastThreshold) {
-            detail::simd::discrete_uniform_sample_batch(
-                out, n, low, high, detail::batch_seed_from(rng));
-            return;
+    void sample_batch(Sample* out, std::size_t n, Pcg32& rng) const {
+        if constexpr (std::is_same_v<Sample, int>) {
+            if (n >= detail::kFastThreshold) {
+                detail::simd::discrete_uniform_sample_batch(
+                    out, n, low, high, detail::batch_seed_from(rng));
+                return;
+            }
         }
         for (std::size_t i = 0; i < n; ++i) {
             out[i] = sample(rng);
@@ -39,5 +49,8 @@ struct DiscreteUniform : DistributionBase<DiscreteUniform, int, Pcg32> {
         return (span * span - 1.0) / 12.0;
     }
 };
+
+/// Default hand-written discrete uniform (``int`` samples; Tier B/C when ``n >= kFastThreshold``).
+using DiscreteUniform = DiscreteUniformDistribution<int>;
 
 }  // namespace distributions

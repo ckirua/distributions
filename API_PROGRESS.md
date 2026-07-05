@@ -9,45 +9,40 @@ Goal: **C++20 `Distribution` concept**, **`template<typename Sample>` + type ali
 | Metric | Count |
 |--------|------:|
 | Hand-written modeling `Distribution` concept (verified) | **13 / 13** |
-| Hand-written with `template<typename Sample>` + alias | **0 / 13** |
+| Hand-written with `template<typename Sample>` + alias | **2 / 13** |
 | Hand-written with float Tier A | **0 / 13** |
-| Required batches complete | **2 / 9** |
+| Required batches complete | **3 / 9** |
 
-Last push: batch 1 (Distribution concept on all hand-written).
+Last push: batch 2 (templated bernoulli + discrete-uniform).
 
 ## Next batch
 
-**Batch 2** — `Bernoulli<Sample>` + `DiscreteUniform<Sample>` with type aliases; Tier A only.
+**Batch 3** — `NormalDistribution<Sample>` + `ExponentialDistribution<Sample>`; float Tier A + mixed precision.
 
 ## Completed batches
 
+### Batch 2 — Templated discrete (2)
+
+- `BernoulliDistribution<Sample>` + `using Bernoulli = BernoulliDistribution<int>`
+- `DiscreteUniformDistribution<Sample>` + `using DiscreteUniform = DiscreteUniformDistribution<int>`
+- `static_assert(is_discrete_sample_v<Sample>)`; Tier B/C unchanged for `int` alias
+- `int32_t` instantiations: Tier A loop only
+
 ### Batch 1 — Concept on hand-written core
 
-- `Distribution` concept uses `const Dist&` (supports non-default-constructible types)
-- `concepts_test.cpp` — all 13 vault types + `ZipfMandelbrot`
-- Public API documented in `include/distributions/README.md`
+- All 13 vault types verify `Distribution`; README public API section
 
 ### Batch 0 — Infrastructure
 
-- Branch `v0.5.0`; `concepts.hpp`, trackers, no sampler behavior change
+- `concepts.hpp`, trackers, branch `v0.5.0`
 
 ## Hand-written tracker (13)
 
-| vault id | C++ type | sample | `Distribution` | templated | batch |
-|----------|----------|--------|:--------------:|:---------:|------:|
-| `bernoulli` | `Bernoulli` | `int` | yes | — | 1 |
-| `discrete-uniform` | `DiscreteUniform` | `int` | yes | — | 1 |
-| `binomial` | `Binomial` | `int` | yes | — | 1 |
-| `categorical` | `Categorical` | `int` | yes | — | 1 |
-| `beta-binomial` | `BetaBinomial` | `int` | yes | — | 1 |
-| `poisson-binomial` | `PoissonBinomial` | `int` | yes | — | 1 |
-| `zipf` | `Zipf` | `int` | yes | — | 1 |
-| `zipfmandelbrot` | `ZipfMandelbrot` | `int` | yes | — | 1 |
-| `geometric` | `Geometric` | `int` | yes | — | 1 |
-| `negative-binomial` | `NegativeBinomial` | `int` | yes | — | 1 |
-| `skellam` | `Skellam` | `int` | yes | — | 1 |
-| `exponential` | `Exponential` | `double` | yes | — | 1 |
-| `normal-gaussian` | `Normal` | `double` | yes | — | 1 |
+| vault id | C++ type | templated | alias | batch |
+|----------|----------|:---------:|:-----:|------:|
+| `bernoulli` | `BernoulliDistribution<Sample>` | yes | `Bernoulli` | 2 |
+| `discrete-uniform` | `DiscreteUniformDistribution<Sample>` | yes | `DiscreteUniform` | 2 |
+| *(others)* | — | — | — | — |
 
 ## Agent instructions
 
