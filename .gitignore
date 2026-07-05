@@ -30,9 +30,10 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 
-# Cython / extension build artifacts (keep .pyx / .pxd)
+# Cython / extension build artifacts (keep .pyx / .pxd / generated shim)
 cydist/*.c
 cydist/*.cpp
+!cydist/cydist_shim.cpp
 cydist/_native*.so
 examples/cython/*.c
 examples/cython/*.cpp
