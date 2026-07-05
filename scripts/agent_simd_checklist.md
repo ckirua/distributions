@@ -9,11 +9,8 @@ After each SIMD batch (see [`plan-simd.md`](../plan-simd.md)):
    ```
 3. Build with SIMD and benchmark:
    ```bash
-   cmake -S . -B build-simd -DCMAKE_BUILD_TYPE=Release \
-     -DCMAKE_CXX_COMPILER=g++-14 -DDISTRIBUTIONS_ENABLE_SIMD=ON
-   cmake --build build-simd -j$(nproc)
-   # point bench at build-simd/run_bench or reconfigure build/
-   make bench-core
+   make build-simd
+   make bench-core-simd
    python bench/compare_baseline.py --baseline results/baseline-v0.3.0 --geomean
    ```
 4. Update [`SIMD_PROGRESS.md`](../SIMD_PROGRESS.md):

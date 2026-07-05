@@ -8,46 +8,47 @@ Goal: **AVX2 Tier-C** vector `sample_batch` for the **13 hand-written** core on 
 
 | Metric | Count |
 |--------|------:|
-| Hand-written with Tier C SIMD path | **0 / 13** |
+| Hand-written with Tier C SIMD path | **2 / 13** |
 | AVX2 build gate (`DISTRIBUTIONS_ENABLE_SIMD`) | **yes** |
-| Runtime cpuid guard (`detail/simd/config.hpp`) | **yes** |
-| Geomean vs v0.3.0 Tier B @10M | **1.0×** (no SIMD samplers yet) |
-| Geomean vs v0.2.0 @10M (cumulative) | **1.29×** (inherited) |
-| Required batches complete | **2 / 7** |
+| Geomean vs v0.3.0 Tier B @10M (SIMD build) | **1.31×** |
+| Geomean vs v0.2.0 @10M (cumulative, partial) | **~1.7×** (bernoulli-led) |
+| Required batches complete | **3 / 7** |
 
-Last push: batch 1 (AVX2 Philox uniform fill).
+Last push: batch 2 (bernoulli + discrete-uniform Tier C).
 
 ## Next batch
 
-**Batch 2** — AVX2 bernoulli + discrete-uniform Tier C dispatch.
+**Batch 3** — AVX2 exponential + normal.
 
 ## Batch 6 decision gate
 
-Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** (currently 1.29×). Skip batch 7 (parallel) if met.
+Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** (currently 1.29× Tier B only). Skip batch 7 (parallel) if met after batch 6.
 
 ## Completed batches
 
+### Batch 2 — Trivial discrete (2)
+
+- Tier C: **4 parallel SplitMix64 streams** (Philox trial regressed ~5× — rejected)
+- `detail/simd/bernoulli.hpp`, `detail/simd/discrete_uniform.hpp`
+- `make bench-core-simd` + compare vs `baseline-v0.3.0`
+- Speedups @10M (SIMD build): bernoulli **9.5×**, discrete-uniform **1.7×** vs v0.3.0 Tier B
+
 ### Batch 1 — Vector counter-RNG + uniforms
 
-- `detail/simd/philox4x32_avx2.hpp`: Philox4x32-10 + AVX2 u01 block convert
-- `detail/simd/uniform.hpp`: `fill_uniform01_avx2()` (falls back to scalar Philox)
-- `tests/cpp/simd_uniform_test.cpp`: moments + bit-identical vs scalar Philox @1M
+- `detail/simd/philox4x32_avx2.hpp`, `fill_uniform01_avx2` (infra for later batches)
+- `tests/cpp/simd_uniform_test.cpp`
 
 ### Batch 0 — Infrastructure
 
-- Branch `v0.4.0`; `DISTRIBUTIONS_ENABLE_SIMD=OFF` default, `-mavx2 -mfma` when ON
-- `detail/simd/config.hpp`: `cpu_has_avx2()`, `tier_c_enabled()`
-- `tests/cpp/simd_config_test.cpp` (ctest)
-- Frozen Tier-B baseline: `results/baseline-v0.3.0/` (13 CSVs)
-- `make build-simd`, `make bench-core-baseline`
+- Branch `v0.4.0`; CMake gate, cpuid, `results/baseline-v0.3.0/`
 
 ## Hand-written tracker (13)
 
 | vault id | Tier B (v0.3.0) | Tier C SIMD | batch |
 |----------|:---------------:|:-----------:|------:|
-| `bernoulli` | SplitMix64 | — | 2 |
-| `discrete-uniform` | SplitMix64 | — | 2 |
-| `geometric` | Tier A only | — | 2? |
+| `bernoulli` | SplitMix64 | **4-stream SplitMix** | 2 |
+| `discrete-uniform` | SplitMix64 | **4-stream SplitMix** | 2 |
+| `geometric` | Tier A only | — | — |
 | `exponential` | SplitMix64 | — | 3 |
 | `normal-gaussian` | SplitMix64 | — | 3 |
 | `binomial` | SplitMix64 | — | 4 |
@@ -59,25 +60,15 @@ Target: geomean @10M vs **v0.2.0** baseline ≥ **2×** (currently 1.29×). Skip
 | `zipfmandelbrot` | derived PCG | — | 5 |
 | `skellam` | derived PCG | — | 5 |
 
-## Reference timings (v0.3.0 Tier B @10M)
+## SIMD @10M vs v0.3.0 Tier B (cycles/sample)
 
-Frozen in `results/baseline-v0.3.0/`.
+| bench id | v0.3.0 | SIMD (batch 2) | speedup |
+|----------|-------:|---------------:|--------:|
+| bernoulli | 0.68 | 0.07 | **9.5×** |
+| discrete-uniform | 0.86 | 0.50 | **1.7×** |
+| *(others unchanged — Tier B)* | | | ~1.0× |
 
-| bench id | cycles/sample |
-|----------|-------------:|
-| bernoulli | 0.68 |
-| discrete-uniform | 0.86 |
-| exponential | 17.75 |
-| normal | 22.92 |
-| binomial | 28.66 |
-| negative-binomial | 102.89 |
-| beta-binomial | 148.86 |
-| poisson-binomial | 4.75 |
-| categorical | 7.22 |
-| zipf | 19.50 |
-| zipfmandelbrot | 8.44 |
-| skellam | 65.56 |
-| geometric | 21.31 |
+Full CSVs: `results/baseline-v0.3.0/`, `results/current/` (SIMD build)
 
 ## Agent instructions
 

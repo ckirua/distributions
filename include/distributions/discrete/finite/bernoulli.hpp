@@ -4,6 +4,7 @@
 #include "distributions/detail/counter_rng.hpp"
 #include "distributions/detail/fast/bernoulli.hpp"
 #include "distributions/detail/fast/common.hpp"
+#include "distributions/detail/simd/bernoulli.hpp"
 #include "distributions/rng.hpp"
 
 #include <cstddef>
@@ -22,7 +23,7 @@ struct Bernoulli : DistributionBase<Bernoulli, int, Pcg32> {
 
     void sample_batch(int* out, std::size_t n, Pcg32& rng) const {
         if (n >= detail::kFastThreshold) {
-            detail::fast::bernoulli_sample_batch(out, n, p, detail::batch_seed_from(rng));
+            detail::simd::bernoulli_sample_batch(out, n, p, detail::batch_seed_from(rng));
             return;
         }
         for (std::size_t i = 0; i < n; ++i) {

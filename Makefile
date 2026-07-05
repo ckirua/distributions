@@ -8,7 +8,7 @@ CMAKE    := cmake -S . -B $(BUILD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPIL
 BUILD_SIMD := build-simd
 CMAKE_SIMD := cmake -S . -B $(BUILD_SIMD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14 -DDISTRIBUTIONS_ENABLE_SIMD=ON
 
-.PHONY: help clean codegen configure configure-simd build build-simd test test-sanity test-all bench bench-core bench-core-baseline bench-core-quick bench-all vault install
+.PHONY: help clean codegen configure configure-simd build build-simd test test-sanity test-all bench bench-core bench-core-simd bench-core-baseline bench-core-quick bench-all vault install
 
 help:
 	@echo "Targets: clean codegen configure build test bench vault install"
@@ -20,6 +20,7 @@ help:
 	@echo "  make test-all  — smoke + sanity"
 	@echo "  make bench     — benchmark 13 hand-written ids (alias for bench-core)"
 	@echo "  make bench-core — benchmark 13 hand-written ids (1k/100k/10M)"
+	@echo "  make bench-core-simd — bench-core using build-simd/ (Tier C when enabled)"
 	@echo "  make bench-core-quick — hand-written ids at 1k/100k only"
 	@echo "  make bench-all — benchmark all 189 distributions (C++ timings)"
 	@echo "  make vault     — rebuild Obsidian vault notes"
@@ -65,6 +66,9 @@ bench-core: build
 
 bench-core-baseline: build
 	$(PYTHON) bench/bench_core.py --out $(CURDIR)/results/baseline-v0.3.0
+
+bench-core-simd: build-simd
+	$(PYTHON) bench/bench_core.py --run-bench $(BUILD_SIMD)/run_bench --out $(CURDIR)/results/current
 
 bench-core-quick: build
 	$(PYTHON) bench/bench_core.py --quick

@@ -63,19 +63,35 @@ def write_dist_csv(path: Path, rows: list[dict[str, str]]) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--run-bench", type=Path, default=RUN_BENCH, help="path to run_bench binary")
     parser.add_argument("--quick", action="store_true", help="skip n=10M")
     parser.add_argument("--dist", action="append", dest="dists", help="single dist (repeatable)")
     args = parser.parse_args()
 
-    if not RUN_BENCH.is_file():
-        print(f"run_bench not found at {RUN_BENCH}; run make build first", file=sys.stderr)
+    run_bench = args.run_bench
+    if not run_bench.is_file():
+        print(f"run_bench not found at {run_bench}; run make build first", file=sys.stderr)
         return 1
 
     sizes = QUICK_BATCH_SIZES if args.quick else BATCH_SIZES
     dists = args.dists or CORE_DIST
 
     for dist in dists:
-        rows = [run_row(dist, n) for n in sizes]
+        rows = []
+        for n in sizes:
+            proc = subprocess.run(
+                [str(run_bench), dist, str(n), "42", "--csv"],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            line = proc.stdout.strip().splitlines()[-1]
+            parts = line.split(",")
+            keys = [
+                "dist", "backend", "n", "seed", "median_cycles", "p99_cycles",
+                "stddev_cycles", "per_sample",
+            ]
+            rows.append(dict(zip(keys, parts, strict=True)))
         write_dist_csv(args.out / f"{dist}.csv", rows)
         per_10m = next((r for r in rows if r["n"] == "10000000"), rows[-1])
         print(f"{dist}: per_sample={per_10m['per_sample']} @ n={per_10m['n']}")
