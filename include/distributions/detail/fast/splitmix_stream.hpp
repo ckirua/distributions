@@ -19,6 +19,10 @@ public:
         return z ^ (z >> 31);
     }
 
+    [[nodiscard]] std::uint32_t next_u32() {
+        return static_cast<std::uint32_t>(next_u64() >> 32U);
+    }
+
     [[nodiscard]] double next_double() {
         return static_cast<double>(next_u64() >> 11U) * 0x1.0p-53;
     }

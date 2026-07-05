@@ -1,5 +1,8 @@
 #pragma once
 
+#include "distributions/detail/counter_rng.hpp"
+#include "distributions/detail/fast/common.hpp"
+#include "distributions/detail/fast/zipf.hpp"
 #include "distributions/rng.hpp"
 
 #include <cmath>
@@ -30,6 +33,11 @@ struct Zipf {
     }
 
     void sample_batch(int* out, std::size_t n_out, Pcg32& rng) const {
+        if (n_out >= detail::kFastThreshold) {
+            detail::fast::zipf_sample_batch(
+                out, n_out, n, cdf_.data(), cdf_n_, detail::batch_seed_from(rng));
+            return;
+        }
         for (std::size_t i = 0; i < n_out; ++i) {
             out[i] = sample(rng);
         }
@@ -82,6 +90,11 @@ struct ZipfMandelbrot {
     }
 
     void sample_batch(int* out, std::size_t n_out, Pcg32& rng) const {
+        if (n_out >= detail::kFastThreshold) {
+            detail::fast::zipf_sample_batch(
+                out, n_out, n, cdf_.data(), cdf_n_, detail::batch_seed_from(rng));
+            return;
+        }
         for (std::size_t i = 0; i < n_out; ++i) {
             out[i] = sample(rng);
         }
