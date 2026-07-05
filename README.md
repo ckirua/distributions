@@ -37,9 +37,7 @@ All **189** vault distributions have native C++ samplers (HPC-oriented: inverse/
 | `degenerate/` | degenerate / singular |
 | `detail/` | shared fast primitives (gamma, normal, poisson, …) |
 
-13 core samplers are hand-tuned with optional Tier-B fast paths; the rest are generated from [`tools/codegen_distributions.py`](tools/codegen_distributions.py).
-
-See [`plan.md`](plan.md) and [`OPTIMIZE_PROGRESS.md`](OPTIMIZE_PROGRESS.md) for the v0.3.0 optimization track.
+13 core samplers are hand-tuned with optional Tier-B fast paths; the rest are generated from [`tools/codegen_distributions.py`](tools/codegen_distributions.py). **9 / 171** codegen structs have bench-gated Tier B fast paths — see [`results/baseline-v1.0.0/README.md`](results/baseline-v1.0.0/README.md).
 
 ### Build (C++)
 

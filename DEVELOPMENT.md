@@ -110,13 +110,9 @@ make build-simd       # separate build dir: build-simd/
 make build-simd512    # AVX-512 spike (Intel HPC): build-simd512/
 ```
 
-Phase 2 tracker: [`plan-simd.md`](plan-simd.md), [`SIMD_PROGRESS.md`](SIMD_PROGRESS.md). Baseline for SIMD comparisons: `results/baseline-v0.3.0/` (Tier B @ v0.3.0).
+### Codegen Tier B (v1.0.0)
 
-Phase 3 (typed API + float): [`plan-api.md`](plan-api.md), [`API_PROGRESS.md`](API_PROGRESS.md) on branch `v0.5.0`.
-
-Phase 4 (parameter validation): [`plan-validation.md`](plan-validation.md), [`VALIDATION_PROGRESS.md`](VALIDATION_PROGRESS.md) on branch `v0.6.0`. C++ ctors use `detail/validate.hpp` asserts (compiled out in `-DNDEBUG` / Release).
-
-Phase 5 (codegen batch promotion): [`plan-v0.7.0.md`](plan-v0.7.0.md), [`V070_PROGRESS.md`](V070_PROGRESS.md) on branch `v0.7.0` (active).
+**9 / 171** parameterized codegen structs have bench-gated Tier B `sample_batch` paths (SplitMix64 / composition hooks in `detail/fast/`). Frozen tier-a vs tier-b CSVs and speedup table: [`results/baseline-v1.0.0/README.md`](results/baseline-v1.0.0/README.md). Tier-A reference sweep: `results/codegen-tier-a/`.
 
 `geometric` has no Tier-B path (SplitMix regressed scipy variance). See [`tests/test_reproducibility.py`](tests/test_reproducibility.py) for Tier A vs B checks on the other 12 hand-written ids.
 
@@ -126,7 +122,7 @@ python bench/sweep.py --all   # full 1k / 100k / 10M sweep (189 ids, C++ only)
 python bench/aggregate_summary.py
 ```
 
-Results land in `results/`. Tracked: `summary.csv`, `README.md`, `baseline-v0.2.0/` (Tier-A hand-written baseline).
+Results land in `results/`. Tracked: `summary.csv`, `README.md`, `baseline-v1.0.0/` (codegen Tier B sign-off), `codegen-tier-a/` (Tier-A reference).
 
 ## Vault (optional)
 

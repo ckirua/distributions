@@ -52,7 +52,6 @@ results/*.csv
 !results/baseline-v0.6.0/
 !results/baseline-v0.6.0/*.csv
 !results/codegen-tier-a/
-!results/codegen-tier-a/README.md
 
 # Cursor — keep project plans, ignore local IDE state
 .cursor/*
