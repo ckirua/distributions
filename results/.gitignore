@@ -5,4 +5,6 @@
 !baseline-v0.3.0/*.csv
 !baseline-v0.6.0/*.csv
 !baseline-v0.7.0/*.csv
+!baseline-v0.8.0-wave3/*.csv
+!baseline-v0.8.0-batch1/*.csv
 !codegen-tier-a/README.md

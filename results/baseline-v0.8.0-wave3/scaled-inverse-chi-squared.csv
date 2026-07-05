@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+scaled-inverse-chi-squared,cpp,1000,42,29228,50614,3969.34,29.228
+scaled-inverse-chi-squared,cpp,100000,42,4.80758e+06,5.26327e+06,108310,48.0758
+scaled-inverse-chi-squared,cpp,10000000,42,4.79896e+08,4.83781e+08,1.19193e+06,47.9896

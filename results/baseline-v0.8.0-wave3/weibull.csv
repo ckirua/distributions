@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+weibull,cpp,1000,42,29380,74300,8192.96,29.38
+weibull,cpp,100000,42,3.48256e+06,3.64303e+06,47165.4,34.8256
+weibull,cpp,10000000,42,3.48391e+08,3.51322e+08,1.06096e+06,34.8391

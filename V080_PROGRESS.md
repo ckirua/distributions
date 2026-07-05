@@ -1,8 +1,8 @@
-# v0.8.0 progress (Phase 6) — batch 0 next
+# v0.8.0 progress (Phase 6) — batch 1 next
 
 Goal: **Tier B wave 3** (composition/transform) + **table sampler CDF polish** → merge as **`v1.0.0`**. See [`plan-v0.8.0.md`](plan-v0.8.0.md).
 
-**Branch:** `v0.8.0` (create from `main` after v0.7.0 merge).
+**Branch:** `v0.8.0` (from merged `main`, PR #3 merged).
 
 ## Status
 
@@ -10,21 +10,18 @@ Goal: **Tier B wave 3** (composition/transform) + **table sampler CDF polish** �
 |--------|------:|
 | Codegen Tier B (from v0.7.0) | **6 / 171** |
 | Wave 3 shipped | **0** |
-| Table sampler binary search | **no** |
-| Batches complete | **0 / 4** |
+| Table sampler binary search / alias | **no** |
+| Batches complete | **1 / 4** |
 | Release tag | **—** |
 
-## v0.7.0 carry-over (must be on `main` before v0.8.0)
+## Completed batches
 
-- Tier B: gamma, beta, continuous-bernoulli, discrete-weibull, erlang, log-normal
-- cydist validation 184/184, shim `std::span`
-- Codegen `template<typename Sample>` + default aliases on 171 structs
+### Batch 0 — wave 3 scaffold + baseline ✅
 
-## Planned batches
+- Branch `v0.8.0` pushed; PR #3 merged to `main`
+- `bench_codegen --wave3` → `results/baseline-v0.8.0-wave3/` (11 candidates @10M)
 
-### Batch 0 — wave 3 scaffold + baseline
-
-- Branch `v0.8.0`, `bench_codegen --wave3`, trackers
+## Next batches
 
 ### Batch 1 — table sampler binary search
 

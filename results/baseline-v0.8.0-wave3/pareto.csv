@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+pareto,cpp,1000,42,15210,15210,35.255,15.21
+pareto,cpp,100000,42,1.48451e+06,1.63918e+06,34621.9,14.8451
+pareto,cpp,10000000,42,1.43652e+08,1.59797e+08,3.21433e+06,14.3652
