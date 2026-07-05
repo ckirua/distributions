@@ -1,19 +1,21 @@
-# v0.7.0 progress (Phase 5) — batch 6 next
+# v0.7.0 progress (Phase 5) — complete
 
 Goal: **bench-driven Tier B promotion** for selected codegen samplers + **complete cydist Python validation**. See [`plan-v0.7.0.md`](plan-v0.7.0.md).
 
-**Branch:** `v0.7.0` (active development branch).
+**Branch:** `v0.7.0` → merge to `main` (batch 7).
 
-## Status
+## Final status
 
-| Metric | Count |
-|--------|------:|
+| Metric | Result |
+|--------|--------|
 | Codegen with Tier B batch path | **6 / 171** |
-| Tier B wave 1+2 shipped | **6** (bench-gated) |
+| Tier B promoted (bench-gated) | **gamma, beta, continuous-bernoulli, discrete-weibull, erlang, log-normal** |
+| Tier B geomean @10M vs Tier-A | **4.95×** (6 promoted) |
 | cydist Python validation | **184 / 184** parameterized |
 | Shim `std::span` | **yes** |
-| Batches complete | **6 / 6** (batch 6 sign-off pending) |
-| `tier_b_candidate` in registry | **20** |
+| `make test-all` | **522 passed** (8 C++ + 514 pytest) |
+| Hand-written bench-core geomean vs v0.2.0 | **1.315×** (no regression) |
+| Batches complete | **7 / 7** |
 
 ## Completed batches
 
@@ -28,30 +30,36 @@ Goal: **bench-driven Tier B promotion** for selected codegen samplers + **comple
 
 ### Batch 2 — Tier B wave 1 (bench-gated)
 
-- Shipped: **gamma** (2.85×), **beta** (1.64×) @10M vs baseline-v0.6.0
+- Shipped: **gamma** (2.97×), **beta** (1.67×) @10M vs codegen-tier-a
 - Skipped: poisson, uniform, students-t (below 1.5× gate or regression)
 
 ### Batch 3 — cydist Python validation (all parameterized)
 
 - Removed `CYDIST_PYTHON_VALIDATE` gate — all **184** parameterized `*_sample_batch` emit checks
 - Vault overrides for stable skew `beta`, truncated-normal bounds, variance-gamma, bingham
-- Coverage tests: `test_all_parameterized_cydist_have_python_checks`, `test_cydist_pyx_emits_checks_for_parameterized`
 
 ### Batch 4 — `std::span` at cydist shim
 
-- `cydist/cydist_shim_span.hpp`: `checked_output_span` + `sample_batch` helper (length-checked via `std::span`)
-- Codegen routes all 189 shim impls through `cydist_shim::sample_batch`; extern `"C"` ABI unchanged
-- `tests/cpp/cydist_shim_span_test.cpp` + CMake target
+- `cydist/cydist_shim_span.hpp`; extern `"C"` ABI unchanged
 
 ### Batch 5 — Tier B wave 2 (bench-gated)
 
-- Shipped @10M vs `results/codegen-tier-a/` Tier-A baseline:
-  - **continuous-bernoulli** (13.4×) — precomputed inverse-CDF grid
-  - **discrete-weibull** (46.5×) — precomputed PMF/CDF
-  - **erlang** (2.97×) — gamma integer-shape fast path
-  - **log-normal** (1.60×) — normal batch + `exp`
-- Skipped: chi-squared (regression), students-t (1.18×), generalized-hyperbolic (1.05×)
+- Shipped: **continuous-bernoulli** (13.4×), **discrete-weibull** (46.8×), **erlang** (3.0×), **log-normal** (1.6×)
+- Skipped: chi-squared, students-t, generalized-hyperbolic
 
-## Agent instructions
+### Batch 6 — integration sign-off
 
-Run batch 6 integration sign-off (`make test-all`, bench vs baseline, final tracker). Push to `v0.7.0` only.
+- `make test-all` green (522 passed)
+- `make bench-core` vs `baseline-v0.2.0`: geomean **1.315×**
+- Promoted codegen geomean vs `codegen-tier-a`: **4.95×**
+- Frozen CSVs: `results/baseline-v0.7.0/`
+
+### Batch 7 — merge to `main`
+
+- PR `v0.7.0` → `main`; retire phase branch after merge
+
+## Non-goals (deferred)
+
+- Tier C SIMD for codegen (Phase 5 non-goal)
+- Parallel `batch_parallel.hpp` (deferred from Phase 1)
+- Further Tier B from remaining 20 `tier_b_candidate` ids (profile as needed)

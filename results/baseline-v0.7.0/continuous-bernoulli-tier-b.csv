@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+continuous-bernoulli,cpp,1000,42,3.26521e+06,3.31287e+06,12895.6,3265.21
+continuous-bernoulli,cpp,100000,42,2.48792e+07,2.50232e+07,47438,248.792
+continuous-bernoulli,cpp,10000000,42,2.48917e+09,2.52771e+09,8.00711e+06,248.917

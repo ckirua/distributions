@@ -15,9 +15,12 @@ Goal: **debug asserts + optional Python checks** so invalid parameters fail fast
 
 ## Optional next (not batched yet)
 
-- Two-pass batch for profiled heavy samplers (GH, etc.)
-- `std::span` at shim edges (batch 4 optional)
-- Extend cydist Python validation to remaining codegen ids
+- Two-pass batch for profiled heavy samplers (GH, etc.) — profiled in v0.7.0 batch 5, skipped (<1.5×)
+- Extend Tier B to remaining `tier_b_candidate` registry queue
+
+## Phase 5 (v0.7.0) — complete
+
+See [`V070_PROGRESS.md`](V070_PROGRESS.md): 6 codegen Tier B paths, 184/184 cydist Python validation, shim `std::span`.
 
 ## Completed batches
 
@@ -54,4 +57,4 @@ All parameterized cydist entry points (13 hand-written + 171 codegen) emit `Valu
 
 Phase 4 required batches complete. Follow-ups (Python 171/171, span, Tier B codegen) are in [`plan-v0.7.0.md`](plan-v0.7.0.md).
 
-**Next:** Phase 5 on `v0.7.0` (merged to `main`; old version branches retired).
+**Next:** Phase 5 complete on `v0.7.0` — merge to `main` (see [`V070_PROGRESS.md`](V070_PROGRESS.md)).
