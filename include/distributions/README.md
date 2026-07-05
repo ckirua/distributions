@@ -20,3 +20,12 @@ Headers are grouped by vault category. Shared fast primitives live in [`detail/`
 **Generated** (176): run `make codegen` — see [`tools/README.md`](../../tools/README.md).
 
 Root files: `rng.hpp`, `base.hpp`, `all.hpp` (generated umbrella).
+
+## RNG tiers (optimization)
+
+| Tier | Engine | Use |
+|------|--------|-----|
+| **A — Serial** | `Pcg32` in [`rng.hpp`](rng.hpp) | `sample()`, small batches, tests — bit-exact stream |
+| **B — Fast** | Philox counter RNG in [`detail/counter_rng.hpp`](detail/counter_rng.hpp) | Large `sample_batch` when a fast path exists (`n >= kFastThreshold`) |
+
+Tier B is statistically equivalent to uniform sampling, not bit-identical to Tier A. See [`plan.md`](../../plan.md).

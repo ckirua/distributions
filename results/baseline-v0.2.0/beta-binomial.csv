@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+beta-binomial,cpp,1000,42,143106,157218,3920.17,143.106
+beta-binomial,cpp,100000,42,1.9915e+07,2.00911e+07,101999,199.15
+beta-binomial,cpp,10000000,42,1.98012e+09,1.98481e+09,2.22756e+06,198.012

@@ -6,7 +6,7 @@ PIP      := $(VENV)/pip
 BUILD    := build
 CMAKE    := cmake -S . -B $(BUILD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14
 
-.PHONY: help clean codegen configure build test test-sanity test-all bench bench-all vault install
+.PHONY: help clean codegen configure build test test-sanity test-all bench bench-core bench-core-quick bench-all vault install
 
 help:
 	@echo "Targets: clean codegen configure build test bench vault install"
@@ -15,7 +15,9 @@ help:
 	@echo "  make test      — ctest + fast pytest smoke (excludes sanity)"
 	@echo "  make test-sanity — statistical checks vs scipy (~48 cases, slow)"
 	@echo "  make test-all  — smoke + sanity"
-	@echo "  make bench     — sweep Phase-1 ISPC candidates"
+	@echo "  make bench     — sweep Phase-1 ISPC candidates (legacy; ISPC off by default)"
+	@echo "  make bench-core — benchmark 13 hand-written ids (1k/100k/10M)"
+	@echo "  make bench-core-quick — hand-written ids at 1k/100k only"
 	@echo "  make bench-all — benchmark all 189 distributions (C++ timings)"
 	@echo "  make vault     — rebuild Obsidian vault notes"
 	@echo "  make install   — editable pip install of cydist"
@@ -48,6 +50,12 @@ test-all: build install
 
 bench: build
 	$(PYTHON) bench/sweep.py
+
+bench-core: build
+	$(PYTHON) bench/bench_core.py
+
+bench-core-quick: build
+	$(PYTHON) bench/bench_core.py --quick
 
 bench-all: build
 	$(PYTHON) bench/sweep.py --all --skip-verify --quick

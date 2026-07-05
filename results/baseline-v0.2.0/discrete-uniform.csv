@@ -1,0 +1,4 @@
+dist,backend,n,seed,median_cycles,p99_cycles,stddev_cycles,per_sample
+discrete-uniform,cpp,1000,42,2362,2350,44.0604,2.362
+discrete-uniform,cpp,100000,42,214202,235766,5961.9,2.14202
+discrete-uniform,cpp,10000000,42,1.57321e+07,1.56343e+07,138404,1.57321

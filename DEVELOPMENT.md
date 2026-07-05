@@ -61,7 +61,7 @@ make build install test
 
 | Suite | Command | What it checks |
 |-------|---------|----------------|
-| C++ unit | `ctest --test-dir build` | Bernoulli moments + all-189 dispatch smoke |
+| C++ unit | `ctest --test-dir build` | Bernoulli, counter RNG, all-189 dispatch smoke |
 | Python smoke | `make test` | Each `cydist.*_sample_batch` runs without error (189×2 + export count) |
 | **Sanity** | `make test-sanity` | Tier-A samplers (`hand-written` + `family`) vs `scipy.stats` — moments + KS/chi-square (~31 pass, ~12 xfail) |
 | Full | `make test-all` | Smoke + sanity |
@@ -83,13 +83,21 @@ Expected failures (`xfail`): approximate or mismatched samplers including `univa
 ## Benchmarks
 
 ```bash
-make bench                    # Phase-1 ISPC candidates (7 ids)
-make bench-all                # all 189, quick batch sizes
+make bench-core            # 13 hand-written ids (optimize track)
+make bench-core-quick
+make bench-all             # all 189 distributions → results/summary.csv
+python bench/compare_baseline.py   # Tier-A regression vs baseline CSVs
+```
+
+Legacy ISPC bench (`make bench`) is **off by default**; enable with `-DDISTRIBUTIONS_ENABLE_ISPC=ON` if the local ISPC compiler is installed under `.tools/`.
+
+```bash
+make bench                    # Phase-1 ISPC candidates (legacy)
 python bench/sweep.py --all   # full 1k / 100k / 10M sweep
 python bench/aggregate_summary.py
 ```
 
-Results land in `results/`. Only `summary.csv` and `README.md` are tracked in git.
+Results land in `results/`. Tracked: `summary.csv`, `README.md`, `baseline-v0.2.0/` (Tier-A hand-written baseline).
 
 ## Vault (optional)
 

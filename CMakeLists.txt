@@ -11,6 +11,7 @@ if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_VERSION VERSIO
 endif()
 
 option(DISTRIBUTIONS_ENABLE_NATIVE "Use -march=native" OFF)
+option(DISTRIBUTIONS_ENABLE_ISPC "Build legacy ISPC bench kernels (off by default)" OFF)
 
 add_library(distributions INTERFACE)
 target_include_directories(distributions INTERFACE "${CMAKE_SOURCE_DIR}/include")
@@ -23,7 +24,7 @@ function(apply_release_flags target)
 endfunction()
 
 set(ISPC_EXECUTABLE "${CMAKE_SOURCE_DIR}/.tools/ispc-v1.22.0-linux/bin/ispc")
-if(EXISTS "${ISPC_EXECUTABLE}")
+if(DISTRIBUTIONS_ENABLE_ISPC AND EXISTS "${ISPC_EXECUTABLE}")
     set(ISPC_OBJ "${CMAKE_BINARY_DIR}/kernels_ispc.o")
     set(ISPC_HDR "${CMAKE_BINARY_DIR}/kernels_ispc.h")
     add_custom_command(
@@ -42,7 +43,7 @@ if(EXISTS "${ISPC_EXECUTABLE}")
 endif()
 
 function(link_ispc target)
-    if(TARGET distributions_ispc_obj)
+    if(DISTRIBUTIONS_ENABLE_ISPC AND TARGET distributions_ispc_obj)
         target_include_directories(${target} PRIVATE "${CMAKE_BINARY_DIR}")
         target_compile_definitions(${target} PRIVATE DISTRIBUTIONS_HAS_ISPC=1)
         add_dependencies(${target} distributions_ispc_obj)
@@ -70,6 +71,7 @@ macro(add_dist_test name src)
 endmacro()
 
 add_dist_test(bernoulli_test tests/cpp/bernoulli_test.cpp)
+add_dist_test(counter_rng_test tests/cpp/counter_rng_test.cpp)
 add_dist_test(smoke_all_test tests/cpp/smoke_all_test.cpp)
 
 option(DISTRIBUTIONS_BUILD_EXAMPLES "Build examples/ targets" ON)
