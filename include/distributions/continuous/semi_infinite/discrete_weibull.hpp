@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/semi_infinite.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -8,7 +9,9 @@ namespace distributions {
 
 struct DiscreteWeibull {
     double c_;
-    DiscreteWeibull(double c) : c_(c) {}
+    DiscreteWeibull(double c) : c_(c) {
+        detail::assert_strictly_positive(c_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_discrete_weibull(rng, c_);

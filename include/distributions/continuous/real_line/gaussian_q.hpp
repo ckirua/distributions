@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/real_line.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -10,7 +11,11 @@ struct GaussianQ {
     double q_;
     double loc_;
     double scale_;
-    GaussianQ(double q, double loc, double scale) : q_(q), loc_(loc), scale_(scale) {}
+    GaussianQ(double q, double loc, double scale) : q_(q), loc_(loc), scale_(scale) {
+        detail::assert_strictly_positive(q_);
+        detail::assert_finite(loc_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_gaussian_q(rng, q_, loc_, scale_);

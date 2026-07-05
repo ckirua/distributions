@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/multivariate_discrete.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,7 +10,10 @@ namespace distributions {
 struct Multinomial {
     int n_;
     double p0_;
-    Multinomial(int n, double p0) : n_(n), p0_(p0) {}
+    Multinomial(int n, double p0) : n_(n), p0_(p0) {
+        detail::assert_nonnegative_int(n_);
+        detail::assert_finite(p0_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_multinomial_first(rng, n_, p0_);

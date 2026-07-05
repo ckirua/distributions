@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/bounded.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -10,7 +11,11 @@ struct NoncentralBeta {
     double alpha_;
     double beta_;
     double lam_;
-    NoncentralBeta(double alpha, double beta, double lam) : alpha_(alpha), beta_(beta), lam_(lam) {}
+    NoncentralBeta(double alpha, double beta, double lam) : alpha_(alpha), beta_(beta), lam_(lam) {
+        detail::assert_strictly_positive(alpha_);
+        detail::assert_strictly_positive(beta_);
+        detail::assert_strictly_positive(lam_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_noncentral_beta(rng, alpha_, beta_, lam_);

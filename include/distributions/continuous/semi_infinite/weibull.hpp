@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/uniform.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cmath>
 #include <cstddef>
@@ -10,7 +11,10 @@ namespace distributions {
 struct Weibull {
     double shape_;
     double scale_;
-    Weibull(double shape, double scale) : shape_(shape), scale_(scale) {}
+    Weibull(double shape, double scale) : shape_(shape), scale_(scale) {
+        detail::assert_strictly_positive(shape_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         const double u = rng.next_double();

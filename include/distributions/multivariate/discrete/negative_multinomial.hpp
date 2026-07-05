@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/multivariate_discrete.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -11,7 +12,12 @@ struct NegativeMultinomial {
     double p0_;
     double p1_;
     double p2_;
-    NegativeMultinomial(double r, double p0, double p1, double p2) : r_(r), p0_(p0), p1_(p1), p2_(p2) {}
+    NegativeMultinomial(double r, double p0, double p1, double p2) : r_(r), p0_(p0), p1_(p1), p2_(p2) {
+        detail::assert_strictly_positive(r_);
+        detail::assert_finite(p0_);
+        detail::assert_probability(p1_);
+        detail::assert_probability(p2_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_negative_multinomial_first(rng, r_, p0_, p1_, p2_);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/circular.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -10,7 +11,11 @@ struct WrappedCauchy {
     double c_;
     double loc_;
     double scale_;
-    WrappedCauchy(double c, double loc, double scale) : c_(c), loc_(loc), scale_(scale) {}
+    WrappedCauchy(double c, double loc, double scale) : c_(c), loc_(loc), scale_(scale) {
+        detail::assert_strictly_positive(c_);
+        detail::assert_finite(loc_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_wrapcauchy(rng, c_, loc_, scale_);

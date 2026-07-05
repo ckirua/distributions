@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/real_line.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,7 +10,10 @@ namespace distributions {
 struct HyperbolicSecant {
     double loc_;
     double scale_;
-    HyperbolicSecant(double loc, double scale) : loc_(loc), scale_(scale) {}
+    HyperbolicSecant(double loc, double scale) : loc_(loc), scale_(scale) {
+        detail::assert_finite(loc_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_hyperbolic_secant(rng, loc_, scale_);

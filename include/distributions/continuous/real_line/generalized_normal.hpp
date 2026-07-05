@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/real_line.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -10,7 +11,11 @@ struct GeneralizedNormal {
     double beta_;
     double loc_;
     double scale_;
-    GeneralizedNormal(double beta, double loc, double scale) : beta_(beta), loc_(loc), scale_(scale) {}
+    GeneralizedNormal(double beta, double loc, double scale) : beta_(beta), loc_(loc), scale_(scale) {
+        detail::assert_strictly_positive(beta_);
+        detail::assert_finite(loc_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_gennorm(rng, beta_, loc_, scale_);

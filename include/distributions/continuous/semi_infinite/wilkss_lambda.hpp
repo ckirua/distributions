@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/semi_infinite.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,7 +10,10 @@ namespace distributions {
 struct WilkssLambda {
     double a_;
     double b_;
-    WilkssLambda(double a, double b) : a_(a), b_(b) {}
+    WilkssLambda(double a, double b) : a_(a), b_(b) {
+        detail::assert_strictly_positive(a_);
+        detail::assert_strictly_positive(b_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_wilks_lambda(rng, a_, b_);

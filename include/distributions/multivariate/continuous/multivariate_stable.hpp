@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/multivariate.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,7 +10,10 @@ namespace distributions {
 struct MultivariateStable {
     double alpha_;
     double beta_;
-    MultivariateStable(double alpha, double beta) : alpha_(alpha), beta_(beta) {}
+    MultivariateStable(double alpha, double beta) : alpha_(alpha), beta_(beta) {
+        detail::assert_strictly_positive(alpha_);
+        detail::assert_strictly_positive(beta_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_multivariate_stable_first(rng, alpha_, beta_);

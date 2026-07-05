@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/uniform.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cmath>
 #include <cstddef>
@@ -9,7 +10,9 @@ namespace distributions {
 
 struct ShiftedLogLogistic {
     double scale_;
-    ShiftedLogLogistic(double scale) : scale_(scale) {}
+    ShiftedLogLogistic(double scale) : scale_(scale) {
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return -std::log1p(-rng.next_double()) * scale_;

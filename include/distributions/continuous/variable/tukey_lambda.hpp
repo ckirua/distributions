@@ -1,5 +1,6 @@
 #pragma once
 
+#include "distributions/detail/validate.hpp"
 #include "distributions/detail/variable_support.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
@@ -10,7 +11,11 @@ struct TukeyLambda {
     double lam_;
     double loc_;
     double scale_;
-    TukeyLambda(double lam, double loc, double scale) : lam_(lam), loc_(loc), scale_(scale) {}
+    TukeyLambda(double lam, double loc, double scale) : lam_(lam), loc_(loc), scale_(scale) {
+        detail::assert_strictly_positive(lam_);
+        detail::assert_finite(loc_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_tukey_lambda(rng, lam_, loc_, scale_);

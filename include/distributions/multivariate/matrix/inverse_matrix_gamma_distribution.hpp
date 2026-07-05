@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/matrix.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -10,7 +11,11 @@ struct InverseMatrixGammaDistribution {
     double shape_;
     double v00_;
     double v11_;
-    InverseMatrixGammaDistribution(double shape, double v00, double v11) : shape_(shape), v00_(v00), v11_(v11) {}
+    InverseMatrixGammaDistribution(double shape, double v00, double v11) : shape_(shape), v00_(v00), v11_(v11) {
+        detail::assert_strictly_positive(shape_);
+        detail::assert_finite(v00_);
+        detail::assert_finite(v11_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_inv_matrix_gamma_trace(rng, shape_, v00_, v11_);

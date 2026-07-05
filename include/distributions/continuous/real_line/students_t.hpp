@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/student_t.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -8,7 +9,9 @@ namespace distributions {
 
 struct StudentT {
     double df_;
-    StudentT(double df) : df_(df) {}
+    StudentT(double df) : df_(df) {
+        detail::assert_strictly_positive(df_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_student_t(rng, df_);

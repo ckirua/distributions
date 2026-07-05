@@ -13,6 +13,7 @@ from vault_scipy import lookup_scipy_spec  # noqa: E402
 from codegen.constants import MANUAL
 from codegen.models import Recipe
 from codegen.utils import folder_for, slug_to_class
+from codegen.validation import finalize_recipe_validation
 
 HEURISTIC_SAMPLE = "return loc_ + scale_ * detail::sample_standard_normal(rng);"
 
@@ -987,7 +988,6 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        ["distributions/detail/real_line.hpp"],
                        members=[("double", "p", "0.0"), ("double", "a", "1.5"), ("double", "b", "0.5")],
                        sample_body="return detail::sample_genhyperbolic(rng, p_, a_, b_);",
-                       validate_body="detail::assert_finite(p_);\n        detail::assert_gh_support(a_, b_);",
                        bench_ctor_args="0.0, 1.5, 0.5",
                        cydist_params=[("double", "p"), ("double", "a"), ("double", "b"), ("uint64_t", "seed")]))
             continue
@@ -1551,6 +1551,7 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
         ))
 
     finalize_recipe_cydist(recipes)
+    finalize_recipe_validation(recipes)
     return recipes
 
 

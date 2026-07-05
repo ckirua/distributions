@@ -9,9 +9,9 @@ Goal: **debug asserts + optional Python checks** so invalid parameters fail fast
 | Metric | Count |
 |--------|------:|
 | Hand-written with ctor validation | **13 / 13** |
-| Codegen with `validate_body` | **1 / 176** |
+| Codegen with `validate_body` | **171 / 171** (parameterized) |
 | cydist Python validation | **no** |
-| Batches complete | **2 / 4** |
+| Batches complete | **3 / 4** |
 
 ## Optional next (not batched yet)
 
@@ -19,6 +19,14 @@ Goal: **debug asserts + optional Python checks** so invalid parameters fail fast
 - `std::span` at shim edges
 
 ## Completed batches
+
+### Batch 2 — Codegen family validation
+
+- `tools/codegen/validation.py` — infer `validate_body` from member names + vault overrides
+- `finalize_recipe_validation()` wired in `build_recipes`
+- `detail::assert_double_interval` for bounded supports
+- All **171** parameterized codegen recipes emit ctor asserts; **5** parameterless unchanged
+- `tests/test_validation_codegen.py` — coverage guard
 
 ### Batch 1 — Hand-written validation
 
@@ -29,7 +37,6 @@ Goal: **debug asserts + optional Python checks** so invalid parameters fail fast
 
 - `include/distributions/detail/validate.hpp`
 - Codegen `Recipe.validate_body` + emit in ctor
-- `generalized-hyperbolic` recipe: `a > |b|` check
 - `plan-validation.md`, `VALIDATION_PROGRESS.md`, `scripts/agent_validation_checklist.md`
 
 ## Hand-written tracker (13)
@@ -52,4 +59,4 @@ Goal: **debug asserts + optional Python checks** so invalid parameters fail fast
 
 ## Agent instructions
 
-Next batch: **2** — codegen family validation patterns.
+Next batch: **3** — cydist Python `ValueError` for hand-written + high-traffic ids.

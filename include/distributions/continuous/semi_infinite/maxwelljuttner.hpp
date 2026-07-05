@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/semi_infinite.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -8,7 +9,9 @@ namespace distributions {
 
 struct Maxwelljuttner {
     double a_;
-    Maxwelljuttner(double a) : a_(a) {}
+    Maxwelljuttner(double a) : a_(a) {
+        detail::assert_strictly_positive(a_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_maxwell_juttner(rng, a_);

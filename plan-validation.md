@@ -20,7 +20,7 @@
 |------:|-------|
 | 0 | `detail/validate.hpp`, codegen `validate_body`, tracker + checklist |
 | 1 | Hand-written 13 — debug asserts in ctors |
-| 2 | Codegen family — common patterns (`p∈[0,1]`, `α,β>0`, `a>|b|`, …) |
+| 2 | Codegen family — `validation.py` inference + vault overrides (**171/171**) |
 | 3 | cydist Python `ValueError` for hand-written + high-traffic ids |
 | 4 | `std::span` at cydist C shim boundary (optional) |
 

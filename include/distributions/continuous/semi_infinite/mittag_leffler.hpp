@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/semi_infinite.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,7 +10,10 @@ namespace distributions {
 struct MittagLeffler {
     double alpha_;
     double scale_;
-    MittagLeffler(double alpha, double scale) : alpha_(alpha), scale_(scale) {}
+    MittagLeffler(double alpha, double scale) : alpha_(alpha), scale_(scale) {
+        detail::assert_strictly_positive(alpha_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_mittag_leffler(rng, alpha_, scale_);

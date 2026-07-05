@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/inverse_gaussian.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,7 +10,10 @@ namespace distributions {
 struct InverseGaussian {
     double mu_;
     double lambda_;
-    InverseGaussian(double mu, double lambda) : mu_(mu), lambda_(lambda) {}
+    InverseGaussian(double mu, double lambda) : mu_(mu), lambda_(lambda) {
+        detail::assert_nonnegative(mu_);
+        detail::assert_nonnegative(lambda_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_inverse_gaussian(rng, mu_, lambda_);

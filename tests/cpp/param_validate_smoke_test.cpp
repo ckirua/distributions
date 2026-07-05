@@ -40,6 +40,13 @@ int main() {
     (void)normal.sample(rng);
     (void)gh.sample(rng);
 
+    distributions::Poisson poisson(4.0);
+    distributions::Beta beta(2.0, 5.0);
+    distributions::Hypergeometric hyp(50, 10, 5);
+    (void)poisson.sample(rng);
+    (void)beta.sample(rng);
+    (void)hyp.sample(rng);
+
     bern.sample_batch(&i_out, 1, rng);
     exp.sample_batch(&d_out, 1, rng);
     gh.sample_batch(&d_out, 1, rng);

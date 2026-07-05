@@ -1,5 +1,6 @@
 #pragma once
 
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -7,7 +8,9 @@ namespace distributions {
 
 struct DiracDelta {
     double x0_;
-    DiracDelta(double x0) : x0_(x0) {}
+    DiracDelta(double x0) : x0_(x0) {
+        detail::assert_finite(x0_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return x0_;

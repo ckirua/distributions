@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/special.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -8,7 +9,9 @@ namespace distributions {
 
 struct Soliton {
     int n_max_;
-    Soliton(int n_max) : n_max_(n_max) {}
+    Soliton(int n_max) : n_max_(n_max) {
+        detail::assert_positive_int(n_max_);
+    }
 
     [[nodiscard]] int sample(Pcg32& rng) const {
         return detail::sample_soliton(rng, n_max_);

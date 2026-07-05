@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/matrix.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,7 +10,10 @@ namespace distributions {
 struct MatrixNormal {
     double row_var_;
     double col_var_;
-    MatrixNormal(double row_var, double col_var) : row_var_(row_var), col_var_(col_var) {}
+    MatrixNormal(double row_var, double col_var) : row_var_(row_var), col_var_(col_var) {
+        detail::assert_finite(row_var_);
+        detail::assert_finite(col_var_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_matrix_normal_elem(rng, row_var_, col_var_);

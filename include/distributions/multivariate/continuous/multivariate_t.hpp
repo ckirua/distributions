@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/multivariate.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -8,7 +9,9 @@ namespace distributions {
 
 struct MultivariateT {
     double df_;
-    MultivariateT(double df) : df_(df) {}
+    MultivariateT(double df) : df_(df) {
+        detail::assert_strictly_positive(df_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_multivariate_t_first(rng, df_);

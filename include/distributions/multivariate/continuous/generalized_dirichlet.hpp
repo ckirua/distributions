@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/multivariate.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -11,7 +12,12 @@ struct GeneralizedDirichlet {
     double b1_;
     double a2_;
     double b2_;
-    GeneralizedDirichlet(double a1, double b1, double a2, double b2) : a1_(a1), b1_(b1), a2_(a2), b2_(b2) {}
+    GeneralizedDirichlet(double a1, double b1, double a2, double b2) : a1_(a1), b1_(b1), a2_(a2), b2_(b2) {
+        detail::assert_finite(a1_);
+        detail::assert_finite(b1_);
+        detail::assert_finite(a2_);
+        detail::assert_finite(b2_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_generalized_dirichlet_first(rng, a1_, b1_, a2_, b2_);

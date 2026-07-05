@@ -210,7 +210,10 @@ def main() -> None:
     recipes = build_recipes(registry)
     assign_sampler_tiers(recipes)
     emit_all(registry, recipes)
+    with_members = sum(1 for r in recipes.values() if r.members)
+    validated = sum(1 for r in recipes.values() if r.validate_body)
     print(f"Generated {len(recipes)} headers + dispatch ({len(registry)} total vault entries)")
+    print(f"  validation: {validated}/{with_members} parameterized codegen recipes")
 
 
 if __name__ == "__main__":

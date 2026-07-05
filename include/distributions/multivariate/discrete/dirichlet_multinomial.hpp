@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/multivariate_discrete.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -11,7 +12,12 @@ struct DirichletMultinomial {
     double a0_;
     double a1_;
     double a2_;
-    DirichletMultinomial(int n, double a0, double a1, double a2) : n_(n), a0_(a0), a1_(a1), a2_(a2) {}
+    DirichletMultinomial(int n, double a0, double a1, double a2) : n_(n), a0_(a0), a1_(a1), a2_(a2) {
+        detail::assert_nonnegative_int(n_);
+        detail::assert_finite(a0_);
+        detail::assert_finite(a1_);
+        detail::assert_finite(a2_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_dirichlet_multinomial_first(rng, n_, a0_, a1_, a2_);

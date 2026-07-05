@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/normal.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,7 +10,10 @@ namespace distributions {
 struct Levy {
     double loc_;
     double scale_;
-    Levy(double loc, double scale) : loc_(loc), scale_(scale) {}
+    Levy(double loc, double scale) : loc_(loc), scale_(scale) {
+        detail::assert_finite(loc_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         const double z = detail::sample_standard_normal(rng);

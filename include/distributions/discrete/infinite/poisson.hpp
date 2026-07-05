@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/poisson.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -8,7 +9,9 @@ namespace distributions {
 
 struct Poisson {
     double mu_;
-    Poisson(double mu) : mu_(mu) {}
+    Poisson(double mu) : mu_(mu) {
+        detail::assert_nonnegative(mu_);
+    }
 
     [[nodiscard]] int sample(Pcg32& rng) const {
         return detail::sample_poisson(rng, mu_);

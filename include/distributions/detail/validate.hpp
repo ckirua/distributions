@@ -49,4 +49,8 @@ inline void assert_zipf_mandelbrot_q(double q) {
     assert(std::isfinite(q) && q > -1.0);
 }
 
+inline void assert_double_interval(double lo, double hi) {
+    assert(std::isfinite(lo) && std::isfinite(hi) && lo < hi);
+}
+
 }  // namespace distributions::detail

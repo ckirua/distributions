@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/semi_infinite.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -8,7 +9,9 @@ namespace distributions {
 
 struct RelativisticBreitwigner {
     double rho_;
-    RelativisticBreitwigner(double rho) : rho_(rho) {}
+    RelativisticBreitwigner(double rho) : rho_(rho) {
+        detail::assert_strictly_positive(rho_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_rel_breitwigner(rng, rho_);

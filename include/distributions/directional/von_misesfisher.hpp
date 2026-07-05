@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/special.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -8,7 +9,9 @@ namespace distributions {
 
 struct VonMisesfisher {
     double kappa_;
-    VonMisesfisher(double kappa) : kappa_(kappa) {}
+    VonMisesfisher(double kappa) : kappa_(kappa) {
+        detail::assert_nonnegative(kappa_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_von_mises_fisher_x(rng, kappa_);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/uniform.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cmath>
 #include <cstddef>
@@ -11,7 +12,10 @@ struct Triangular {
     double lo_;
     double mode_;
     double hi_;
-    Triangular(double lo, double mode, double hi) : lo_(lo), mode_(mode), hi_(hi) {}
+    Triangular(double lo, double mode, double hi) : lo_(lo), mode_(mode), hi_(hi) {
+        detail::assert_finite(mode_);
+        detail::assert_double_interval(lo_, hi_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         const double u = rng.next_double();

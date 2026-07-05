@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/discrete.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,7 +10,10 @@ namespace distributions {
 struct MixedPoisson {
     double shape_;
     double scale_;
-    MixedPoisson(double shape, double scale) : shape_(shape), scale_(scale) {}
+    MixedPoisson(double shape, double scale) : shape_(shape), scale_(scale) {
+        detail::assert_strictly_positive(shape_);
+        detail::assert_strictly_positive(scale_);
+    }
 
     [[nodiscard]] int sample(Pcg32& rng) const {
         return detail::sample_mixed_poisson(rng, shape_, scale_);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/gamma.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,7 +10,10 @@ namespace distributions {
 struct BetaRectangular {
     double alpha_;
     double beta_;
-    BetaRectangular(double alpha, double beta) : alpha_(alpha), beta_(beta) {}
+    BetaRectangular(double alpha, double beta) : alpha_(alpha), beta_(beta) {
+        detail::assert_strictly_positive(alpha_);
+        detail::assert_strictly_positive(beta_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_beta(rng, alpha_, beta_);

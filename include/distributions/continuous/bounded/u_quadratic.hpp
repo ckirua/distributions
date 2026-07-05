@@ -1,6 +1,7 @@
 #pragma once
 
 #include "distributions/detail/uniform.hpp"
+#include "distributions/detail/validate.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
 
@@ -9,7 +10,9 @@ namespace distributions {
 struct UQuadratic {
     double a_;
     double b_;
-    UQuadratic(double a, double b) : a_(a), b_(b) {}
+    UQuadratic(double a, double b) : a_(a), b_(b) {
+        detail::assert_double_interval(a_, b_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         const double u = detail::sample_uniform(rng, 0.0, 1.0);

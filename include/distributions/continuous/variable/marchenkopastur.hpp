@@ -1,5 +1,6 @@
 #pragma once
 
+#include "distributions/detail/validate.hpp"
 #include "distributions/detail/variable_support.hpp"
 #include "distributions/rng.hpp"
 #include <cstddef>
@@ -9,7 +10,10 @@ namespace distributions {
 struct Marchenkopastur {
     double gamma_ratio_;
     double sigma_;
-    Marchenkopastur(double gamma_ratio, double sigma) : gamma_ratio_(gamma_ratio), sigma_(sigma) {}
+    Marchenkopastur(double gamma_ratio, double sigma) : gamma_ratio_(gamma_ratio), sigma_(sigma) {
+        detail::assert_finite(gamma_ratio_);
+        detail::assert_strictly_positive(sigma_);
+    }
 
     [[nodiscard]] double sample(Pcg32& rng) const {
         return detail::sample_marchenko_pastur(rng, gamma_ratio_, sigma_);
