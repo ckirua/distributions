@@ -13,6 +13,7 @@
 #include "distributions/discrete/infinite/skellam.hpp"
 
 #include <cstdlib>
+#include <cmath>
 #include <iostream>
 #include <type_traits>
 
@@ -55,10 +56,17 @@ int main() {
     static_assert(models_distribution<distributions::Skellam, int>());
     static_assert(models_distribution<distributions::Exponential, double>());
     static_assert(models_distribution<distributions::Normal, double>());
+    static_assert(models_distribution<distributions::ExponentialDistribution<float>, float>());
+    static_assert(models_distribution<distributions::ExponentialDistribution<double>, double>());
+    static_assert(models_distribution<distributions::NormalDistribution<float>, float>());
+    static_assert(models_distribution<distributions::NormalDistribution<double>, double>());
 
     static_assert(std::is_same_v<distributions::Bernoulli, distributions::BernoulliDistribution<int>>);
     static_assert(
         std::is_same_v<distributions::DiscreteUniform, distributions::DiscreteUniformDistribution<int>>);
+    static_assert(std::is_same_v<distributions::Normal, distributions::NormalDistribution<double>>);
+    static_assert(
+        std::is_same_v<distributions::Exponential, distributions::ExponentialDistribution<double>>);
     static_assert(std::is_same_v<distributions::sample_type_t<distributions::Bernoulli>, int>);
     static_assert(std::is_same_v<distributions::sample_type_t<distributions::Normal>, double>);
     static_assert(std::is_same_v<distributions::sample_type_t<distributions::Exponential>, double>);
@@ -134,6 +142,32 @@ int main() {
     if (!runtime_models_distribution<distributions::BernoulliDistribution<std::int32_t>, std::int32_t>(
             bern_i32)) {
         std::cerr << "BernoulliDistribution<int32_t> failed runtime concept check\n";
+        return EXIT_FAILURE;
+    }
+
+    const distributions::NormalDistribution<float> normal_f(1.0, 0.5);
+    const distributions::ExponentialDistribution<float> exp_f(1.5);
+    distributions::Pcg32 float_rng(12345);
+    float normal_samples[4096];
+    float exp_samples[4096];
+    normal_f.sample_batch(normal_samples, 4096, float_rng);
+    exp_f.sample_batch(exp_samples, 4096, float_rng);
+    double normal_sum = 0.0;
+    double exp_sum = 0.0;
+    for (std::size_t i = 0; i < 4096; ++i) {
+        if (!std::isfinite(normal_samples[i]) || !std::isfinite(exp_samples[i])) {
+            std::cerr << "non-finite float sample\n";
+            return EXIT_FAILURE;
+        }
+        normal_sum += static_cast<double>(normal_samples[i]);
+        exp_sum += static_cast<double>(exp_samples[i]);
+    }
+    if (std::abs(normal_sum / 4096.0 - normal_f.mean()) > 0.08) {
+        std::cerr << "NormalDistribution<float> mean drift\n";
+        return EXIT_FAILURE;
+    }
+    if (std::abs(exp_sum / 4096.0 - exp_f.mean()) > 0.08) {
+        std::cerr << "ExponentialDistribution<float> mean drift\n";
         return EXIT_FAILURE;
     }
 

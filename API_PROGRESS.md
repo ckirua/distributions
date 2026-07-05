@@ -9,39 +9,40 @@ Goal: **C++20 `Distribution` concept**, **`template<typename Sample>` + type ali
 | Metric | Count |
 |--------|------:|
 | Hand-written modeling `Distribution` concept (verified) | **13 / 13** |
-| Hand-written with `template<typename Sample>` + alias | **2 / 13** |
-| Hand-written with float Tier A | **0 / 13** |
-| Required batches complete | **3 / 9** |
+| Hand-written with `template<typename Sample>` + alias | **4 / 13** |
+| Hand-written with float Tier A | **2 / 13** |
+| Required batches complete | **4 / 9** |
 
-Last push: batch 2 (templated bernoulli + discrete-uniform).
+Last push: batch 3 (templated normal + exponential, float Tier A).
 
 ## Next batch
 
-**Batch 3** — `NormalDistribution<Sample>` + `ExponentialDistribution<Sample>`; float Tier A + mixed precision.
+**Batch 4** — cydist `float32` paths for bernoulli/discrete-uniform/normal/exponential batch entry points.
 
 ## Completed batches
 
+### Batch 3 — Templated continuous (2)
+
+- `NormalDistribution<Sample>` + `using Normal = NormalDistribution<double>`
+- `ExponentialDistribution<Sample>` + `using Exponential = ExponentialDistribution<double>`
+- **`float`** Tier A (Box–Muller / log1p in `compute_type_t` = `double`); **`double`** keeps Tier B/C
+
 ### Batch 2 — Templated discrete (2)
 
-- `BernoulliDistribution<Sample>` + `using Bernoulli = BernoulliDistribution<int>`
-- `DiscreteUniformDistribution<Sample>` + `using DiscreteUniform = DiscreteUniformDistribution<int>`
-- `static_assert(is_discrete_sample_v<Sample>)`; Tier B/C unchanged for `int` alias
-- `int32_t` instantiations: Tier A loop only
+- `BernoulliDistribution`, `DiscreteUniformDistribution` + int aliases
 
 ### Batch 1 — Concept on hand-written core
 
-- All 13 vault types verify `Distribution`; README public API section
-
 ### Batch 0 — Infrastructure
-
-- `concepts.hpp`, trackers, branch `v0.5.0`
 
 ## Hand-written tracker (13)
 
-| vault id | C++ type | templated | alias | batch |
-|----------|----------|:---------:|:-----:|------:|
-| `bernoulli` | `BernoulliDistribution<Sample>` | yes | `Bernoulli` | 2 |
-| `discrete-uniform` | `DiscreteUniformDistribution<Sample>` | yes | `DiscreteUniform` | 2 |
+| vault id | C++ template | alias | float Tier A | batch |
+|----------|--------------|-------|:------------:|------:|
+| `bernoulli` | `BernoulliDistribution<Sample>` | `Bernoulli` | — | 2 |
+| `discrete-uniform` | `DiscreteUniformDistribution<Sample>` | `DiscreteUniform` | — | 2 |
+| `normal-gaussian` | `NormalDistribution<Sample>` | `Normal` | yes | 3 |
+| `exponential` | `ExponentialDistribution<Sample>` | `Exponential` | yes | 3 |
 | *(others)* | — | — | — | — |
 
 ## Agent instructions
