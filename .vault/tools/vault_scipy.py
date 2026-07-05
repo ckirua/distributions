@@ -65,6 +65,13 @@ SCIPY_SPECS: dict[str, tuple[str, dict]] = {
     "inverse-wishart": ("invwishart", {"df": 5, "scale": [[1, 0.2], [0.2, 1]]}),
     "matrix-normal": ("matrix_normal", {"mean": [[0, 0]], "rowcov": [[1]], "colcov": [[1]]}),
     "matrix-t": ("matrix_t", {"df": 5, "loc": [[0, 0]], "shape": [[1, 0.2], [0.2, 1]]}),
+    "rice": ("rice", {"b": 0.5, "scale": 1.0}),
+    "levy": ("levy", {"loc": 0, "scale": 1.0}),
+    "gompertz": ("gompertz", {"c": 1, "scale": 1.0}),
+    "truncated-normal": ("truncnorm", {"a": -1, "b": 2, "loc": 0, "scale": 1}),
+    "log-logistic": ("fisk", {"c": 2, "scale": 1.0}),
+    "log-laplace": ("loglaplace", {"c": 1, "scale": 1.0}),
+    "generalized-gamma": ("gengamma", {"a": 2, "c": 1, "scale": 1.0}),
 }
 
 CONTENT_ALIASES: dict[str, str] = {

@@ -3076,7 +3076,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: inverse-gamma
   name: Inverse gamma
   title: Inverse gamma distribution
@@ -3197,7 +3197,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: shifted
   name: Shifted
   title: Shifted distribution
@@ -3543,7 +3543,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: log-cauchy
   name: Log-Cauchy
   title: Log-Cauchy distribution
@@ -3617,7 +3617,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: log-logistic
   name: Log-logistic
   title: Log-logistic distribution
@@ -3654,7 +3654,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: log-normal
   name: Log-normal
   title: Log-normal distribution
@@ -4201,7 +4201,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: truncated-normal
   name: Truncated normal
   title: Truncated normal distribution
@@ -4238,7 +4238,7 @@ distributions:
   tags:
   - distribution/continuous
   - support/semi-infinite
-  sampler_tier: heuristic
+  sampler_tier: family
 - id: type-2-gumbel
   name: type-2 Gumbel
   title: type-2 Gumbel distribution

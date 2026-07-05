@@ -6,13 +6,15 @@ PIP      := $(VENV)/pip
 BUILD    := build
 CMAKE    := cmake -S . -B $(BUILD) -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-14
 
-.PHONY: help clean codegen configure build test bench bench-all vault install
+.PHONY: help clean codegen configure build test test-sanity test-all bench bench-all vault install
 
 help:
 	@echo "Targets: clean codegen configure build test bench vault install"
 	@echo "  make codegen   — regenerate distribution headers + dispatch + cydist shim"
 	@echo "  make build     — configure (if needed) and compile C++ benchmarks"
-	@echo "  make test      — run ctest"
+	@echo "  make test      — ctest + fast pytest smoke (excludes sanity)"
+	@echo "  make test-sanity — statistical checks vs scipy (~48 cases, slow)"
+	@echo "  make test-all  — smoke + sanity"
 	@echo "  make bench     — sweep Phase-1 ISPC candidates"
 	@echo "  make bench-all — benchmark all 189 distributions (C++ timings)"
 	@echo "  make vault     — rebuild Obsidian vault notes"
@@ -37,6 +39,13 @@ test: build install
 	ctest --test-dir $(BUILD) --output-on-failure
 	$(PYTHON) -m pytest tests/ -q --tb=line
 
+test-sanity: install
+	$(PYTHON) -m pytest tests/ -m sanity -q --tb=line -o addopts=
+
+test-all: build install
+	ctest --test-dir $(BUILD) --output-on-failure
+	$(PYTHON) -m pytest tests/ -q --tb=line -o addopts=
+
 bench: build
 	$(PYTHON) bench/sweep.py
 
@@ -56,6 +65,9 @@ examples-cpp: build
 
 examples-python: install
 	$(PYTHON) examples/python/basic.py
+	$(PYTHON) examples/python/pandas_demo.py
+	$(PYTHON) examples/python/polars_demo.py
+	$(PYTHON) examples/python/matplotlib_demo.py
 
 examples-cython: install
 	cd examples/cython && $(PYTHON) setup_demo.py build_ext --inplace

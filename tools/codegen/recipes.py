@@ -458,6 +458,92 @@ def build_recipes(registry: list[dict]) -> dict[str, Recipe]:
                        cydist_skip=True))
             continue
 
+        # --- semi-infinite (heuristic batch 1: scipy-backed scalar samplers) ---
+        if vid == "rice":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/normal.hpp"],
+                       members=[("double", "b", "0.5"), ("double", "scale", "1.0")],
+                       sample_body=(
+                           "const double z1 = detail::sample_standard_normal(rng);\n"
+                           "        const double z2 = detail::sample_standard_normal(rng);\n"
+                           "        return scale_ * std::sqrt(std::pow(b_ + z1, 2) + z2 * z2);"
+                       ),
+                       bench_ctor_args="0.5, 1.0",
+                       cydist_params=[("double", "b"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "levy":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/normal.hpp"],
+                       members=[("double", "loc", "0.0"), ("double", "scale", "1.0")],
+                       sample_body=(
+                           "const double z = detail::sample_standard_normal(rng);\n"
+                           "        return loc_ + scale_ / (z * z);"
+                       ),
+                       bench_ctor_args="0.0, 1.0",
+                       cydist_params=[("double", "loc"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "gompertz":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/uniform.hpp"],
+                       members=[("double", "c", "1.0"), ("double", "scale", "1.0")],
+                       sample_body=(
+                           "const double u = rng.next_double();\n"
+                           "        return (1.0 / c_) * std::log(1.0 + (c_ / scale_) * (-std::log(u)));"
+                       ),
+                       bench_ctor_args="1.0, 1.0",
+                       cydist_params=[("double", "c"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "truncated-normal":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/normal.hpp"],
+                       members=[
+                           ("double", "a", "-1.0"), ("double", "b", "2.0"),
+                           ("double", "loc", "0.0"), ("double", "scale", "1.0"),
+                       ],
+                       sample_body=(
+                           "for (;;) {\n"
+                           "            const double x = detail::sample_normal(rng, loc_, scale_);\n"
+                           "            if (x >= a_ && x <= b_) { return x; }\n"
+                           "        }"
+                       ),
+                       bench_ctor_args="-1.0, 2.0, 0.0, 1.0",
+                       cydist_params=[
+                           ("double", "a"), ("double", "b"), ("double", "loc"), ("double", "scale"),
+                           ("uint64_t", "seed"),
+                       ]))
+            continue
+        if vid == "log-logistic":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/uniform.hpp"],
+                       members=[("double", "c", "2.0"), ("double", "scale", "1.0")],
+                       sample_body=(
+                           "const double u = rng.next_double();\n"
+                           "        return scale_ * std::pow(u / (1.0 - u), 1.0 / c_);"
+                       ),
+                       bench_ctor_args="2.0, 1.0",
+                       cydist_params=[("double", "c"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "log-laplace":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/uniform.hpp"],
+                       members=[("double", "c", "1.0"), ("double", "scale", "1.0")],
+                       sample_body=(
+                           "const double u = rng.next_double();\n"
+                           "        if (u < 0.5) { return scale_ * std::exp(std::log(2.0 * u) / c_); }\n"
+                           "        return scale_ * std::exp(-std::log(2.0 * (1.0 - u)) / c_);"
+                       ),
+                       bench_ctor_args="1.0, 1.0",
+                       cydist_params=[("double", "c"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+        if vid == "generalized-gamma":
+            add(Recipe(vid, cls, cat, False,
+                       ["distributions/detail/gamma.hpp"],
+                       members=[("double", "a", "2.0"), ("double", "c", "1.0"), ("double", "scale", "1.0")],
+                       sample_body="return scale_ * std::pow(detail::sample_gamma(rng, a_, 1.0), 1.0 / c_);",
+                       bench_ctor_args="2.0, 1.0, 1.0",
+                       cydist_params=[("double", "a"), ("double", "c"), ("double", "scale"), ("uint64_t", "seed")]))
+            continue
+
         # --- directional ---
         if vid == "univariate-von-mises" or vid == "circular-uniform":
             kappa = "0.0" if vid == "circular-uniform" else "2.0"

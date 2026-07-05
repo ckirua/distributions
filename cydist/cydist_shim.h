@@ -82,10 +82,10 @@ void cydist_noncentral_f_sample_batch(double loc, double scale, uint64_t seed, d
 void cydist_folded_normal_sample_batch(double c, double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_frechet_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_gamma_sample_batch(double shape, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_generalized_gamma_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
+void cydist_generalized_gamma_sample_batch(double a, double c, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_inverse_gamma_sample_batch(double shape, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_gamma_gompertz_sample_batch(double shape, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_gompertz_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
+void cydist_gompertz_sample_batch(double c, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_shifted_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_half_logistic_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_half_normal_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
@@ -96,8 +96,8 @@ void cydist_generalized_sample_batch(double loc, double scale, uint64_t seed, do
 void cydist_kolmogorov_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_levy_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_log_cauchy_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_log_laplace_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_log_logistic_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
+void cydist_log_laplace_sample_batch(double c, double scale, uint64_t seed, double* out, size_t n_samples);
+void cydist_log_logistic_sample_batch(double c, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_log_normal_sample_batch(double mu, double sigma, uint64_t seed, double* out, size_t n_samples);
 void cydist_log_t_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_lomax_sample_batch(double c, double scale, uint64_t seed, double* out, size_t n_samples);
@@ -111,8 +111,8 @@ void cydist_phase_type_sample_batch(double loc, double scale, uint64_t seed, dou
 void cydist_poly_weibull_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_rayleigh_sample_batch(double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_relativistic_breitwigner_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_rice_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
-void cydist_truncated_normal_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
+void cydist_rice_sample_batch(double b, double scale, uint64_t seed, double* out, size_t n_samples);
+void cydist_truncated_normal_sample_batch(double a, double b, double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_type_2_gumbel_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_weibull_sample_batch(double shape, double scale, uint64_t seed, double* out, size_t n_samples);
 void cydist_discrete_weibull_sample_batch(double loc, double scale, uint64_t seed, double* out, size_t n_samples);

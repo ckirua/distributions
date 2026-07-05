@@ -676,7 +676,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "generalized-gamma") {
-        const distributions::GeneralizedGamma d(0.0, 1.0);
+        const distributions::GeneralizedGamma d(2.0, 1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -694,7 +694,7 @@ inline void sample_cpp(
         return;
     }
     if (dist == "gompertz") {
-        const distributions::Gompertz d(0.0, 1.0);
+        const distributions::Gompertz d(1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -760,13 +760,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "log-laplace") {
-        const distributions::LogLaplace d(0.0, 1.0);
+        const distributions::LogLaplace d(1.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "log-logistic") {
-        const distributions::LogLogistic d(0.0, 1.0);
+        const distributions::LogLogistic d(2.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
@@ -850,13 +850,13 @@ inline void sample_cpp(
         return;
     }
     if (dist == "rice") {
-        const distributions::Rice d(0.0, 1.0);
+        const distributions::Rice d(0.5, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;
     }
     if (dist == "truncated-normal") {
-        const distributions::TruncatedNormal d(0.0, 1.0);
+        const distributions::TruncatedNormal d(-1.0, 2.0, 0.0, 1.0);
         out_d.resize(n);
         d.sample_batch(out_d.data(), n, rng);
         return;

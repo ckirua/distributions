@@ -229,8 +229,8 @@ def frechet_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 
 def gamma_sample_batch(out: np.ndarray, shape: float, scale: float, seed: int = 42) -> None:
     """Sample Gamma into ``out`` (float64). Gamma distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def generalized_gamma_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Generalized gamma into ``out`` (float64). Generalized gamma distribution: A continuous random variable with support on a half-line such as... Tier: heuristic."""
+def generalized_gamma_sample_batch(out: np.ndarray, a: float, c: float, scale: float, seed: int = 42) -> None:
+    """Sample Generalized gamma into ``out`` (float64). Generalized gamma distribution: A continuous random variable with support on a half-line such as..."""
 
 def inverse_gamma_sample_batch(out: np.ndarray, shape: float, scale: float, seed: int = 42) -> None:
     """Sample Inverse gamma into ``out`` (float64). Inverse gamma distribution: A continuous random variable with support on a half-line such as [0,∞)."""
@@ -238,8 +238,8 @@ def inverse_gamma_sample_batch(out: np.ndarray, shape: float, scale: float, seed
 def gamma_gompertz_sample_batch(out: np.ndarray, shape: float, scale: float, seed: int = 42) -> None:
     """Sample gamma/Gompertz into ``out`` (float64). gamma/Gompertz distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def gompertz_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Gompertz into ``out`` (float64). Gompertz distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def gompertz_sample_batch(out: np.ndarray, c: float, scale: float, seed: int = 42) -> None:
+    """Sample Gompertz into ``out`` (float64). Gompertz distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def shifted_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Shifted into ``out`` (float64). Shifted distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
@@ -266,16 +266,16 @@ def kolmogorov_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int
     """Sample Kolmogorov into ``out`` (float64). Kolmogorov distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
 
 def levy_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Lévy into ``out`` (float64). Lévy distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+    """Sample Lévy into ``out`` (float64). Lévy distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def log_cauchy_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Log-Cauchy into ``out`` (float64). Log-Cauchy distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
 
-def log_laplace_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Log-Laplace into ``out`` (float64). Log-Laplace distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def log_laplace_sample_batch(out: np.ndarray, c: float, scale: float, seed: int = 42) -> None:
+    """Sample Log-Laplace into ``out`` (float64). Log-Laplace distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def log_logistic_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Log-logistic into ``out`` (float64). Log-logistic distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def log_logistic_sample_batch(out: np.ndarray, c: float, scale: float, seed: int = 42) -> None:
+    """Sample Log-logistic into ``out`` (float64). Log-logistic distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
 def log_normal_sample_batch(out: np.ndarray, mu: float, sigma: float, seed: int = 42) -> None:
     """Sample Log-normal into ``out`` (float64). Log-normal distribution: A continuous random variable with support on a half-line such as [0,∞)."""
@@ -316,11 +316,11 @@ def rayleigh_sample_batch(out: np.ndarray, scale: float, seed: int = 42) -> None
 def relativistic_breitwigner_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample Relativistic Breit–Wigner into ``out`` (float64). Relativistic Breit–Wigner distribution: A continuous random variable with support on a half-line... Tier: heuristic."""
 
-def rice_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Rice into ``out`` (float64). Rice distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""
+def rice_sample_batch(out: np.ndarray, b: float, scale: float, seed: int = 42) -> None:
+    """Sample Rice into ``out`` (float64). Rice distribution: A continuous random variable with support on a half-line such as [0,∞)."""
 
-def truncated_normal_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
-    """Sample Truncated normal into ``out`` (float64). Truncated normal distribution: A continuous random variable with support on a half-line such as [... Tier: heuristic."""
+def truncated_normal_sample_batch(out: np.ndarray, a: float, b: float, loc: float, scale: float, seed: int = 42) -> None:
+    """Sample Truncated normal into ``out`` (float64). Truncated normal distribution: A continuous random variable with support on a half-line such as [..."""
 
 def type_2_gumbel_sample_batch(out: np.ndarray, loc: float, scale: float, seed: int = 42) -> None:
     """Sample type-2 Gumbel into ``out`` (float64). type-2 Gumbel distribution: A continuous random variable with support on a half-line such as [0,∞). Tier: heuristic."""

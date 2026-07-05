@@ -1,19 +1,21 @@
 #pragma once
 
 #include "distributions/detail/normal.hpp"
-#include "distributions/detail/uniform.hpp"
 #include "distributions/rng.hpp"
+#include <cmath>
 #include <cstddef>
 
 namespace distributions {
 
 struct Rice {
-    double loc_;
+    double b_;
     double scale_;
-    Rice(double loc, double scale) : loc_(loc), scale_(scale) {}
+    Rice(double b, double scale) : b_(b), scale_(scale) {}
 
     [[nodiscard]] double sample(Pcg32& rng) const {
-        return loc_ + scale_ * detail::sample_standard_normal(rng);
+        const double z1 = detail::sample_standard_normal(rng);
+        const double z2 = detail::sample_standard_normal(rng);
+        return scale_ * std::sqrt(std::pow(b_ + z1, 2) + z2 * z2);
     }
 
     void sample_batch(double* out, std::size_t n, Pcg32& rng) const {

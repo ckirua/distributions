@@ -20,7 +20,9 @@ python3 -m venv .venv
 make codegen      # regenerate headers, cydist, dispatch, tests, registry tiers
 make build        # CMake: run_bench, sample_dump, tests, examples
 make install      # editable cydist Python extension
-make test         # ctest + pytest (379 tests)
+make test         # ctest + fast pytest smoke (~379 tests)
+make test-sanity  # statistical vs scipy (~48 tier-A samplers, slow)
+make test-all     # smoke + sanity
 make bench-all    # benchmark all 189 distributions → results/summary.csv
 ```
 
@@ -59,9 +61,24 @@ make build install test
 
 | Suite | Command | What it checks |
 |-------|---------|----------------|
-| C++ unit | `ctest --test-dir build` | Bernoulli correctness + all-189 smoke via `dispatch.hpp` |
-| Python smoke | `pytest tests/` | Each `cydist.*_sample_batch` runs without error |
-| C++ bench subprocess | (in pytest) | `run_bench <id> cpp 1000 42` for every registry id |
+| C++ unit | `ctest --test-dir build` | Bernoulli moments + all-189 dispatch smoke |
+| Python smoke | `make test` | Each `cydist.*_sample_batch` runs without error (189×2 + export count) |
+| **Sanity** | `make test-sanity` | Tier-A samplers (`hand-written` + `family`) vs `scipy.stats` — moments + KS/chi-square (~31 pass, ~12 xfail) |
+| Full | `make test-all` | Smoke + sanity |
+
+Sanity tests sample `N=100_000` from **cydist** and **scipy** independently, then compare using helpers in [`tests/statistical_compare.py`](tests/statistical_compare.py) (same logic as [`bench/verify.py`](bench/verify.py)).
+
+Coverage rules ([`tests/scipy_reference.py`](tests/scipy_reference.py)):
+
+| Tier | Sanity tests |
+|------|----------------|
+| `hand-written`, `family` | Yes, when an exact `SCIPY_SPECS` entry exists (~43 cases: 31 pass, 12 xfail) |
+| `heuristic` (121) | No — smoke only |
+| `exact` (Dirac) | No — trivial constant |
+
+Skipped (no scipy reference): `poisson-binomial`, `zipfmandelbrot`, and 11 family ids without `SCIPY_SPECS`.
+
+Expected failures (`xfail`): approximate or mismatched samplers including `univariate-von-mises`, `circular-uniform`, `hypergeometric`, `zipf`, `logistic`, `cauchy`, and several bounded/semi-infinite family recipes pending algorithm fixes.
 
 ## Benchmarks
 
